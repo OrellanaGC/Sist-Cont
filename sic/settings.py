@@ -25,7 +25,7 @@ SECRET_KEY = 'ib6psw51og2(e-t=8*%4k6x+&e7z71u*6e4_2gg0oghm0xou2d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [serene-fortress-98318.herokuapp.com]
+ALLOWED_HOSTS = ['serene-fortress-98318.herokuapp.com']
 
 
 # Application definition
