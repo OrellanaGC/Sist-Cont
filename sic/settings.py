@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['serene-fortress-98318.herokuapp.com', '127.0.0.1', 'localhost'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -117,6 +117,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+#DESHABILITANDO LA PÁGINA DE ADMIN POR DEFECTO
+ADMIN_ENABLED = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
