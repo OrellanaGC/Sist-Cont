@@ -1,1 +1,1 @@
-web: gunicorn sic.wsgi
+web: gunicorn sic.wsgi:application
