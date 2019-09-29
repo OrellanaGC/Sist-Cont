@@ -81,6 +81,7 @@ DATABASES = {
         'PASSWORD': 'sic123',
         'HOST': 'localhost',
         'PORT': '',
+        
     }
 }
 
