@@ -1,5 +1,4 @@
 from django.db import models
-from apps.tipoCuenta.models import TipoCuenta
 
 # Create your models here.
 class Cuenta(models.Model):
@@ -14,6 +13,11 @@ class Cuenta(models.Model):
         ('D', 'DEUDORA'),
         ('S', 'SALDADA')
     )
+    tipo = (
+        ('D', 'DEBE'),
+        ('H', 'HABER')
+    )
+    nivel = models.IntegerField()
     estado = (
         ('A', 'ACTIVA'),
         ('D', 'DESHABILITADA')

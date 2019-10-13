@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'apps.modulo',
     'apps.permiso',
     'apps.usuario',
-    'apps.tipoCuenta',
     'apps.cuenta',
     'apps.valorInicial',
     'apps.marca',
