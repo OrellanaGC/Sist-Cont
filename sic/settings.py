@@ -37,6 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.modulo',
+    'apps.permiso',
+    'apps.usuario',
+    'apps.tipoCuenta',
+    'apps.cuenta',
+    'apps.valorInicial',
+    'apps.marca',
+    'apps.categoriaProducto',
+    'apps.producto',
+    'apps.kardex',
+    'apps.transaccionInventario',
+    'apps.empresa',
+    'apps.transaccion',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +136,8 @@ ADMIN_ENABLED = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
