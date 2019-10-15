@@ -8,17 +8,17 @@ class Cuenta(models.Model):
     saldo = models.FloatField()
     cuentaPadre = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     modificaInventario = models.BooleanField()
-    estadoCuenta = (
+    estadoCuenta = [
         ('A', 'ACREDEDORA'),
         ('D', 'DEUDORA'),
         ('S', 'SALDADA')
-    )
-    tipo = (
+    ]
+    tipo = [
         ('D', 'DEBE'),
         ('H', 'HABER')
-    )
-    nivel = models.IntegerField()
-    estado = (
+    ]
+    #nivel = models.IntegerField()
+    estado = [
         ('A', 'ACTIVA'),
         ('D', 'DESHABILITADA')
-    )
+    ]

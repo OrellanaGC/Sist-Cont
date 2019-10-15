@@ -1,11 +1,11 @@
-{% load staticfiles %}
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block links %}
 <!-- Bootstrap select CSS -->
-<link rel="stylesheet" href="css/bootstrap-select.min.css">
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
 <!-- Custom CSS -->
-<link rel="stylesheet" href="css/custom.css">
-{% endblock links %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
     <div class="container">
@@ -226,7 +226,7 @@
     </div>
     <!-- Fin contenido -->
     <!-- Bootstrap select JS  -->
-{% endblock content %}
+{% endblock %}
 {% block scripts %}
-<script src="{% staticfiles js/bootstrap-select.min.js %}"></script>
-{% endblock scripts %}
+<script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+{% endblock %}
