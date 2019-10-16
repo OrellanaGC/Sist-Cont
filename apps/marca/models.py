@@ -4,7 +4,8 @@ from django.db import models
 class Marca(models.Model):
     idMarca = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    estado = (
+    ESTADO = (
         ('A', 'ACTIVA'),
         ('D', 'DESHABILITADA')
     )
+    estado = models.CharField(max_length=1, choices=ESTADO, default='A')

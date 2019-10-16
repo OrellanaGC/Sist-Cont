@@ -10,7 +10,8 @@ class Producto(models.Model):
     existencias = models.IntegerField()
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     categoria = models.ForeignKey(CategoriaProducto, on_delete=models.CASCADE)
-    estado = (
+    ESTADO = (
         ('A', 'ACTIVO'),
         ('D', 'DESHABILITADO')
     )
+    estado = models.CharField(max_length=1, choices=ESTADO, default='A')

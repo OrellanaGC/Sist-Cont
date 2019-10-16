@@ -7,8 +7,9 @@ class Transaccion(models.Model):
     detalle = models.CharField(max_length=250)
     monto = models.FloatField()
     fecha = models.DateField(auto_now=False)
-    tipo = (
+    TIPO = (
         ('C', 'CARGAR'),
         ('A', 'ABONAR')
     )
     cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=1, choices=TIPO, default='C')

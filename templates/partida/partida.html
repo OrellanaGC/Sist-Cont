@@ -17,11 +17,17 @@
         </div>
         <div class='col'>
           <label for="colFormLabel" class="col-sm-2 col-form-label">Cuenta</label>
-          <select class="selectpicker data-show-subtext="true" data-live-search="true"">
-            <option value="1">Cuentas por pagar</option>
+          <select class="selectpicker data-show-subtext='true'" data-live-search="true">
+            {% if cuentas %}
+            {% for cuenta in cuentas %}
+            <option value="{{ cuenta.idCuenta }}">{{ cuenta.nombre }}</option>
+            {% endfor %}
+            {% endif %}
+            
+            <!--option value="1">Cuentas por pagar</option>
             <option value="2">Cuentas por cobrar</option>
             <option value="3">Ventas</option>
-            <option value="4">Compras</option>
+            <option value="4">Compras</option-->
           </select>
         </div>
         <div class='col'>
@@ -223,10 +229,17 @@
         <button type="button" class="btn btn-danger col-1">Cancelar</button>
         <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
       </div>
+      <br/>
+      <!--form method="POST" id="test">
+        <input type="text" value="Holaa" id="texto">
+        <button>Enviar</button>
+      </form-->
     </div>
     <!-- Fin contenido -->
     <!-- Bootstrap select JS  -->
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+{% csrf_token %}
+<script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script>
 {% endblock %}

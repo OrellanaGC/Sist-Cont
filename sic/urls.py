@@ -17,5 +17,5 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('transaccion/', include('apps.transaccion.urls'), name='transaccion'),
+    path('partida/', include('apps.transaccion.urls'), name='transaccion'),
 ]

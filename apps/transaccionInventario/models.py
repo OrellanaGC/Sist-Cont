@@ -9,11 +9,12 @@ class TransaccionInventario(models.Model):
     costoUnitario = models.FloatField()
     costoTotal = models.FloatField()
     detalle = models.CharField(max_length=150)
-    tipo = (
+    TIPO = (
         ('I', 'INVENTARIO INICIAL'),
         ('C', 'COMPRA'),
         ('V', 'VENTA'),
         ('DC', 'DEVOLUCION DE COMPRA'),
         ('DV', 'DEVOLUCION DE VENTA')
     )
+    tipo = models.CharField(max_length=2, choices=TIPO, default='I')
     kardex = models.ForeignKey(Kardex, on_delete=models.CASCADE)
