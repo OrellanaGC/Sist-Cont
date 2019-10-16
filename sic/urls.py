@@ -18,4 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('partida/', include('apps.transaccion.urls'), name='transaccion'),
+    path('inventario/', include('apps.kardex.urls'), name='inventario'),
 ]

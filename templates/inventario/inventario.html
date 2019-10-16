@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+<!-- Inicio contenido -->
+        <table class="table table-hover col-12">
+          <thead>
+            <tr>
+              <th scope="col">Producto: nombreProducto</th>
+              <th rowspan="2" colspan="3" scope="col">Recibido: xxxxxxx</th>
+              <th rowspan="2" colspan="3" scope="col">Entregado: xxxxxxxx</th>
+              <th rowspan="2" colspan="3" scope="col">Saldo</th>
+            </tr>
+            <tr>
+            	<th scope="col">Código: ######</th>
+            </tr>
+            <tr>
+            	<th scope="col">Fecha</th>
+            	<th scope="col">Unidad</th>
+            	<th scope="col">Costo</th>
+            	<th scope="col">Saldo</th>
+            	<th scope="col">Unidad</th>
+            	<th scope="col">Costo</th>
+            	<th scope="col">Saldo</th>
+            	<th scope="col">Unidad</th>
+            	<th scope="col">Costo</th>
+            	<th scope="col">Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            	<td scope="row">02/01/19</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            </tr>
+            <tr>
+              	<td scope="row">03/01/19</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            </tr>
+            <tr>
+              	<td scope="row">04/01/19</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            	<td>##</td>
+            	<td>$$</td>
+            	<td>$$$</td>
+            </tr>
+            <tr>
+              <th scope="row">31/01/19</th>
+              <td></td>
+              <td></td>
+              <td>$$$ total</td>
+              <td></td>
+              <td></td>
+              <td>$$$ total</td>
+              <td></td>
+              <td></td>
+              <td>$$$ total</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-primary col-1">Actualizar</button>
+        <button type="button" class="btn btn-success col-1 espacio_izquierda">Imprimir reporte</button>
+      </div>
+      <br/>
+      <!--form method="POST" id="test">
+        <input type="text" value="Holaa" id="texto">
+        <button>Enviar</button>
+      </form-->
+    </div>
+    <!-- Fin contenido -->
+    <!-- Bootstrap select JS  -->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+{% csrf_token %}
+<!--script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script-->
+{% endblock %}
