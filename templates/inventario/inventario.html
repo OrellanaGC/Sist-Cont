@@ -8,7 +8,25 @@
 {% endblock %}
 {% block content %}
 <!-- Inicio contenido -->
-        <table class="table table-hover col-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-3">
+            <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo1">Bolsos de Hombre</a>
+              <div id="demo1" class="collapse">
+                <a href="#" class="list-group-item list-group-item-action">Producto1</a>
+                <a href="#" class="list-group-item list-group-item-action">Producto2</a>
+                <a href="#" class="list-group-item list-group-item-action">Producto3</a>
+              </div>
+            <a href="#" class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo2">Carteras de Mujer</a>
+              <div id="demo2" class="collapse">
+                <a href="#" class="list-group-item list-group-item-action">Producto4</a>
+                <a href="#" class="list-group-item list-group-item-action">Producto5</a>
+                <a href="#" class="list-group-item list-group-item-action">Producto6</a>
+              </div>
+          </div>       
+        </div>         
+        <table class="table table-hover col-9">
           <thead>
             <tr>
               <th scope="col">Producto: nombreProducto</th>
@@ -89,14 +107,7 @@
         <button type="button" class="btn btn-primary col-1">Actualizar</button>
         <button type="button" class="btn btn-success col-1 espacio_izquierda">Imprimir reporte</button>
       </div>
-      <br/>
-      <!--form method="POST" id="test">
-        <input type="text" value="Holaa" id="texto">
-        <button>Enviar</button>
-      </form-->
     </div>
-    <!-- Fin contenido -->
-    <!-- Bootstrap select JS  -->
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
