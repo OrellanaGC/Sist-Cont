@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h1>Nueva cuenta</h1>
+      <div class='row'>
+        <div class='col-6'>
+          <label>Codigo:</label>
+          <input type="text" class="form-control" id="codigo"
+          placeholder="Ingrese el codigo de la cuenta">
+          <br/>
+          <label>Saldo:</label>
+          <input type="number" class="form-control" id="saldo"
+          placeholder="Ingrese el saldo inicial de la cuenta">
+          <br/>
+          <div class="form-check">
+            <input class="form-check-input position-static" type="checkbox" value=""
+            id="inventario">
+            <label class="form-check-label" for="inventario">
+              Modifica inventario
+            </label>
+          </div>
+          <br/>
+          <label>Tipo de cuenta:</label>
+          <select class="custom-select" id="tipoCuenta">
+            <option value="D">Debe</option>
+            <option value="H">Haber</option>
+          </select>
+        </div>
+        <div class='col-6'>
+          <label>Nombre:</label>
+          <input type="text" class="form-control" id="nombre"
+          placeholder="Ingrese el nombre de la cuenta">
+          <br/>
+          <label>Cuenta padre:</label>
+          <select class="custom-select" id="cuentaPadre">
+            <option value="1">Cuenta 1</option>
+          </select>
+          <br/>
+          <br/>
+          <label>Estado de la cuenta:</label>
+          <select class="custom-select" id="estadoCuenta">
+            <option value="A">Acreedora</option>
+            <option value="D">Deudora</option>
+            <option value="S">Saldada</option>
+          </select>
+          <br/>
+          <br/>
+          <label>Estado:</label>
+          <select class="custom-select" id="estado">
+            <option value="A">Activa</option>
+            <option value="D">Deshabilitada</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-danger col-1">Cancelar</button>
+        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+      </div>
+    </div>
+    <!-- Fin contenido -->
+{% endblock content %}

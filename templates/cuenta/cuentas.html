@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h1>Cuentas</h1>
+      <br/>
+      <div class='row'>
+        <div class="col">
+          <label>Nombre</label>
+          <input type="text" class="form-control" name="nombre">
+        </div>
+        <div class="col">
+          <label>Cuenta padre</label>
+          <select class="custom-select" id="cuentaPadre">
+            <option value="1">Cuenta 1</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Estado de cuenta</label>
+          <select class="custom-select" id="estadoCuenta">
+            <option value="A">Acreedora</option>
+            <option value="D">Deudora</option>
+            <option value="S">Saldada</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Tipo</label>
+          <select class="custom-select" id="tipoCuenta">
+            <option value="D">Debe</option>
+            <option value="H">Haber</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Estado</label>
+          <select class="custom-select" id="estado">
+            <option value="A">Activa</option>
+            <option value="D">Deshabilitada</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <a href="/cuenta/crear" class="btn btn-success">Nueva cuenta</a>
+        <button type="button" class="btn btn-primary espacio_izquierda">Buscar</button>
+      </div>
+      <br/>
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Saldo</th>
+              <th scope="col">Cuenta padre</th>
+              <th scope="col">Modifica inventario</th>
+              <th scope="col">Estado de cuenta</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cuenta 1</th>
+              <td>$5000</td>
+              <td>Cuenta 2</td>
+              <td><i class="material-icons">close</i></td>
+              <td>Acreedora</td>
+              <td>Debe</td>
+              <td>Activa</td>
+              <td>
+              <button type="button" class="btn btn-warning">
+                <i class="material-icons text-white">edit</i></button>
+              <button type="button" class="btn btn-danger text-white espacio_izquierda">
+                <i class="material-icons">delete</i></button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Cuenta 3</th>
+              <td>$5000</td>
+              <td><i class="material-icons">close</i></td>
+              <td><i class="material-icons">check</i></td>
+              <td>Acreedora</td>
+              <td>Debe</td>
+              <td>Activa</td>
+              <td>
+              <button type="button" class="btn btn-warning">
+                <i class="material-icons text-white">edit</i></button>
+              <button type="button" class="btn btn-danger text-white espacio_izquierda">
+                <i class="material-icons">delete</i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Fin contenido -->
+{% endblock content %}
