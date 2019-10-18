@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h1>Empresa: Nombre empresa</h1>
+      <div class='row'>
+        <div class='col-6'>
+          <label>Nombre:</label>
+          <input type="text" readonly class="form-control" id="nombre"
+          value="Nombre empresa">
+          <br/>
+          <label>NIT:</label>
+          <input type="text" readonly class="form-control" id="nit"
+          value="NIT de la empresa">
+          <br/>
+          <label>Giro:</label>
+          <input type="text" readonly class="form-control" id="giro"
+          value="Giro de la empresa">
+          <br/>
+        </div>
+        <div class='col-6'>
+          <label>Nombre contribuyente:</label>
+          <input type="text" readonly class="form-control"
+          id="nombreContribuyente" value="Nombre contribuyente">
+          <br/>
+          <label>NRC:</label>
+          <input type="text" readonly class="form-control" id="nrc"
+          value="NRC de la empresa">
+          <br/>
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-warning col-1">Editar</button>
+        <!-- Cuando se da edit se quitan los readonly y se habilita guardar -->
+        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+      </div>
+    </div>
+    <!-- Fin contenido -->
+{% endblock content %}
