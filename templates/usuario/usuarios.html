@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h1>Usuarios</h1>
+      <br/>
+      <div class='row'>
+        <div class="col">
+          <label>Nombre</label>
+          <input type="text" class="form-control" name="nombre">
+        </div>
+        <div class="col">
+          <label>Permisos</label>
+          <select class="custom-select" id="permisos">
+            <option value="1">Permiso 1</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <a href="/usuarios/crear" class="btn btn-success">Nuevo usuario</a>
+        <button type="button" class="btn btn-primary espacio_izquierda">Buscar</button>
+      </div>
+      <br/>
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col">Permisos</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Usuario 1</th>
+              <td>usuario1@email.com</td>
+              <td>Permisos 1</td>
+              <td>
+              <button type="button" class="btn btn-warning">
+                <i class="material-icons text-white">edit</i></button>
+              <button type="button" class="btn btn-danger text-white espacio_izquierda">
+                <i class="material-icons">delete</i></button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Usuario 2</th>
+              <td>usuario2@email.com</td>
+              <td>Permisos 5</td>
+              <td>
+              <button type="button" class="btn btn-warning">
+                <i class="material-icons text-white">edit</i></button>
+              <button type="button" class="btn btn-danger text-white espacio_izquierda">
+                <i class="material-icons">delete</i></button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Usuario 3</th>
+              <td>usuario3@email.com</td>
+              <td>Permisos 3</td>
+              <td>
+              <button type="button" class="btn btn-warning">
+                <i class="material-icons text-white">edit</i></button>
+              <button type="button" class="btn btn-danger text-white espacio_izquierda">
+                <i class="material-icons">delete</i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Fin contenido -->
+{% endblock content %}
