@@ -21,4 +21,5 @@ urlpatterns = [
     path('inventario/', include('apps.kardex.urls'), name='inventario'),
     path('cuenta/', include('apps.cuenta.urls'), name='cuenta'),
     path('empresa/', include('apps.empresa.urls'), name='empresa'),
+    path('permisos/', include('apps.permiso.urls'), name='permiso'),
 ]
