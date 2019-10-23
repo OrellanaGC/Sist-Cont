@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h1>Datos de usuario</h1>
+      <div class='row'>
+        <div class='col-6'>
+          <label>Nombre:</label>
+          <input type="text" readonly class="form-control" id="nombre"
+          value="Nombre">
+          <br/>
+          <label>Nueva contraseña:</label>
+          <input type="password" readonly class="form-control" id="contrasenia"
+          placeholder="Ingrese la contraseña">
+          <br/>
+        </div>
+        <div class='col-6'>
+          <label>Email:</label>
+          <input type="email" readonly class="form-control"
+          id="email" value="Email">
+          <br/>
+          <label>Introduzca la contraseña de nuevo:</label>
+          <input type="password" readonly class="form-control" id="contrasenia2"
+          placeholder="Ingrese la contraseña de nuevo">
+          <br/>
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-warning col-1">Editar</button>
+        <!-- Cuando se da edit se quitan los readonly y se habilita guardar -->
+        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+      </div>
+    </div>
+    <!-- Fin contenido -->
+{% endblock content %}
