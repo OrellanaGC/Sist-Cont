@@ -9,7 +9,7 @@ class Cuenta(models.Model):
     cuentaPadre = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     modificaInventario = models.BooleanField()
     ESTADOCUENTA = (
-        ('A', 'ACREDEDORA'),
+        ('A', 'ACREEEDORA'),
         ('D', 'DEUDORA'),
         ('S', 'SALDADA')
     )

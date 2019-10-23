@@ -7,7 +7,7 @@ class valorInicial(models.Model):
     fechaInicio = models.DateField(auto_now=False)
     fechaFinal = models.DateField(auto_now=False)
     ESTADOCUENTA = (
-        ('A', 'ACREDEDORA'),
+        ('A', 'ACREEEDORA'),
         ('D', 'DEUDORA'),
         ('S', 'SALDADA'),
         ('P', 'PATRIMONIO')
