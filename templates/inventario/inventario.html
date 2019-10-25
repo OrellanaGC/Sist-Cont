@@ -11,41 +11,62 @@
     <div class="container">
       <div class="row">
         <div class="col-3">
-            <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo1">Bolsos de Hombre</a>
+          <div class="dropdown show">
+            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="periodo">
+              Seleccionar período
+            </a>
+            
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#">Mes1</a>
+              <a class="dropdown-item" href="#">Mes2</a>
+              <a class="dropdown-item" href="#">Mes3</a>
+            </div>
+          </div>  <br>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action font-weight-bold" data-toggle="collapse" data-target="#demo1">Bolsos de Hombre</a>
               <div id="demo1" class="collapse">
                 <a href="#" class="list-group-item list-group-item-action">Producto1</a>
                 <a href="#" class="list-group-item list-group-item-action">Producto2</a>
                 <a href="#" class="list-group-item list-group-item-action">Producto3</a>
               </div>
-            <a href="#" class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo2">Carteras de Mujer</a>
+            <a href="#" class="list-group-item list-group-item-action font-weight-bold" data-toggle="collapse" data-target="#demo2">Carteras de Mujer</a>
               <div id="demo2" class="collapse">
                 <a href="#" class="list-group-item list-group-item-action">Producto4</a>
                 <a href="#" class="list-group-item list-group-item-action">Producto5</a>
                 <a href="#" class="list-group-item list-group-item-action">Producto6</a>
               </div>
-          </div>       
+          </div>          
+          <!--div>
+            <select>
+              <option>Mes1</option>
+              <option>Mes2</option>
+              <option>Mes3</option>
+            </select>
+          </div-->       
         </div>         
         <table class="table table-hover col-9">
           <thead>
             <tr>
-              <th scope="col">Producto: nombreProducto</th>
+              <th colspan="9" scope="col">Producto: xxxxx</th>
+            </tr>
+            <tr> 
+              <th scope="col">Código: ######</th>             
               <th rowspan="2" colspan="3" scope="col">Recibido: xxxxxxx</th>
               <th rowspan="2" colspan="3" scope="col">Entregado: xxxxxxxx</th>
               <th rowspan="2" colspan="3" scope="col">Saldo</th>
             </tr>
             <tr>
-            	<th scope="col">Código: ######</th>
+            	<!--th scope="col">Código: ######</th-->
             </tr>
             <tr>
             	<th scope="col">Fecha</th>
-            	<th scope="col">Unidad</th>
+            	<th scope="col">Cantidad</th>
             	<th scope="col">Costo</th>
             	<th scope="col">Saldo</th>
-            	<th scope="col">Unidad</th>
+            	<th scope="col">Cantidad</th>
             	<th scope="col">Costo</th>
             	<th scope="col">Saldo</th>
-            	<th scope="col">Unidad</th>
+            	<th scope="col">Cantidad</th>
             	<th scope="col">Costo</th>
             	<th scope="col">Saldo</th>
             </tr>
@@ -103,10 +124,10 @@
         </table>
       </div>
       <br/>
-      <div class="row justify-content-end">
+      <!--div class="row justify-content-end">
         <button type="button" class="btn btn-primary ">Actualizar</button>
         <button type="button" class="btn btn-success">Imprimir reporte</button>
-      </div>
+      </div-->
     </div>
 {% endblock %}
 {% block scripts %}
@@ -114,3 +135,4 @@
 {% csrf_token %}
 <!--script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script-->
 {% endblock %}
+
