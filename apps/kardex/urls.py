@@ -5,5 +5,5 @@ from apps.kardex.views import ListaKardex
 
 urlpatterns = [
     #path('', inventario, name="inventario"),
-    path('', ListaKardex.as_View() , name='inventario'),
+    path('', ListaKardex.as_view() , name='inventario'),
 ]
