@@ -14,12 +14,13 @@
           <div class="dropdown show">
             <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="periodo">
               Seleccionar período
-            </a>
-            
+            </a>            
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Mes1</a>
-              <a class="dropdown-item" href="#">Mes2</a>
-              <a class="dropdown-item" href="#">Mes3</a>
+              {% for movimiento in object_list %}
+              <a class="dropdown-item" href="#">{{ movimiento.fechaInicio|date:"M" }} - {{ movimiento.fechaFin|date:"M" }}</a>
+              {% empty %}
+              <a class="dropdown-item" href="#">PERIODO PRUEBA</a>
+              {% endfor %}
             </div>
           </div>  <br>
           <div class="list-group">
