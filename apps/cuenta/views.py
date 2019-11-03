@@ -10,12 +10,20 @@ def resumenCuenta(request):
 def nuevaCuenta(request):
     cuentas = Cuenta.objects.filter(estado='A')
     inventario = False
-    if not('inventario' in request.POST):
+    if 'inventario' in request.POST:
         inventario = True
+    else:
+        inventario = False
     if request.method == 'POST':
         if int(request.POST["cuentaPadre"]) > 0:
-            cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
-            cuenta.save()
+            cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
+            cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
+            saldoHijos = float(request.POST["saldo"])
+            for cuentaHijo in cuentasHijo:
+                saldoHijos += float(cuentaHijo.saldo)
+            if saldoHijos <= cuentaPadre.saldo:
+                cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
+                cuenta.save()
         else:
             cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
             cuenta.save()
