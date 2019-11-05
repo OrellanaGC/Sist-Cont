@@ -9,20 +9,46 @@ def resumenPermiso(request):
     data = {'permisos' : permisos}
     return render(request, 'permiso/permiso.html')
 
+def nuevoPermiso(request):
+    data = {}
+    errores = set()
+    if request.method == 'POST':
+        errores = validarDatosr(request.POST["nombre"])
+        if len(errores) == 0:
+            permiso = Permiso(nombre=request.POST["nombre"])
+            permiso.save()
+            modulosPermiso = request.POST.getlist('modulos[]')
+            for modulo in modulosPermiso:
+                modulo = Modulo.objects.get(idModulo=modulo)
+                permiso.modulo.add(modulo)
+    data = {'errores' : errores}
+    return render(request, 'permiso/permiso.html', data)
+
 def editarPermiso(request, idPermiso):
     permiso = Permiso.objects.get(idPermiso=idPermiso)
     modulos = Modulo.objects.all()
     data = {'permiso' : permiso, 'modulos' : modulos}
+    errores = set()
     if request.method == 'POST':
-        p.nombre = request.POST["nombre"]
-        modulosPermiso = request.POST.getlist('modulos[]')
-        for modulo in modulosPermiso:
-            modulo = Modulo.objects.get(idModulo=modulo)
-            permiso.modulo.add(modulo)
-        p.save()
+        errores = validarDatos(request.POST["nombre"])
+        if len(errores) == 0:
+            p.nombre = request.POST["nombre"]
+            p.save()
+            modulosPermiso = request.POST.getlist('modulos[]')
+            for modulo in modulosPermiso:
+                modulo = Modulo.objects.get(idModulo=modulo)
+                permiso.modulo.add(modulo)
+        else:
+            data = {'permiso' : permiso, 'modulos' : modulos, 'errores' : errores}
     return render(request, 'permiso/permiso.html', data)
 
 def eliminarPermiso(requesr, idPermiso):
     permiso = Permiso.objects.get(idPermiso=request.session['id'])
     permiso.delete()
     return redirect('resumenPermiso')
+
+def validarDatos(nombre):
+    errores = set()
+    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
+        errores.add('Nombre inválido')
+    return errores

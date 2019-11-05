@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from apps.usuario.models import Usuario
+from django.contrib.auth import authenticate
 
 # Create your views here.
 def resumenUsuarios(request):
@@ -22,13 +23,13 @@ def crearUsuario(request):
             data = {'errores' : errores}
     return render(request, 'usuario/usuario.html', data)
 
-def actualizarMiUsuario(request, idUsuario):
+def actualizarMiUsuario(request):
     data = {}
     if request.method == 'POST':
         errores = validarUsuario(request.POST['nombre'], request.POST['email'], request.POST['password'])
         if not Usuario.objects.filter(email = request.POST['email']).exists():
             if len(errores) == 0:
-                usuario = Usuario.objects.get(id = idUsuario)
+                usuario = Usuario.objects.get(id=request.session['id'])
                 usuario.nombre = request.POST['nombre']
                 usuario.email = request.POST['email']
                 usuario.set_password(request.POST['password'])
@@ -42,6 +43,7 @@ def actualizarMiUsuario(request, idUsuario):
     return render(request, 'usuario/miUsuario.html', data)
 
 def validarUsuario(nombre, email, password, password2):
+    errores = set()
     if(len(password) < 6):
         errores.add('La contraseña debe tener al menos 6 caractéres') 
     if not (password == password2):
@@ -49,5 +51,5 @@ def validarUsuario(nombre, email, password, password2):
     if(not re.match("^(([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)(\s*;\s*|\s*$))$", email)):
         errores.add('Email inválido') 
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
-        errores.add('Nombre inválido') 
-    errores = set()
+        errores.add('Nombre inválido')
+    return errores
