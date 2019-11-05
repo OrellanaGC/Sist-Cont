@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 class Cuenta(models.Model):
     idCuenta = models.AutoField(primary_key=True)
-    codigoCuenta = models.CharField(max_length=20)
-    nombre = models.CharField(max_length=50)
+    codigoCuenta = models.CharField(max_length=20, unique=True)
+    nombre = models.CharField(max_length=50, unique=True)
     saldo = models.FloatField()
     cuentaPadre = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     modificaInventario = models.BooleanField()
