@@ -6,40 +6,67 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
-    <div class="container">
-      <h1>Empresa: Nombre empresa</h1>
-      <div class='row'>
-        <div class='col-6'>
-          <label>Nombre:</label>
-          <input type="text" readonly class="form-control" id="nombre"
-          value="Nombre empresa">
-          <br/>
-          <label>NIT:</label>
-          <input type="text" readonly class="form-control" id="nit"
-          value="NIT de la empresa">
-          <br/>
-          <label>Giro:</label>
-          <input type="text" readonly class="form-control" id="giro"
-          value="Giro de la empresa">
-          <br/>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="container">
+        <h1>Empresa: Nombre empresa</h1>
+        <div class='row'>
+          <div class='col-6'>
+            <label>Nombre:</label>
+            <input type="text"
+            {% if editar == False %}
+              readonly
+            {% endif %}
+            class="form-control" name="nombre"
+            value={{ empresa.nombre }}>
+            <br/>
+            <label>NIT:</label>
+            <input type="text"
+            {% if editar == False %}
+              readonly
+            {% endif %}
+            class="form-control" name="nit"
+            value={{ empresa.nit }}>
+            <br/>
+            <label>Giro:</label>
+            <input type="text"
+            {% if editar == False %}
+              readonly
+            {% endif %}
+            class="form-control" name="giro"
+            value={{ empresa.giro }}>
+            <br/>
+          </div>
+          <div class='col-6'>
+            <label>Nombre contribuyente:</label>
+            <input type="text"
+            {% if editar == False %}
+              readonly
+            {% endif %}
+            class="form-control"
+            name="contribuyente" value={{ empresa.nombreContribuyente }}>
+            <br/>
+            <label>NRC:</label>
+            <input type="text"
+            {% if editar == False %}
+              readonly
+            {% endif %}
+            class="form-control" name="nrc"
+            value={{ empresa.nrc }}>
+            <br/>
+          </div>
         </div>
-        <div class='col-6'>
-          <label>Nombre contribuyente:</label>
-          <input type="text" readonly class="form-control"
-          id="nombreContribuyente" value="Nombre contribuyente">
-          <br/>
-          <label>NRC:</label>
-          <input type="text" readonly class="form-control" id="nrc"
-          value="NRC de la empresa">
-          <br/>
+        <br/>
+        <div class="row justify-content-end">
+          {% if editar != True %}
+            <a href="editar" class="btn btn-warning col-1">Editar</a>
+          {% endif %}
+          {% if editar == True %}
+            <button type="submit" class="btn btn-success col-1">Guardar</button>
+            <a href="/empresa" class="btn btn-warning col-1 espacio_izquierda">Cancelar</a>
+          {% endif %}
         </div>
       </div>
-      <br/>
-      <div class="row justify-content-end">
-        <button type="button" class="btn btn-warning col-1">Editar</button>
-        <!-- Cuando se da edit se quitan los readonly y se habilita guardar -->
-        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
-      </div>
-    </div>
+    </form>
     <!-- Fin contenido -->
 {% endblock content %}

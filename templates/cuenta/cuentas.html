@@ -53,6 +53,7 @@
         <table class="table table-hover">
           <thead>
             <tr>
+              <th scope="col">Codigo</th>
               <th scope="col">Nombre</th>
               <th scope="col">Saldo</th>
               <th scope="col">Cuenta padre</th>
@@ -64,36 +65,48 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">Cuenta 1</th>
-              <td>$5000</td>
-              <td>Cuenta 2</td>
-              <td><i class="material-icons">close</i></td>
-              <td>Acreedora</td>
-              <td>Debe</td>
-              <td>Activa</td>
-              <td>
-              <button type="button" class="btn btn-warning">
-                <i class="material-icons text-white">edit</i></button>
-              <button type="button" class="btn btn-danger text-white espacio_izquierda">
-                <i class="material-icons">delete</i></button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Cuenta 3</th>
-              <td>$5000</td>
-              <td><i class="material-icons">close</i></td>
-              <td><i class="material-icons">check</i></td>
-              <td>Acreedora</td>
-              <td>Debe</td>
-              <td>Activa</td>
-              <td>
-              <button type="button" class="btn btn-warning">
-                <i class="material-icons text-white">edit</i></button>
-              <button type="button" class="btn btn-danger text-white espacio_izquierda">
-                <i class="material-icons">delete</i></button>
-              </td>
-            </tr>
+            {% if cuentas %}
+              {% for cuenta in cuentas %}
+                <tr>
+                  <th scope="row">{{cuenta.codigoCuenta}}</th>
+                  <td>{{cuenta.nombre}}</td>
+                  <td>{{cuenta.saldo}}</td>
+                  <td>{{cuenta.cuentaPadre.nombre}}</td>
+                  {% if cuenta.modificaInventario %}
+                    <td><i class="material-icons">check</i></td>
+                  {% else %}
+                    <td><i class="material-icons">close</i></td>
+                  {% endif %}
+                  {% if cuenta.estadoCuenta == "A" %}
+                    <td>Acreedora</td>
+                  {% endif %}
+                  {% if cuenta.estadoCuenta == "D" %}
+                    <td>Deudora</td>
+                  {% endif %}
+                  {% if cuenta.estadoCuenta == "S" %}
+                    <td>Saldada</td>
+                  {% endif %}
+                  {% if cuenta.tipo == "D" %}
+                    <td>Debe</td>
+                  {% endif %}
+                  {% if cuenta.tipo == "H" %}
+                    <td>Haber</td>
+                  {% endif %}
+                  {% if cuenta.estado == "A" %}
+                    <td>Activa</td>
+                  {% endif %}
+                  {% if cuenta.estado == "D" %}
+                    <td>Deshabilitada</td>
+                  {% endif %}
+                  <td>
+                  <a href='/cuenta/editar/{{ cuenta.idCuenta }}' class="btn btn-warning">
+                    <i class="material-icons text-white">edit</i></a>
+                  <a href='/cuenta/eliminar/{{ cuenta.idCuenta }}' class="btn btn-danger text-white espacio_izquierda">
+                    <i class="material-icons">delete</i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
           </tbody>
         </table>
       </div>
