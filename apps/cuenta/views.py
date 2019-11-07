@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from apps.cuenta.models import Cuenta
+import re
 
 # Create your views here.
 def resumenCuenta(request):
@@ -10,26 +11,29 @@ def resumenCuenta(request):
 def nuevaCuenta(request):
     cuentas = Cuenta.objects.filter(estado='A')
     inventario = False
-    if 'inventario' in request.POST:
-        inventario = True
-    else:
-        inventario = False
+    errores = set()
     if request.method == 'POST':
-        if int(request.POST["cuentaPadre"]) > 0:
-            cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-            cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
-            saldoHijos = float(request.POST["saldo"])
-            for cuentaHijo in cuentasHijo:
-                saldoHijos += float(cuentaHijo.saldo)
-            if saldoHijos <= cuentaPadre.saldo:
-                cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
-                cuenta.save()
+        errores = validarDatos(request.POST["nombre"], request.POST["cuentaPadre"], request.POST["codigo"], request.POST["saldo"], request.POST["estadoCuenta"], request.POST["estado"], request.POST["tipoCuenta"])
+        if len(errores) == 0:
+            if int(request.POST["cuentaPadre"]) > 0:
+                if 'inventario' in request.POST:
+                    inventario = True
+                else:
+                    inventario = False
+                cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
+                cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
+                saldoHijos = float(request.POST["saldo"])
+                for cuentaHijo in cuentasHijo:
+                    saldoHijos += float(cuentaHijo.saldo)
+                if saldoHijos <= cuentaPadre.saldo:
+                    cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
+                    cuenta.save()
+                else:
+                    errores.add("Error al guardar")
             else:
-                print("Error al guardar")
-        else:
-            cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
-            cuenta.save()
-    data = {'cuentas' : cuentas}
+                cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
+                cuenta.save()
+    data = {'cuentas' : cuentas, 'errores' : errores}
     return render(request, 'cuenta/cuenta.html', data)
 
 def modificarCuenta(request, idCuenta):
@@ -61,3 +65,21 @@ def eliminarCuenta(request, idCuenta):
     cuenta = Cuenta.objects.get(idCuenta=idCuenta)
     cuenta.delete()
     return redirect('resumenCuenta')
+
+def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, tipo, estado):
+    errores = set()
+    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
+        errores.add('Nombre de cuenta inválido')
+    if (not re.match("^[0-9]*$", cuentaPadre) or int(cuentaPadre) == 0):
+        errores.add("Cuenta padre inválida")
+    if (not re.match("^[0-9]*$", codigoCuenta)):
+        errores.add("Código de cuenta inválido")
+    if (not re.match("^[A|D|S]$", estadoCuenta)):
+        errores.add("Estado de cuenta inválido")
+    if (not re.match("^[D|H]$", tipo)):
+        errores.add("Tipo de cuenta inválido")
+    if (not re.match("^[A|D]", estado)):
+        errores.add("Estado de cuenta inválido")
+    if(not re.match("^([-+]?[0-9]*\.?[0-9]+)$", saldo)):
+        errores.add("Saldo de cuenta inválido")
+    
