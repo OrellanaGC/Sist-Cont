@@ -6,50 +6,101 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
-    <div class="container">
-      <h1>Nuevo permiso</h1>
-      <div class='row'>
-        <div class='col-6'>
-          <label>Nombre:</label>
-          <input type="text" class="form-control" id="nombre"
-          placeholder="Ingrese el codigo de la cuenta">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="container">
+        <h1>Nuevo permiso</h1>
+        <div class='row'>
+          <div class='col-6'>
+            <label>Nombre:</label>
+            <input type="text" class="form-control" name="nombre"
+            placeholder="Ingrese el nombre">
+          </div>
+          <div class='col-6'>
+            <label>Modulo:</label>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=1
+              name="producto" id="producto">
+              <label class="form-check-label" for="producto">
+                Producto
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=2
+              name="kardex" id="kardex">
+              <label class="form-check-label" for="kardex">
+                Kardex
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=3
+              name="libroDiario" id="libroDiario">
+              <label class="form-check-label" for="libroDiario">
+                Libro diario
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=4
+              name="cuenta" id="cuenta">
+              <label class="form-check-label" for="cuenta">
+                Cuenta
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=5
+              name="categoriaProducto" id="categoriaProducto">
+              <label class="form-check-label" for="categoriaProducto">
+                Categoria producto
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input position-static" type="checkbox" value=6
+              name="empresa" id="empresa">
+              <label class="form-check-label" for="empresa">
+                Empresa
+              </label>
+            </div>
+          </div>
         </div>
-        <div class='col-6'>
-          <label>Modulo:</label>
-          <input type="text" class="form-control" id="nombre"
-          placeholder="Ingrese el nombre de la cuenta">
+        <br/>
+        <div class="row justify-content-end">
+          <button type="button" class="btn btn-warning col-1">editar</button>
+          <!-- ya saabes como furula esto lizama -->
+          <button type="submit" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+        </div>
+        <br/>
+        <div class="row">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Modulos</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if permisos %}
+                {% for permiso in permisos %}
+                  <tr>
+                    <th scope="row">{{permiso.nombre}}</th>
+                    <td>
+                    {% for modulo in permiso.modulo.all %}
+                      {{modulo.nombre}}
+                    {% endfor %}
+                    </td>
+                    <td>
+                    <a href='#' class="btn btn-warning">
+                      <i class="material-icons text-white">edit</i></a>
+                    <a href='#' class="btn btn-danger text-white espacio_izquierda">
+                      <i class="material-icons">delete</i></a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
         </div>
       </div>
-      <br/>
-      <div class="row justify-content-end">
-        <button type="button" class="btn btn-warning col-1">editar</button>
-        <!-- ya saabes como furula esto lizama -->
-        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
-      </div>
-      <br/>
-      <div class="row">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Modulos</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Permiso 1</th>
-              <td>Modulo 1, modulo 2, modulo 3</td>
-              <td>
-              <button type="button" class="btn btn-warning">
-                <i class="material-icons text-white">edit</i></button>
-              <button type="button" class="btn btn-danger text-white espacio_izquierda">
-                <i class="material-icons">delete</i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </form>
     <!-- Fin contenido -->
 {% endblock content %}
