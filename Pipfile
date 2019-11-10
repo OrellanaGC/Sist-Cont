@@ -9,6 +9,9 @@ verify_ssl = true
 django = "==2.2.5"
 gunicorn = "*"
 psycopg2 = "*"
+xhtml2pdf = "*"
+weasyprint = "*"
+cairo = "*"
 
 [requires]
 python_version = "3.6"
