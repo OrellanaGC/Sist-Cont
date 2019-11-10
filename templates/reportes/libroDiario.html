@@ -30,17 +30,21 @@
                 <th>Debe</th>
                 <th>Haber</th>
             </tr>
-            {% if cuentas %}
-            {% for cuenta in cuentas %}
-            {{ cuenta }}
-            {% endfor %}
-            {% endif %}
             {% if transacciones %}
             {% for transaccion in transacciones %}
             <tr>
                 <td>{{ transaccion.fecha }}</td>
                 <td>{{ transaccion.cuenta__codigoCuenta }}</td>
+                {% if cuentasPadre %}
+                {% for cuentaPadre in cuentasPadre %}
+                {% if cuentaPadre == transaccion.cuenta__codigoCuenta %}
                 <td><b>{{ transaccion.cuenta__nombre }}</b></td>
+                {% elif cuentaPadre in transaccion.cuenta__codigoCuenta %}
+                <td>{{ transaccion.cuenta__nombre }}</td>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                
                 {% if "." in transaccion.cuenta__codigoCuenta %}
                 <td>${{ transaccion.monto }}</td>
                 <td></td>
@@ -60,6 +64,11 @@
             </tr>
             {% endfor %}
             {% endif %}
+            <tr>
+                <td colspan="4" style="text-align: right;padding-right:0.5cm;"><b>TOTAL</b></td>
+                <td><b>${{ saldoDebe }}</b></td>
+                <td><b>${{ saldoHaber }}</b></td>
+            </tr>
         </table>
     </body>
 </html>

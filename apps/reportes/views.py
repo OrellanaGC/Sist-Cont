@@ -50,11 +50,22 @@ def libroDiario(request):
     #if fechaInicio is not "":
     #    fecha = datetime.strptime(fechaInicio, '%d/%m/%Y')
     #    fechaStr = fecha.strftime('%Y-%m-%d')
-    cuentas = set()
+    cuentasPadre = set()
+    codCuenta = ""
+    saldoDebe = 0
+    saldoHaber = 0
     transacciones = Transaccion.objects.filter(fecha=fechaStr).values('cuenta__codigoCuenta', 'cuenta__cuentaPadre_id', 'cuenta__nombre', 'cuenta_id', 'tipo', 'detalle', 'fecha').order_by('cuenta__codigoCuenta').annotate(monto = Sum('monto'))
     for transaccion in transacciones:
-        cuentas.add(transaccion['cuenta__codigoCuenta'])
-    data = {'transacciones' : transacciones, 'cuentas' : cuentas}
+        codCuentaTransaccion = transaccion['cuenta__codigoCuenta']  
+        if (not codCuenta in codCuentaTransaccion) or codCuenta == "":
+            cuentasPadre.add(codCuentaTransaccion)
+            codCuenta = codCuentaTransaccion
+        if not "." in codCuentaTransaccion:
+            if (transaccion['tipo'] == 'D'):
+                saldoDebe += (transaccion['monto'])
+            elif (transaccion['tipo'] == 'H'):
+                saldoHaber += (transaccion['monto'])
+    data = {'transacciones' : transacciones, 'cuentasPadre' : cuentasPadre, 'saldoDebe' : saldoDebe, 'saldoHaber': saldoHaber}
     pdf = renderPdf('reportes/libroDiario.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
