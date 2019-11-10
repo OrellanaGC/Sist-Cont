@@ -14,25 +14,25 @@ def nuevaCuenta(request):
     errores = set()
     if request.method == 'POST':
         errores = validarDatos(request.POST["nombre"], request.POST["cuentaPadre"], request.POST["codigo"], request.POST["saldo"], request.POST["estadoCuenta"], request.POST["estado"], request.POST["tipoCuenta"])
-        if len(errores) == 0:
-            if int(request.POST["cuentaPadre"]) > 0:
-                if 'inventario' in request.POST:
-                    inventario = True
-                else:
-                    inventario = False
-                cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-                cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
-                saldoHijos = float(request.POST["saldo"])
-                for cuentaHijo in cuentasHijo:
-                    saldoHijos += float(cuentaHijo.saldo)
-                if saldoHijos <= cuentaPadre.saldo:
-                    cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
-                    cuenta.save()
-                else:
-                    errores.add("Error al guardar")
+        #if len(errores) == 0:
+        if int(request.POST["cuentaPadre"]) > 0:
+            if 'inventario' in request.POST:
+                inventario = True
             else:
-                cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
-                cuenta.save()
+                inventario = False
+            cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
+            #cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
+            #saldoHijos = float(request.POST["saldo"])
+            #for cuentaHijo in cuentasHijo:
+            #    saldoHijos += float(cuentaHijo.saldo)
+            #if saldoHijos <= cuentaPadre.saldo:
+            cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
+            cuenta.save()
+            #else:
+            #    errores.add("Error al guardar")
+        else:
+            cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
+            cuenta.save()
     data = {'cuentas' : cuentas, 'errores' : errores}
     return render(request, 'cuenta/cuenta.html', data)
 
@@ -70,7 +70,7 @@ def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, tipo, e
     errores = set()
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
         errores.add('Nombre de cuenta inválido')
-    if (not re.match("^[0-9]*$", cuentaPadre) or int(cuentaPadre) == 0):
+    if (not re.match("^[0-9]*$", cuentaPadre) or cuentaPadre == ""):
         errores.add("Cuenta padre inválida")
     if (not re.match("^[0-9]*$", codigoCuenta)):
         errores.add("Código de cuenta inválido")
@@ -82,4 +82,5 @@ def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, tipo, e
         errores.add("Estado de cuenta inválido")
     if(not re.match("^([-+]?[0-9]*\.?[0-9]+)$", saldo)):
         errores.add("Saldo de cuenta inválido")
+    return errores
     
