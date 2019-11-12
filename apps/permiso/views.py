@@ -14,10 +14,11 @@ def resumenPermiso(request):
         if len(errores) == 0:
             permiso = Permiso(nombre=request.POST["nombre"])
             permiso.save()
-            modulosPermiso = request.POST.getlist('modulos[]')
+            modulosPermiso = request.POST.getlist('modulos')
             for modulo in modulosPermiso:
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
+        return redirect('resumenPermiso')
     data = {'permisos' : permisos, 'modulos': modulos,  'errores' : errores}
     return render(request, 'permiso/permiso.html', data)
 
