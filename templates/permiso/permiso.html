@@ -18,48 +18,18 @@
           </div>
           <div class='col-6'>
             <label>Modulo:</label>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=1
-              name="producto" id="producto">
-              <label class="form-check-label" for="producto">
-                Producto
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=2
-              name="kardex" id="kardex">
-              <label class="form-check-label" for="kardex">
-                Kardex
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=3
-              name="libroDiario" id="libroDiario">
-              <label class="form-check-label" for="libroDiario">
-                Libro diario
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=4
-              name="cuenta" id="cuenta">
-              <label class="form-check-label" for="cuenta">
-                Cuenta
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=5
-              name="categoriaProducto" id="categoriaProducto">
-              <label class="form-check-label" for="categoriaProducto">
-                Categoria producto
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input position-static" type="checkbox" value=6
-              name="empresa" id="empresa">
-              <label class="form-check-label" for="empresa">
-                Empresa
-              </label>
-            </div>
+            {% if modulos %}
+              {% for modulo in modulos %}
+              <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" value={{modulo.idModulo}}
+                name="modulos" id="modulo{{modulo.idModulo}}">
+                <label class="form-check-label" for="modulo{{modulo.idModulo}}">
+                  {{modulo.nombre}}
+                </label>
+              </div>
+              {% endfor %}
+            {% endif %}
+
           </div>
         </div>
         <br/>
