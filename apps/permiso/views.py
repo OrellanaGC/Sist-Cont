@@ -64,3 +64,4 @@ def validarDatos(nombre):
     errores = set()
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
         errores.add('Nombre inválido')
+    return errores
