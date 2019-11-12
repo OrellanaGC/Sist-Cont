@@ -56,8 +56,8 @@ def editarPermiso(request, idPermiso):
             data = {'permiso' : permiso, 'modulos' : modulos, 'errores' : errores}
     return render(request, 'permiso/permiso.html', data)
 
-def eliminarPermiso(requesr, idPermiso):
-    permiso = Permiso.objects.get(idPermiso=request.session['id'])
+def eliminarPermiso(request, idPermiso):
+    permiso = Permiso.objects.get(idPermiso=idPermiso)
     permiso.delete()
     return redirect('resumenPermiso')
 
