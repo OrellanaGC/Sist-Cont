@@ -4,5 +4,5 @@ from apps.permiso.views import resumenPermiso, eliminarPermiso
 
 urlpatterns = [
     path('', resumenPermiso, name="resumenPermiso"),
-    path('eliminar/<int:idCuenta>', eliminarPermiso, name="eliminarPermiso"),
+    path('eliminar/<int:idPermiso>', eliminarPermiso, name="eliminarPermiso"),
 ]
