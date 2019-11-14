@@ -21,14 +21,23 @@
 				    Nombre empresa
 				  </div>
 				  <div class="card-body">
-						<label class="col-form-label">Correo electronico:</label>
-	          <input class="form-control"  type="email">
-						<label class="col-form-label">Contraseña:</label>
-	          <input class="form-control" type="password">
-						<br/>
-						<div class="text-right">
-							<a href="#" class="btn btn-primary">Iniciar sesion</a>
-						</div>
+					  	<form method="POST">
+							{% csrf_token %}
+							<label class="col-form-label">Correo electronico:</label>
+							<input class="form-control"  type="email" name="email">
+							<label class="col-form-label">Contraseña:</label>
+	          				<input class="form-control" type="password" name="password">
+							<br/>
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary">Iniciar sesion</button>
+							</div>
+						</form>
+						{% if errores %}
+						{% for error in errores %}
+						<br>
+						<p class="text-center">{{ error }}</p>
+						{% endfor %}
+						{% endif %}
 				  </div>
 				</div>
 			</div>

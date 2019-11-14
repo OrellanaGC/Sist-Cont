@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from apps.empresa.models import Empresa
+from django.contrib.auth.decorators import login_required
 import re
 
 # Create your views here.
+@login_required
 def resumenEmpresa(request):
     empresa = Empresa.objects.first()
     data = {'empresa' : empresa, 'editar': False}
     return render(request, 'empresa/empresa.html', data)
 
+@login_required
 def guardarDatos(request):
     empresa = Empresa.objects.first()
     errores = set()

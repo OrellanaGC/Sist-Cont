@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from apps.cuenta.models import Cuenta
+from django.contrib.auth.decorators import login_required
 import re
 
 # Create your views here.
+@login_required
 def resumenCuenta(request):
     cuentas = Cuenta.objects.filter(estado='A')
     data = {'cuentas' : cuentas}
     return render(request, 'cuenta/cuentas.html', data)
 
+@login_required
 def nuevaCuenta(request):
     cuentas = Cuenta.objects.filter(estado='A')
     inventario = False
@@ -36,6 +39,7 @@ def nuevaCuenta(request):
     data = {'cuentas' : cuentas, 'errores' : errores}
     return render(request, 'cuenta/cuenta.html', data)
 
+@login_required
 def modificarCuenta(request, idCuenta):
     cuenta = Cuenta.objects.get(idCuenta=idCuenta)
     data = {'cuenta': cuenta}
@@ -61,6 +65,7 @@ def modificarCuenta(request, idCuenta):
             print("Error al modificar")
     return render(request, 'cuenta/cuenta.html', data)
 
+@login_required
 def eliminarCuenta(request, idCuenta):
     cuenta = Cuenta.objects.get(idCuenta=idCuenta)
     cuenta.delete()

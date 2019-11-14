@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from apps.permiso.models import Permiso
 from apps.modulo.models import Modulo
+from django.contrib.auth.decorators import login_required
 import re
 # Create your views here.
 
+@login_required
 def resumenPermiso(request):
     #permiso = Permiso.objects.get(idPermiso=request.session['id'])
     permisos = Permiso.objects.all()
@@ -23,7 +25,7 @@ def resumenPermiso(request):
     'editando': False}
     return render(request, 'permiso/permiso.html', data)
 
-
+@login_required
 def nuevoPermiso(request):
     data = {}
     errores = set()
@@ -39,6 +41,7 @@ def nuevoPermiso(request):
     data = {'errores' : errores}
     return render(request, 'permiso/permiso.html', data)
 
+@login_required
 def editarPermiso(request, idPermiso):
     permiso = Permiso.objects.get(idPermiso=idPermiso)
     modulos = Modulo.objects.all()
@@ -60,6 +63,7 @@ def editarPermiso(request, idPermiso):
             'errores' : errores, 'editando': True}
     return render(request, 'permiso/permiso.html', data)
 
+@login_required
 def eliminarPermiso(request, idPermiso):
     permiso = Permiso.objects.get(idPermiso=idPermiso)
     permiso.delete()

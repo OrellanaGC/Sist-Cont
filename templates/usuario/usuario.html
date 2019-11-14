@@ -5,6 +5,12 @@
 <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
 {% endblock %}
 {% block content %}
+{% if errores %}
+{% for error in errores %}
+{{ error }}
+{{ usuario.nombre }}
+{% endfor %}
+{% endif %}
     <!-- Inicio contenido -->
     <div class="container">
       <h1>Nuevo usuario</h1>
@@ -14,14 +20,18 @@
           <div class='col-6'>
             <label>Nombre:</label>
             <input type="text" class="form-control" name="nombre"
-            placeholder="Ingrese el nombre del nuevo usuario">
+            placeholder="Ingrese el nombre del nuevo usuario" value="{{ usuario.nombre }}">
             <br/>
             <label>Permisos:</label>
             <select class="custom-select" name="permiso">
               {% if permisos %}
                 {% for permiso in permisos %}
-                  <option value={{permiso.idPermiso}}>{{permiso.nombre}}
-                  </option>
+                  {% if permiso.idPermiso == usuario.permiso_id %}
+                  <option value={{permiso.idPermiso}} selected>{{permiso.nombre}}</option>
+                  {% else %}
+                  <option value={{permiso.idPermiso}}>{{permiso.nombre}}</option>
+                  {% endif %}
+
                 {% endfor %}
               {% endif %}
             </select>
@@ -34,7 +44,7 @@
           <div class='col-6'>
             <label>email:</label>
             <input type="email" class="form-control" name="email"
-            placeholder="Ingrese el email del usuario">
+            placeholder="Ingrese el email del usuario" value="{{ usuario.email }}">
             <br/>
             <label>Contraseña:</label>
             <input type="password" class="form-control" name="password"
