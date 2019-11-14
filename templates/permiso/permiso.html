@@ -14,7 +14,11 @@
           <div class='col-6'>
             <label>Nombre:</label>
             <input type="text" class="form-control" name="nombre"
-            placeholder="Ingrese el nombre">
+            placeholder="Ingrese el nombre"
+            {% if editando == True %}
+              value="{{permiso.nombre}}"
+            {% endif %}
+            >
           </div>
           <div class='col-6'>
             <label>Modulo:</label>
@@ -22,7 +26,15 @@
               {% for modulo in modulos %}
               <div class="form-check">
                 <input class="form-check-input position-static" type="checkbox" value={{modulo.idModulo}}
-                name="modulos" id="modulo{{modulo.idModulo}}">
+                name="modulos" id="modulo{{modulo.idModulo}}"
+                {% if editando == True %}
+                  {% for modulo2 in permiso.modulo.all %}
+                   {% if modulo.idModulo == modulo2.idModulo %}
+                    checked
+                   {% endif %}
+                  {% endfor %}
+                {% endif %}
+                >
                 <label class="form-check-label" for="modulo{{modulo.idModulo}}">
                   {{modulo.nombre}}
                 </label>
@@ -34,12 +46,20 @@
         </div>
         <br/>
         <div class="row justify-content-end">
-          <button type="button" class="btn btn-warning col-1">editar</button>
-          <!-- ya saabes como furula esto lizama -->
-          <button type="submit" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+          {% if editando == True %}
+            <button type="submit" class="btn btn-warning col-1">Editar</button>
+            <a href="/permisos" class="btn btn-success col-1 espacio_izquierda">Cancelar</a>
+          {% else %}
+            <button type="submit" class="btn btn-success col-1">Guardar</button>
+          {% endif %}
         </div>
         <br/>
-        <div class="row">
+        <div
+         class="row"
+         {% if editando == True %}
+         hidden
+         {% endif %}
+         >
           <table class="table table-hover">
             <thead>
               <tr>
@@ -59,7 +79,7 @@
                     {% endfor %}
                     </td>
                     <td>
-                    <a href='#' class="btn btn-warning">
+                    <a href='/permisos/{{ permiso.idPermiso }}' class="btn btn-warning">
                       <i class="material-icons text-white">edit</i></a>
                     <a href='/permisos/eliminar/{{ permiso.idPermiso }}' class="btn btn-danger text-white espacio_izquierda">
                       <i class="material-icons">delete</i></a>

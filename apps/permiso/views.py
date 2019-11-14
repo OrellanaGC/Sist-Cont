@@ -19,7 +19,8 @@ def resumenPermiso(request):
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
         return redirect('resumenPermiso')
-    data = {'permisos' : permisos, 'modulos': modulos,  'errores' : errores}
+    data = {'permisos' : permisos, 'modulos': modulos,  'errores' : errores,
+    'editando': False}
     return render(request, 'permiso/permiso.html', data)
 
 
@@ -41,7 +42,7 @@ def nuevoPermiso(request):
 def editarPermiso(request, idPermiso):
     permiso = Permiso.objects.get(idPermiso=idPermiso)
     modulos = Modulo.objects.all()
-    data = {'permiso' : permiso, 'modulos' : modulos}
+    data = {'permiso' : permiso, 'modulos' : modulos, 'editando': True}
     errores = set()
     if request.method == 'POST':
         errores = validarDatos(request.POST["nombre"])
@@ -53,7 +54,8 @@ def editarPermiso(request, idPermiso):
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
         else:
-            data = {'permiso' : permiso, 'modulos' : modulos, 'errores' : errores}
+            data = {'permiso' : permiso, 'modulos' : modulos,
+            'errores' : errores, 'editando': True}
     return render(request, 'permiso/permiso.html', data)
 
 def eliminarPermiso(request, idPermiso):
