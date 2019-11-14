@@ -32,7 +32,7 @@ def nuevoPermiso(request):
         if len(errores) == 0:
             permiso = Permiso(nombre=request.POST["nombre"])
             permiso.save()
-            modulosPermiso = request.POST.getlist('modulos[]')
+            modulosPermiso = request.POST.getlist('modulos')
             for modulo in modulosPermiso:
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
@@ -47,9 +47,10 @@ def editarPermiso(request, idPermiso):
     if request.method == 'POST':
         errores = validarDatos(request.POST["nombre"])
         if len(errores) == 0:
-            p.nombre = request.POST["nombre"]
-            p.save()
-            modulosPermiso = request.POST.getlist('modulos[]')
+            permiso.nombre = request.POST["nombre"]
+            permiso.save()
+            permiso.modulo.clear()
+            modulosPermiso = request.POST.getlist('modulos')
             for modulo in modulosPermiso:
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
