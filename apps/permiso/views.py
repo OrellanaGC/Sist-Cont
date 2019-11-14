@@ -18,7 +18,7 @@ def resumenPermiso(request):
             for modulo in modulosPermiso:
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
-        return redirect('resumenPermiso')
+            return redirect('resumenPermiso')
     data = {'permisos' : permisos, 'modulos': modulos,  'errores' : errores,
     'editando': False}
     return render(request, 'permiso/permiso.html', data)
@@ -54,6 +54,7 @@ def editarPermiso(request, idPermiso):
             for modulo in modulosPermiso:
                 modulo = Modulo.objects.get(idModulo=modulo)
                 permiso.modulo.add(modulo)
+            return redirect('resumenPermiso')
         else:
             data = {'permiso' : permiso, 'modulos' : modulos,
             'errores' : errores, 'editando': True}

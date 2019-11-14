@@ -8,37 +8,45 @@
     <!-- Inicio contenido -->
     <div class="container">
       <h1>Nuevo usuario</h1>
-      <div class='row'>
-        <div class='col-6'>
-          <label>Nombre:</label>
-          <input type="text" class="form-control" id="nombre"
-          placeholder="Ingrese el nombre del nuevo usuario">
-          <br/>
-          <label>Permisos:</label>
-          <select class="custom-select" id="permisos">
-            <option value="1">Permiso 1</option>
-          </select>
-          <br/>
-          <br/>
-          <label>Introduzca la contraseña de nuevo:</label>
-          <input type="password" class="form-control" id="contrasenia2"
-          placeholder="Ingrese la contraseña de nuevo">
+      <form method="post">
+        {% csrf_token %}
+        <div class='row'>
+          <div class='col-6'>
+            <label>Nombre:</label>
+            <input type="text" class="form-control" name="nombre"
+            placeholder="Ingrese el nombre del nuevo usuario">
+            <br/>
+            <label>Permisos:</label>
+            <select class="custom-select" name="permiso">
+              {% if permisos %}
+                {% for permiso in permisos %}
+                  <option value={{permiso.idPermiso}}>{{permiso.nombre}}
+                  </option>
+                {% endfor %}
+              {% endif %}
+            </select>
+            <br/>
+            <br/>
+            <label>Introduzca la contraseña de nuevo:</label>
+            <input type="password" class="form-control" name="password2"
+            placeholder="Ingrese la contraseña de nuevo">
+          </div>
+          <div class='col-6'>
+            <label>email:</label>
+            <input type="email" class="form-control" name="email"
+            placeholder="Ingrese el email del usuario">
+            <br/>
+            <label>Contraseña:</label>
+            <input type="password" class="form-control" name="password"
+            placeholder="Ingrese la contraseña">
+          </div>
         </div>
-        <div class='col-6'>
-          <label>email:</label>
-          <input type="email" class="form-control" id="email"
-          placeholder="Ingrese el email del usuario">
-          <br/>
-          <label>Contraseña:</label>
-          <input type="password" class="form-control" id="contrasenia"
-          placeholder="Ingrese la contraseña">
+        <br/>
+        <div class="row justify-content-end">
+          <a href="/usuarios" class="btn btn-danger col-1">Cancelar</a>
+          <button type="submit" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
         </div>
-      </div>
-      <br/>
-      <div class="row justify-content-end">
-        <button type="button" class="btn btn-danger col-1">Cancelar</button>
-        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
-      </div>
+      </form>
     </div>
     <!-- Fin contenido -->
 {% endblock content %}

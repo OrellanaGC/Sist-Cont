@@ -32,9 +32,12 @@
       </div>
       <br/>
       <div class="row justify-content-end">
-        <button type="button" class="btn btn-warning col-1">Editar</button>
-        <!-- Cuando se da edit se quitan los readonly y se habilita guardar -->
-        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+        {% if editando == True %}
+          <a href = '/usuarios/actualizar_informacion' class="btn btn-success col-1 espacio_izquierda">Guardar</a>
+        {% else %}
+          <button type="button" class="btn btn-warning col-1">Editar</button>
+          <a href="/permisos" class="btn btn-success col-1 espacio_izquierda">Cancelar</a>
+        {% endif %}
       </div>
     </div>
     <!-- Fin contenido -->
