@@ -35,11 +35,18 @@ def crearUsuario(request):
     return render(request, 'usuario/usuario.html', data)
 
 @login_required
+def actualizarMiUsuarioResumen(request):
+    usuario = Usuario.objects.get(id=request.session['id'])
+    data = {'usuario' : usuario, 'editando': False}
+    return render(request, 'usuario/miUsuario.html', data)
+
+
+@login_required
 def actualizarMiUsuario(request):
     data = {}
     usuario = Usuario.objects.get(id=request.session['id'])
     errores = set()
-    data = {'usuario' : usuario, 'errores' : errores}
+    data = {'usuario' : usuario, 'errores' : errores, 'editando': True}
     if request.method == 'POST':
         errores = validarUsuario(request.POST['nombre'], request.POST['email'], request.POST['password'], request.POST['password2'])
         if not Usuario.objects.filter(email = request.POST['email']).exists():
@@ -52,10 +59,10 @@ def actualizarMiUsuario(request):
                 request.session['nombre'] = request.POST['nombre']
                 request.session['email'] = request.POST['email']
             else:
-                data = {'usuario' : usuario, 'errores' : errores}
+                data = {'usuario' : usuario, 'errores' : errores, 'editando':True}
         else:
             errores.add("Usuario ya registrado")
-            data = {'usuario' : usuario, 'errores' : errores}
+            data = {'usuario' : usuario, 'errores' : errores, 'editando':True}
     return render(request, 'usuario/miUsuario.html', data)
 
 @login_required

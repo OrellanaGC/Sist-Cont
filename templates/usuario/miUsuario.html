@@ -6,39 +6,74 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
-    <div class="container">
-      <h1>Datos de usuario</h1>
-      <div class='row'>
-        <div class='col-6'>
-          <label>Nombre:</label>
-          <input type="text" readonly class="form-control" id="nombre"
-          value="Nombre">
-          <br/>
-          <label>Nueva contraseña:</label>
-          <input type="password" readonly class="form-control" id="contrasenia"
-          placeholder="Ingrese la contraseña">
-          <br/>
+    {% if errores %}
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-12">
+  				<div class="alert alert-danger" role="alert">
+  					<p><b>No se pudo completar la operación. Se han encontrado los siguientes errores: </b></p>
+  					{% for error in errores %}
+  					{{ error }}
+  					<br>
+  					{% endfor %}
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	{% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="container">
+        <h1>Datos de usuario</h1>
+        <div class='row'>
+          <div class='col-6'>
+            <label>Nombre:</label>
+            <input type="text"
+            {% if editando == False %}
+            readonly
+            {% endif %}
+            class="form-control" name="nombre"
+            value="{{usuario.nombre}}">
+            <br/>
+            <label>Nueva contraseña:</label>
+            <input type="password"
+            {% if editando == False %}
+            readonly
+            {% endif %}
+            class="form-control" name="password"
+            placeholder="Ingrese la contraseña">
+            <br/>
+          </div>
+          <div class='col-6'>
+            <label>Email:</label>
+            <input type="email"
+            {% if editando == False %}
+            readonly
+            {% endif %}
+            class="form-control" name="email" value="{{usuario.email}}">
+            <br/>
+            <label>Introduzca la contraseña de nuevo:</label>
+            <input type="password"
+            {% if editando == False %}
+            readonly
+            {% endif %}
+            class="form-control" name="password2"
+            placeholder="Ingrese la contraseña de nuevo">
+            <br/>
+          </div>
         </div>
-        <div class='col-6'>
-          <label>Email:</label>
-          <input type="email" readonly class="form-control"
-          id="email" value="Email">
-          <br/>
-          <label>Introduzca la contraseña de nuevo:</label>
-          <input type="password" readonly class="form-control" id="contrasenia2"
-          placeholder="Ingrese la contraseña de nuevo">
-          <br/>
+        <br/>
+        <div class="row justify-content-end">
+          {% if editando == True %}
+          <button type="submit" class="btn btn-success col-1">Guardar</button>
+          <a href="/usuarios/miUsuario"
+          class="btn btn-danger col-1 espacio_izquierda">Cancelar</a>
+          {% else %}
+          <a href = '/usuarios/editarMiUsuario'
+          class="btn btn-warning col-1 espacio_izquierda">Editar</a>
+          {% endif %}
         </div>
       </div>
-      <br/>
-      <div class="row justify-content-end">
-        {% if editando == True %}
-          <a href = '/usuarios/actualizar_informacion' class="btn btn-success col-1 espacio_izquierda">Guardar</a>
-        {% else %}
-          <button type="button" class="btn btn-warning col-1">Editar</button>
-          <a href="/permisos" class="btn btn-success col-1 espacio_izquierda">Cancelar</a>
-        {% endif %}
-      </div>
-    </div>
+    </form>
     <!-- Fin contenido -->
 {% endblock content %}
