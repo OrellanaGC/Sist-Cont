@@ -6,6 +6,21 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
+    {% if errores %}
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-12">
+  				<div class="alert alert-danger" role="alert">
+  					<p><b>No se pudo completar la operación. Se han encontrado los siguientes errores: </b></p>
+  					{% for error in errores %}
+  					{{ error }}
+  					<br>
+  					{% endfor %}
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	{% endif %}
     <div class="container">
       <h1>Nueva cuenta</h1>
       <form action="" method="POST">
@@ -14,15 +29,21 @@
           <div class='col-6'>
             <label>Codigo:</label>
             <input type="text" class="form-control" name="codigo"
-            placeholder="Ingrese el codigo de la cuenta">
+            placeholder="Ingrese el codigo de la cuenta"
+            value={{cuenta.codigoCuenta}}>
             <br/>
             <label>Saldo:</label>
             <input type="number" class="form-control" name="saldo"
-            placeholder="Ingrese el saldo inicial de la cuenta">
+            placeholder="Ingrese el saldo inicial de la cuenta"
+            value={{cuenta.saldo}}>
             <br/>
             <div class="form-check">
               <input class="form-check-input position-static" type="checkbox" value=""
-              name="inventario" id="inventario">
+              name="inventario" id="inventario"
+              {% if cuenta.modificaInventario == True %}
+              checked
+              {% endif %}
+              >
               <label class="form-check-label" for="inventario">
                 Modifica inventario
               </label>
@@ -30,21 +51,34 @@
             <br/>
             <label>Tipo de cuenta:</label>
             <select class="custom-select" name="tipoCuenta">
-              <option value="D">Debe</option>
-              <option value="H">Haber</option>
+              <option value="D"
+              {% if cuenta.tipo == 'D' %}
+              selected
+              {% endif %}
+              >Debe</option>
+              <option value="H"
+              {% if cuenta.tipo == 'H' %}
+              selected
+              {% endif %}
+              >Haber</option>
             </select>
           </div>
           <div class='col-6'>
             <label>Nombre:</label>
             <input type="text" class="form-control" name="nombre"
-            placeholder="Ingrese el nombre de la cuenta">
+            placeholder="Ingrese el nombre de la cuenta"
+            value={{cuenta.nombre}}>
             <br/>
             <label>Cuenta padre:</label>
             <select class="custom-select" name="cuentaPadre">
               <option value=0 selected>Ninguna</option>
               {% if cuentas %}
-                {% for cuenta in cuentas %}
-                  <option value={{ cuenta.idCuenta }}>{{ cuenta.idCuenta }} - {{ cuenta.nombre }}</option>
+                {% for cuentaE in cuentas %}
+                  <option value={{ cuentaE.idCuenta }}
+                  {% if cuentaE.idCuenta == cuenta.cuentaPadre.idCuenta %}
+                  selected
+                  {% endif %}
+                  >{{ cuenta.codigoCuenta }} - {{ cuenta.nombre }}</option>
                 {% endfor %}
               {% endif %}
             </select>
@@ -52,23 +86,48 @@
             <br/>
             <label>Estado de la cuenta:</label>
             <select class="custom-select" name="estadoCuenta">
-              <option value="A">Acreedora</option>
-              <option value="D">Deudora</option>
-              <option value="S">Saldada</option>
+              <option value="A"
+              {% if cuenta.estadoCuenta == 'A' %}
+              selected
+              {% endif %}
+              >Acreedora</option>
+              <option value="D"
+              {% if cuenta.estadoCuenta == 'D' %}
+              selected
+              {% endif %}
+              >Deudora</option>
+              <option value="S"
+              {% if cuenta.estadoCuenta == 'S' %}
+              selected
+              {% endif %}
+              >Saldada</option>
             </select>
             <br/>
             <br/>
             <label>Estado:</label>
             <select class="custom-select" name="estado">
-              <option value="A">Activa</option>
-              <option value="D">Deshabilitada</option>
+              <option value="A"
+              {% if cuenta.estado == 'A' %}
+              selected
+              {% endif %}
+              >Activa</option>
+              <option value="D"
+              {% if cuenta.estado == 'D' %}
+              selected
+              {% endif %}
+              >Deshabilitada</option>
             </select>
           </div>
         </div>
         <br/>
         <div class="row justify-content-end">
-          <button type="button" class="btn btn-danger col-1">Cancelar</button>
-          <button type="submit" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+          {% if editando == True %}
+          <button type="submit" class="btn btn-warning col-1">Editar</button>
+          <a href="/cuenta" class="btn btn-danger col-1 espacio_izquierda">Cancelar</a>
+          {% else %}
+          <button type="submit" class="btn btn-success col-1">Guardar</button>
+          <a href="/cuenta" class="btn btn-danger col-1 espacio_izquierda">Cancelar</a>
+          {% endif %}
         </div>
       </form>
     </div>
