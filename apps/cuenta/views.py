@@ -36,13 +36,14 @@ def nuevaCuenta(request):
         else:
             cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
             cuenta.save()
-    data = {'cuentas' : cuentas, 'errores' : errores}
+    data = {'cuentas' : cuentas, 'errores' : errores, 'editando': False}
     return render(request, 'cuenta/cuenta.html', data)
 
 @login_required
 def modificarCuenta(request, idCuenta):
     cuenta = Cuenta.objects.get(idCuenta=idCuenta)
-    data = {'cuenta': cuenta}
+    print(cuenta.tipo)
+    data = {'cuenta': cuenta, 'editando': True}
     if request.method == 'POST':
         cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
         """cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
@@ -88,4 +89,3 @@ def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, tipo, e
     if(not re.match("^([-+]?[0-9]*\.?[0-9]+)$", saldo)):
         errores.add("Saldo de cuenta inválido")
     return errores
-    

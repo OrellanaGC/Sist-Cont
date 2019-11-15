@@ -6,6 +6,21 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
+    {% if errores %}
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-12">
+  				<div class="alert alert-danger" role="alert">
+  					<p><b>No se pudo completar la operación. Se han encontrado los siguientes errores: </b></p>
+  					{% for error in errores %}
+  					{{ error }}
+  					<br>
+  					{% endfor %}
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	{% endif %}
     <form action="" method="POST">
       {% csrf_token %}
       <div class="container">
