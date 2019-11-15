@@ -30,10 +30,17 @@
                 <th>Debe</th>
                 <th>Haber</th>
             </tr>
+            {% if fechas %}
             {% if transacciones %}
-            {% for transaccion in transacciones %}
+            {% for fecha in fechas %}
             <tr>
-                <td>{{ transaccion.fecha }}</td>
+                <td><b>{{ fecha }}</b></td>
+                <td colspan="5"></td>
+            </tr>
+            {% for transaccion in transacciones %}
+            {% if fecha == transaccion.fecha %}
+            <tr>
+                <td></td>
                 <td>{{ transaccion.cuenta__codigoCuenta }}</td>
                 {% if cuentasPadre %}
                 {% for cuentaPadre in cuentasPadre %}
@@ -53,16 +60,19 @@
                 <td></td>
                 {% endif %}
                 {% if not "." in transaccion.cuenta__codigoCuenta %}
-                {% if transaccion.tipo == 'D' %}
+                {% if transaccion.tipo == 'C' %}
                     <td><b>${{ transaccion.monto }}</b></td>
                     <td></td>
-                {% else %}
+                {% elif transaccion.tipo == 'A' %}
                     <td></td>
                     <td><b>${{ transaccion.monto }}</b></td>
                 {% endif %}
                 {% endif %}
             </tr>
+            {% endif %}
             {% endfor %}
+            {% endfor %}
+            {% endif %}
             {% endif %}
             <tr>
                 <td colspan="4" style="text-align: right;padding-right:0.5cm;"><b>TOTAL</b></td>

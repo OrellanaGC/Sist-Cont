@@ -45,24 +45,24 @@ def modificarCuenta(request, idCuenta):
     data = {'cuenta': cuenta}
     if request.method == 'POST':
         cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-        cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
+        """cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
         saldoHijos = float(request.POST["saldo"])
         for cuentaHijo in cuentasHijo:
             saldoHijos += float(cuentaHijo.saldo)
-        if saldoHijos <= cuentaPadre.saldo:
-            cuenta = Cuenta.objects.get(idCuenta=idCuenta)
-            cuenta.codigoCuenta = request.POST["codigo"]
-            cuenta.nombre = request.POST["nombre"]
-            cuenta.saldo = request.POST["saldo"]
-            cuenta.modificaInventario = request.POST["modificaInventario"]
-            if int(request.POST["cuentaPadre"]) > 0:
-                cuenta.cuantaPadre_id = request.POST["cuentaPadre"]
-            cuenta.estado = request.POST["estado"]
-            cuenta.estadoCuenta = request.POST["estadoCuenta"]
-            cuenta.tipo = request.POST["tipo"]
-            cuenta.save()
-        else:
-            print("Error al modificar")
+        if saldoHijos <= cuentaPadre.saldo:"""
+        cuenta = Cuenta.objects.get(idCuenta=idCuenta)
+        cuenta.codigoCuenta = request.POST["codigo"]
+        cuenta.nombre = request.POST["nombre"]
+        cuenta.saldo = request.POST["saldo"]
+        cuenta.modificaInventario = request.POST["modificaInventario"]
+        if int(request.POST["cuentaPadre"]) > 0:
+            cuenta.cuantaPadre_id = request.POST["cuentaPadre"]
+        cuenta.estado = request.POST["estado"]
+        cuenta.estadoCuenta = request.POST["estadoCuenta"]
+        cuenta.tipo = request.POST["tipo"]
+        cuenta.save()
+    else:
+        print("Error al modificar")
     return render(request, 'cuenta/cuenta.html', data)
 
 @login_required

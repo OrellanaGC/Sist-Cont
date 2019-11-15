@@ -49,12 +49,13 @@ def actualizarMiUsuario(request):
     data = {'usuario' : usuario, 'errores' : errores, 'editando': True}
     if request.method == 'POST':
         errores = validarUsuario(request.POST['nombre'], request.POST['email'], request.POST['password'], request.POST['password2'])
-        if not Usuario.objects.filter(email = request.POST['email']).exists():
+        if not Usuario.objects.filter(email = request.POST['email']).exists() or request.POST['email'] == usuario.email:
             if len(errores) == 0:
                 #usuario = Usuario.objects.get(id=request.session['id'])
                 usuario.nombre = request.POST['nombre']
                 usuario.email = request.POST['email']
-                usuario.set_password(request.POST['password'])
+                if not request.POST['password'] is None:
+                    usuario.set_password(request.POST['password'])
                 usuario.save()
                 request.session['nombre'] = request.POST['nombre']
                 request.session['email'] = request.POST['email']
@@ -79,7 +80,8 @@ def actualizarUsuario(request, idUsuario):
                 usuario.nombre = request.POST['nombre']
                 usuario.email = request.POST['email']
                 usuario.permiso_id = request.POST['permiso']
-                usuario.set_password(request.POST['password'])
+                if not request.POST['password'] is None:
+                    usuario.set_password(request.POST['password'])
                 usuario.save()
                 request.session['nombre'] = request.POST['nombre']
                 request.session['email'] = request.POST['email']
