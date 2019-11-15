@@ -6,7 +6,7 @@ import re
 # Create your views here.
 @login_required
 def resumenCuenta(request):
-    cuentas = Cuenta.objects.filter(estado='A')
+    cuentas = Cuenta.objects.filter(estado='A').order_by('codigoCuenta')
     data = {'cuentas' : cuentas}
     return render(request, 'cuenta/cuentas.html', data)
 
@@ -17,53 +17,50 @@ def nuevaCuenta(request):
     errores = set()
     if request.method == 'POST':
         errores = validarDatos(request.POST["nombre"], request.POST["cuentaPadre"], request.POST["codigo"], request.POST["saldo"], request.POST["estadoCuenta"], request.POST["estado"], request.POST["tipoCuenta"])
-        #if len(errores) == 0:
-        if int(request.POST["cuentaPadre"]) > 0:
-            if 'inventario' in request.POST:
-                inventario = True
+        if len(errores) == 0:
+            if int(request.POST["cuentaPadre"]) > 0:
+                if 'inventario' in request.POST:
+                    inventario = True
+                else:
+                    inventario = False
+                cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
+                cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
+                cuenta.save()    
             else:
-                inventario = False
-            cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-            #cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
-            #saldoHijos = float(request.POST["saldo"])
-            #for cuentaHijo in cuentasHijo:
-            #    saldoHijos += float(cuentaHijo.saldo)
-            #if saldoHijos <= cuentaPadre.saldo:
-            cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
-            cuenta.save()
-            #else:
-            #    errores.add("Error al guardar")
+                cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
+                cuenta.save()
         else:
-            cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])
-            cuenta.save()
+            errores.add("Error al guardar")
     data = {'cuentas' : cuentas, 'errores' : errores, 'editando': False}
     return render(request, 'cuenta/cuenta.html', data)
 
 @login_required
 def modificarCuenta(request, idCuenta):
+    cuentas = Cuenta.objects.filter(estado='A')
     cuenta = Cuenta.objects.get(idCuenta=idCuenta)
-    print(cuenta.tipo)
-    data = {'cuenta': cuenta, 'editando': True}
+    errores = set()
     if request.method == 'POST':
-        cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-        """cuentasHijo = Cuenta.objects.filter(cuentaPadre_id=cuentaPadre.idCuenta)
-        saldoHijos = float(request.POST["saldo"])
-        for cuentaHijo in cuentasHijo:
-            saldoHijos += float(cuentaHijo.saldo)
-        if saldoHijos <= cuentaPadre.saldo:"""
-        cuenta = Cuenta.objects.get(idCuenta=idCuenta)
-        cuenta.codigoCuenta = request.POST["codigo"]
-        cuenta.nombre = request.POST["nombre"]
-        cuenta.saldo = request.POST["saldo"]
-        cuenta.modificaInventario = request.POST["modificaInventario"]
-        if int(request.POST["cuentaPadre"]) > 0:
-            cuenta.cuantaPadre_id = request.POST["cuentaPadre"]
-        cuenta.estado = request.POST["estado"]
-        cuenta.estadoCuenta = request.POST["estadoCuenta"]
-        cuenta.tipo = request.POST["tipo"]
-        cuenta.save()
-    else:
-        print("Error al modificar")
+        errores = validarDatos(request.POST["nombre"], request.POST["cuentaPadre"], request.POST["codigo"], request.POST["saldo"], request.POST["estadoCuenta"], request.POST["estado"], request.POST["tipoCuenta"])
+        if len(errores) == 0:
+            if 'inventario' in request.POST:
+                inventario = True
+            else:
+                inventario = False
+            cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
+            cuenta = Cuenta.objects.get(idCuenta=idCuenta)
+            cuenta.codigoCuenta = request.POST["codigo"]
+            cuenta.nombre = request.POST["nombre"]
+            cuenta.saldo = request.POST["saldo"]
+            cuenta.modificaInventario = inventario
+            if int(request.POST["cuentaPadre"]) > 0:
+                cuenta.cuantaPadre_id = request.POST["cuentaPadre"]
+            cuenta.estado = request.POST["estado"]
+            cuenta.estadoCuenta = request.POST["estadoCuenta"]
+            cuenta.tipo = request.POST["tipoCuenta"]
+            cuenta.save()
+        else:
+            print("Error al modificar")
+    data = {'cuenta': cuenta, 'editando': True, 'cuentas' : cuentas, 'errores' : errores}
     return render(request, 'cuenta/cuenta.html', data)
 
 @login_required
@@ -72,13 +69,13 @@ def eliminarCuenta(request, idCuenta):
     cuenta.delete()
     return redirect('resumenCuenta')
 
-def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, tipo, estado):
+def validarDatos(nombre, cuentaPadre, codigoCuenta, saldo, estadoCuenta, estado, tipo):
     errores = set()
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
         errores.add('Nombre de cuenta inválido')
     if (not re.match("^[0-9]*$", cuentaPadre) or cuentaPadre == ""):
         errores.add("Cuenta padre inválida")
-    if (not re.match("^[0-9]*$", codigoCuenta)):
+    if (not re.match("^[0-9\.]+$", codigoCuenta)):
         errores.add("Código de cuenta inválido")
     if (not re.match("^[A|D|S]$", estadoCuenta)):
         errores.add("Estado de cuenta inválido")
