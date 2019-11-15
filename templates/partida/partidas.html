@@ -1,133 +1,93 @@
+
 {% extends 'base/base.html' %}
+{% block javascripts %}
+{% endblock %}
 {% block content %}
-    <!-- Inicio contenido -->
+    <!-- Inicio contenido -->    
     <div class="container">
+      {% if ver == 1 %}
+      {{ f1 }}
+      {{ f2 }}
+      {% endif %}
+      <div class="row">
+        <div class="col-6">
+          <select name="FechaPD" id="FechaPD" class="form-control">
+            <option value="FA">Mes Actual</option>
+            <option value="FE">Mes Específica</option>
+          </select>
+        </div>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="col-4">
+            
+          </div>
+          <input name="MP" id="MP" type="month" class="form-control">
+          <div class="col-2">
+          <button name="BFE" id="BFE" class="btn btn-outline-primary" type="submit">Ver</button>
+          </div>
+        </form>        
+      </div>
+      <br>
       <div class='row'>
         <div class="col-3">
-          <a class="btn btn-success" href="partida.html">Nueva partida</a>
+          <a class="btn btn-success" href="nueva">Nueva partida</a>          
           <br/>
           <br/>
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action">Cuentas por cobrar</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuentas por pagar</a>
-            <a href="#" class="list-group-item list-group-item-action">Compras</a>
-            <a href="#" class="list-group-item list-group-item-action active">Ventas</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuenta XXXX</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuenta XXXX</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuenta XXXX</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuenta XXXX</a>
-            <a href="#" class="list-group-item list-group-item-action">Cuenta XXXX</a>
+          <div class="list-group">              
+              <a href="/partida/" class="list-group-item list-group-item-action">Vista general</a>
+            {%for cuentasP in cuentas %}
+            {%if cuentasP.cuentaPadre == None %}
+              <a href="{{cuentasP.codigoCuenta}}" class="list-group-item list-group-item-action">{{cuentasP.nombre}}</a>
+              {%endif%}
+            {% endfor %}
           </div>
         </div>
         <table class="table table-hover col-9">
           <thead>
             <tr>
               <th scope="col">Fecha</th>
+              <th scope="col">cuenta</th>
               <th scope="col">Detalle</th>
               <th scope="col">Debe</th>
               <th scope="col">Haber</th>
             </tr>
           </thead>
           <tbody>
+            {%for trans in transacciones%}
             <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
+              <th scope="row">{{trans.fecha}}</th>
+              <td>{{trans.cuenta.nombre}}</td>
+              <td>{{trans.detalle}}</td>
+              {%if trans.tipo == 'C' %}
+              <td>${{trans.monto}}</td>
               <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
+              {% else %}
               <td></td>
+              <td>${{trans.monto}}</td>
+              {% endif %}
             </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$2000</td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2600</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$3000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$800</td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$54000</td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$2000</td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2600</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$3000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$800</td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td>$2000</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">13/10/2019</th>
-              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
-              <td></td>
-              <td>$54000</td>
-            </tr>
+            {%endfor%}
           </tbody>
         </table>
       </div>
     </div>
     <!-- Fin contenido -->
 {% endblock content %}
+{% block scripts %}
+<script>
+  $('[name="BFE"]').hide();
+  $('[name="MP"]').hide();
+$('[name="FechaPD"]').change(function () {
+    var end = this.value;
+    if (end == 'FE'){
+        $('[name="MP"]').show();
+        $('[name="BFE"]').show();
+        document.getElementById('MP').valueAsDate = new Date();
+    }
+    else {
+        $('[name="BFE"]').hide();
+        $('[name="MP"]').hide();
+    }
+});
+</script>
+{% endblock %}

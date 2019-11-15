@@ -1,0 +1,178 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Inicio contenido -->
+    <div class="container">
+      <h2>Caso cuenta sin productos</h2>
+      <div class='row'>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Fecha</label>
+          <input type="date">
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Cuenta</label>
+          <select class="selectpicker data-show-subtext='true'" data-live-search="true">
+            {% if cuentas %}
+            {% for cuenta in cuentas %}
+            <option value="{{ cuenta.idCuenta }}">{{cuenta.codigoCuenta}}. {{cuenta.nombre }}</option>
+            {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Detalle</label>
+          <input class="form-control" type="text">
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Tipo</label>
+          <select class="custom-select">
+            <option value="1">Debe</option>
+            <option value="2">Haber</option>
+          </select>
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Cantidad</label>
+          <input class="form-control" type="text">
+        </div>
+      </div>
+      <br/>
+      <h2>Caso cuenta con productos</h2>
+      <div class='row'>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Fecha</label>
+          <input type="date">
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Cuenta</label>
+          <select class="selectpicker data-show-subtext="true" data-live-search="true"">
+              {% if cuentas %}
+              {% for cuenta in cuentas %}
+              <option value="{{ cuenta.idCuenta }}">{{cuenta.codigoCuenta}}. {{cuenta.nombre }}</option>
+              {% endfor %}
+              {% endif %}
+          </select>
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Detalle</label>
+          <input class="form-control" type="text">
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Producto</label>
+          <input class="form-control" type="text" readonly>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Cantidad</label>
+          <input class="form-control" type="text" readonly>
+          <br/>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProductos">Seleccionar</button>
+          <!-- Modal de producto -->
+          <div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Seleccionar producto</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <label for="colFormLabel" class="col-sm-2 col-form-label">Buscar</label>
+                  <input class="form-control" type="text">
+                  <table class="table table-hover col-12">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">En inventario</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for prods in productos%}
+                      <tr>
+                        <td>{{prods.nombre}}</th>
+                        <td>{{prods.descripcion}} </td>
+                        <td>{{prods.existencias}}</td>                        
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Tipo</label>
+          <select class="custom-select">
+            <option value="1">Debe</option>
+            <option value="2">Haber</option>
+          </select>
+        </div>
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Cantidad</label>
+          <input class="form-control" type="text">
+        </div>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-success col-1">Agregar</button>
+      </div>
+      <br/>
+      <div class="row">
+        <table class="table table-hover col-12">
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Cuenta</th>
+              <th scope="col">Detalle</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Debe</th>
+              <th scope="col">Haber</th>
+              <th scope="col">Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">13/10/2019</th>
+              <td>Ventas </td>
+              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
+              <td><button type="button" class="btn btn-primary">Detalles producto</button></td>
+              <td>$2000</td>
+              <td></td>
+              <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+            </tr>
+            <tr>
+              <th scope="row">13/10/2019</th>
+              <td>Compras </td>
+              <td>Detalle detalle detalle detalle detalle detalle detalle </td>
+              <td></td>
+              <td></td>
+              <td>$2000</td>
+              <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br/>
+      <div class="row justify-content-end">
+        <button type="button" class="btn btn-danger col-1">Cancelar</button>
+        <button type="button" class="btn btn-success col-1 espacio_izquierda">Guardar</button>
+      </div>
+      <br/>
+      <form method="POST" id="test">
+        <input type="text" value="Holaa" id="texto">
+        <button>Enviar</button>
+      </form>
+    </div>
+    <!-- Fin contenido -->
+    <!-- Bootstrap select JS  -->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+{% csrf_token %}
+<script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script>
+{% endblock %}
