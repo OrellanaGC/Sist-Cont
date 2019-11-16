@@ -72,7 +72,13 @@ def libroDiario(request):
     pdf = renderPdf('reportes/libroDiario.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
-#def prueba(request):
-#    response = HttpResponse(content_type="application/pdf")
-#    response['Content-Disposition'] = 'attachment; filename=pruebaReporte.pdf'
-#    return H
+def libroMayor(request):
+    anio = datetime.date.today().year
+    fechaInicio = str(anio) + "-01-01"
+    fechaFin = str(anio) + "-12-31"
+    transacciones = set()
+    operaciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'fecha')
+    cuentas = Transaccion.objects.values('cuenta_id').distinct()
+    data = {'transacciones' : operaciones, 'cuentas' : cuentas}
+    pdf = renderPdf('reportes/libroMayor.html', data)
+    return HttpResponse(pdf, content_type="application/pdf")

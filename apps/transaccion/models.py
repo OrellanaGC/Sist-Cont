@@ -11,5 +11,6 @@ class Transaccion(models.Model):
         ('C', 'CARGAR'),
         ('A', 'ABONAR')
     )
+    saldoParcial = models.FloatField(null=True)
     cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=1, choices=TIPO, default='C')

@@ -12,5 +12,6 @@ class valorInicial(models.Model):
         ('S', 'SALDADA'),
         ('P', 'PATRIMONIO')
     )
+    saldo = models.FloatField(null=True)
     estadoCuenta = models.CharField(max_length=1, choices=ESTADOCUENTA, default='S')
     cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE)
