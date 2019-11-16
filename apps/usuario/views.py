@@ -54,7 +54,7 @@ def actualizarMiUsuario(request):
                 #usuario = Usuario.objects.get(id=request.session['id'])
                 usuario.nombre = request.POST['nombre']
                 usuario.email = request.POST['email']
-                if not request.POST['password'] is None:
+                if request.POST['password'] is not None and request.POST['password'] != '':
                     usuario.set_password(request.POST['password'])
                 usuario.save()
                 request.session['nombre'] = request.POST['nombre']
@@ -80,8 +80,9 @@ def actualizarUsuario(request, idUsuario):
                 usuario.nombre = request.POST['nombre']
                 usuario.email = request.POST['email']
                 usuario.permiso_id = request.POST['permiso']
-                if not request.POST['password'] is None:
+                if request.POST['password'] is not None and request.POST['password'] != '':
                     usuario.set_password(request.POST['password'])
+                    errores.add("La contraseña es: " + request.POST['password'])
                 usuario.save()
                 request.session['nombre'] = request.POST['nombre']
                 request.session['email'] = request.POST['email']
