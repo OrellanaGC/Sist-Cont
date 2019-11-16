@@ -76,9 +76,8 @@ def libroMayor(request):
     anio = datetime.date.today().year
     fechaInicio = str(anio) + "-01-01"
     fechaFin = str(anio) + "-12-31"
-    transacciones = set()
-    operaciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'fecha')
+    transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'fecha')
     cuentas = Transaccion.objects.values('cuenta_id').distinct()
-    data = {'transacciones' : operaciones, 'cuentas' : cuentas}
+    data = {'transacciones' : transacciones}
     pdf = renderPdf('reportes/libroMayor.html', data)
     return HttpResponse(pdf, content_type="application/pdf")

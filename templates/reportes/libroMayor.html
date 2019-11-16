@@ -26,25 +26,27 @@
                 <th>Fecha</th>
                 <th>Código</th>
                 <th style="width: 10cm;">Descripción</th>
-                <th>Parcial</th>
                 <th>Debe</th>
                 <th>Haber</th>
+                <th>Saldo</th>
             </tr>
             {% if transacciones %}
-            
             {% for transaccion in transacciones %}
-            {{ transaccion.monto }}
-            
-            {% endfor %}
-            {% endif %}
             <tr>
                 <td>01/01/2017</td>
                 <td>1101</td>
                 <td><b>EFECTIVO Y EQUIVALENTES DE EFECTIVO</b></td>
-                <td></td>
-                <td></td>
-                <td>$50,000.00</td>
+                {% if transaccion.tipo == 'C' %}
+                    <td><b>${{ transaccion.monto }}</b></td>
+                    <td></td>
+                {% elif transaccion.tipo == 'A' %}
+                    <td></td>
+                    <td><b>${{ transaccion.monto }}</b></td>
+                {% endif %}
+                <td>{{ transaccion.saldoParcial }}</td>
             </tr>
+            {% endfor %}
+            {% endif %}
         </table>
     </body>
 </html>

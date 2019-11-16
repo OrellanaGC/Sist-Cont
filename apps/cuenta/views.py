@@ -7,6 +7,19 @@ import re
 @login_required
 def resumenCuenta(request):
     cuentas = Cuenta.objects.filter(estado='A').order_by('codigoCuenta')
+    filtros = {}
+    if request.method == 'POST':
+        if 'nombre__icontains' in request.POST:
+            filtros['nombre__icontains'] = request.POST['nombre__icontains']
+        if int(request.POST["cuentaPadre_id"]) > 0:
+            filtros['cuentaPadre_id'] = request.POST['cuentaPadre_id']
+        if request.POST['estadoCuenta'] is not None and request.POST['estadoCuenta'] != "":
+            filtros['estadoCuenta'] = request.POST['estadoCuenta']
+        if request.POST['estado'] is not None and request.POST['estado'] != "":
+            filtros['estado'] = request.POST['estado']
+        if request.POST['tipo'] is not None and request.POST['tipo'] != "":
+            filtros['tipo'] = request.POST['tipo']
+        cuentas = Cuenta.objects.filter(**filtros).order_by('codigoCuenta')
     data = {'cuentas' : cuentas}
     return render(request, 'cuenta/cuentas.html', data)
 

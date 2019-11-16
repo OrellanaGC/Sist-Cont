@@ -9,45 +9,60 @@
     <div class="container">
       <h1>Cuentas</h1>
       <br/>
-      <div class='row'>
-        <div class="col">
-          <label>Nombre</label>
-          <input type="text" class="form-control" name="nombre">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class='row'>
+          <div class="col">
+            <label>Nombre</label>
+            <input type="text" class="form-control" name="nombre__icontains">
+          </div>
+          <div class="col">
+            <label>Cuenta padre</label>
+            <select class="custom-select" name="cuentaPadre_id">
+                <option value=0 selected>Ninguna</option>
+                {% if cuentas %}
+                  {% for cuentaE in cuentas %}
+                    <option value={{ cuentaE.idCuenta }}
+                    {% if cuentaE.idCuenta == cuenta.cuentaPadre.idCuenta %}
+                    selected
+                    {% endif %}
+                    >{{ cuentaE.codigoCuenta }} - {{ cuentaE.nombre }}</option>
+                  {% endfor %}
+                {% endif %}
+            </select>
+          </div>
+          <div class="col">
+            <label>Estado de cuenta</label>
+            <select class="custom-select" name="estadoCuenta">
+              <option value="" selected>Todas</option>
+              <option value="A">Acreedora</option>
+              <option value="D">Deudora</option>
+              <option value="S">Saldada</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>Tipo</label>
+            <select class="custom-select" name="tipo">
+              <option value="" selected>Todas</option>
+              <option value="D">Debe</option>
+              <option value="H">Haber</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>Estado</label>
+            <select class="custom-select" name="estado">
+              <option value="" selected>Todas</option>
+              <option value="A">Activa</option>
+              <option value="D">Deshabilitada</option>
+            </select>
+          </div>
         </div>
-        <div class="col">
-          <label>Cuenta padre</label>
-          <select class="custom-select" name="cuentaPadre">
-            <option value="1">Cuenta 1</option>
-          </select>
+        <br/>
+        <div class="row justify-content-end">
+          <a href="/cuenta/crear" class="btn btn-success">Nueva cuenta</a>
+          <button type="submit" class="btn btn-primary espacio_izquierda">Buscar</button>
         </div>
-        <div class="col">
-          <label>Estado de cuenta</label>
-          <select class="custom-select" name="estadoCuenta">
-            <option value="A">Acreedora</option>
-            <option value="D">Deudora</option>
-            <option value="S">Saldada</option>
-          </select>
-        </div>
-        <div class="col">
-          <label>Tipo</label>
-          <select class="custom-select" name="tipoCuenta">
-            <option value="D">Debe</option>
-            <option value="H">Haber</option>
-          </select>
-        </div>
-        <div class="col">
-          <label>Estado</label>
-          <select class="custom-select" name="estado">
-            <option value="A">Activa</option>
-            <option value="D">Deshabilitada</option>
-          </select>
-        </div>
-      </div>
-      <br/>
-      <div class="row justify-content-end">
-        <a href="/cuenta/crear" class="btn btn-success">Nueva cuenta</a>
-        <button type="button" class="btn btn-primary espacio_izquierda">Buscar</button>
-      </div>
+      </form>
       <br/>
       <div class="row">
         <table class="table table-hover">
