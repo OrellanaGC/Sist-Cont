@@ -10,6 +10,7 @@ from weasyprint import HTML
 from django.db.models import Sum
 from apps.transaccion.models import Transaccion
 from apps.cuenta.models import Cuenta
+from apps.transaccionInventario.models import TransaccionInventario
 
 import datetime
 import calendar 
@@ -80,4 +81,22 @@ def libroMayor(request):
     cuentas = Transaccion.objects.values('cuenta_id').distinct()
     data = {'transacciones' : transacciones}
     pdf = renderPdf('reportes/libroMayor.html', data)
+    return HttpResponse(pdf, content_type="application/pdf")
+
+def kardex(request):
+    #data2 = set()
+    transacciones = TransaccionInventario.objects.all()
+    saldos = set()
+    saldo = 0
+    first = True
+    for transaccion in transacciones:
+        if first:
+            saldo = 0
+            first = False
+        else:
+            saldo += transaccion.costoTotal
+        saldos.add(saldo)
+    ziplist = zip(transacciones, saldos)
+    data = {'transacciones' : transacciones}
+    pdf = renderPdf('reportes/kardex.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
