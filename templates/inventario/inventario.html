@@ -49,8 +49,123 @@
                 {% endif %}
               </div>
           </div>                
-        </div>         
+        </div>   
+        <!--Pegando nueva tabla-->
         <table class="table table-hover col-9">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th colspan="2">Entradas</th>
+      <th colspan="2">Salidas</th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>Fecha</th>
+      <th>Tipo</th>
+      <th>Factura</th>
+      <!--campo para comprobacion-->
+      <th>Inventario disp.</th>
+
+      <th>Precio Unitario</th>
+      <th>Cantidad</th>
+      <th>Valores</th>
+      <th>Cantidad</th>
+      <th>Valores</th>
+      <th>Saldo</th>
+      <!--campo para comprobacion-->
+      <th>Op.Comprobación</th>
+    </tr>
+  </thead>
+ <!--probando para una sola fila, se debe usar un foreach para mandar a traer todos los datos-->
+  <tbody>
+    <tr>
+      <td><!--manda a llamar a fecha--></td>
+      <td><!--manda a llamar a tipo--></td>
+      <td><!--manda a llamar factura--></td>
+      <td id="comprobacionInv" name="invent"><!--campo para comprobacion--></td>
+      <td name="precioUnitario"><!--manda a llamar a precio--></td>
+      <td name="cantIn"><!--Entrada: manda a llamar a cantidad--></td>
+      <td id="valorIn" name="valorIn" onload="compraValor(precioUnitario, cantIn)"><!--Entrada: manda a llamar a valores--></td>
+      <td name="cantOut"><!--Salida: manda a llamar a cantidad--></td>
+      <td id="valorOut" name="valorOut" onload="compraValor(precioUnitario, cantOut)"><!--Salida: manda a llamar a valores--></td>
+      <td id="saldo" name="saldo"><!--calcula saldo--></td>
+      <td name="comprobacionSaldo"><!--campo para comprobacion--></td>
+    </tr>
+  </tbody>
+  <script type="text/javascript">
+    function compraValor(invent,precioUnitario, cantIn){
+      var valor;
+      //variable de comprobacion del inventario existente
+      var inventario=0;
+      //comprobar si hay algun valor en la casilla de inventario
+      if(invent.value != null){
+        inventario = parseFloat(invent.value);
+      }
+      inventario = inventario+parseFloat(cantIn.value);
+      //calculo del valor de la entrada
+      valor = parseFloat(precioUnitario.value)*parseFloat(canIn.value);
+      //asignacion de los valores a sus respectivas casillas
+      document.getElementById("valorIn").value=valor;
+      document.getElementById("comprobacionInv").value=inventario;
+
+    }
+
+    function ventaValor(invent, precioUnitario, cantOut){
+      var valor;
+      var inventario;
+      //mandando a traer el inventario presente
+      inventario = parseFloat(invent.value);
+      //haciendo el cambio ya que la venta disminuye el inventario
+      inventario = inventario-parseFloat(cantOut);
+      valor = valor = parseFloat(precioUnitario.value)*parseFloat(canOut.value);
+      //asignacion de valores a sus casillas
+      document.getElementById("valorOut").value=valor;
+      document.getElementById("comprobacionInv").value=inventario;
+
+    }
+
+    function calcularSaldo(saldoIni, valorIn, valorOut){
+      var saldo=0;
+      if(saldoIni.value !=null){
+        saldo=parseFloat(saldoIni.value);
+      }
+      if(valorIn!= null){
+        saldo=saldo+parseFloat(valorIn.value);
+        if(valorOut!=null){
+          saldo=saldo-parseFloat(valorOut.value);
+        }
+      }
+      document.getElementById("saldo").value=saldo;
+    }
+
+    function devCompra(cantIn, precioUnitario, invent){
+      var inventario;
+      var valor;
+      inventario=parseFloat(inventario.value);
+      inventario=inventario-parseFloat(cantIn.value);
+      valor = parseFloat(precioUnitario.value)*parseFloat(canIn.value);
+      document.getElementById("valorIn").value=valor;
+      document.getElementById("comprobacionInv").value=inventario;
+
+    }
+
+    function devVenta(cantOut, precioUnitario, invent){
+      var inventario;
+      var valor;
+      inventario=parseFloat(inventario.value);
+      inventario=inventario+parseFloat(cantIn.value);
+      valor = parseFloat(precioUnitario.value)*parseFloat(canOut.value);
+      document.getElementById("valorOut").value=valor;
+      document.getElementById("comprobacionInv").value=inventario;
+    }
+
+  </script>
+</table>
+
+        <!--table class="table table-hover col-9">
           <thead>
             <tr>
               <th colspan="9" scope="col">Producto: xxxxx</th>
@@ -61,9 +176,9 @@
               <th rowspan="2" colspan="3" scope="col">Entregado: xxxxxxxx</th>
               <th rowspan="2" colspan="3" scope="col">Saldo</th>
             </tr>
-            <tr>
+            <tr> -->
             	<!--th scope="col">Código: ######</th-->
-            </tr>
+            <!--/tr>
             <tr>
             	<th scope="col">Fecha</th>
             	<th scope="col">Cantidad</th>
@@ -103,7 +218,7 @@
               <td>$$$ total</td>
             </tr>
           </tbody>
-        </table>
+        </table-->
       </div>
       <br/>
       <!--div class="row justify-content-end">

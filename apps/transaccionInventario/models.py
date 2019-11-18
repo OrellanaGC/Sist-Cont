@@ -1,14 +1,15 @@
 from django.db import models
 from apps.kardex.models import Kardex
+from apps.producto.models import Producto
 
 # Create your models here.
 class TransaccionInventario(models.Model):
     idTransaccionInv = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now=False)
-    cantidad = models.IntegerField()
-    costoUnitario = models.FloatField()
-    costoTotal = models.FloatField()
-    detalle = models.CharField(max_length=150)
+    cantidadComprada = models.IntegerField()
+    cantidadSobrante= models.IntegerField()
+    costoUnitario = models.FloatField()    
+    factura = models.CharField(max_length=20)
     TIPO = (
         ('I', 'INVENTARIO INICIAL'),
         ('C', 'COMPRA'),
@@ -17,4 +18,5 @@ class TransaccionInventario(models.Model):
         ('DV', 'DEVOLUCION DE VENTA')
     )
     tipo = models.CharField(max_length=2, choices=TIPO, default='I')
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     kardex = models.ForeignKey(Kardex, on_delete=models.CASCADE)

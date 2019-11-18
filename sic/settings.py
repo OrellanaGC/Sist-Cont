@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'sic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         #'NAME': 'siscontable',
         #'USER': 'sicuser',
         #'PASSWORD': 'sic123',
