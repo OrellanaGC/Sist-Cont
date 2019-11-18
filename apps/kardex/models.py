@@ -10,6 +10,7 @@ class Kardex(models.Model):
     stockMaximo= models.IntegerField()
     unidad= models.CharField(max_length=10)  
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    Existancias= models.IntegerField()
+    #Cantidad y valor al final del periodo	
+    Existencias= models.IntegerField()    
     valor = models.FloatField()
    
