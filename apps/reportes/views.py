@@ -108,10 +108,73 @@ def balanceGeneral(request):
 
 def estadoResultado(request):
     data = {}
+    ventas = Cuenta.objects.get(codigoCuenta="51")
+    costoVentas = Cuenta.objects.get(codigoCuenta="4101")
+    gastosAdmin = Cuenta.objects.get(codigoCuenta="4102")
+    gastosVentas = Cuenta.objects.get(codigoCuenta="4103")
+    reservaLegal = Cuenta.objects.get(codigoCuenta="3102")
+    impuesto = Cuenta.objects.get(codigoCuenta="2106")
+    utilidadBruta = ventas.saldo - costoVentas.saldo
+    gastosOperacion = gastosAdmin.saldo + gastosVentas.saldo
+    uar = utilidadBruta - gastosOperacion
+    uai = uar - reservaLegal.saldo
+    utilidadEjercicio = uai - impuesto.saldo
+    data = {'ventas' : "{0:.2f}".format(ventas.saldo), 
+    'costosVentas' : "{0:.2f}".format(costoVentas.saldo), 
+    'gastosOpe': "{0:.2f}".format(gastosOperacion), 
+    'gastosAdmin' : "{0:.2f}".format(gastosAdmin.saldo),
+    'gastosVentas' : "{0:.2f}".format(gastosVentas.saldo),
+    'reservaLegal' : "{0:.2f}".format(reservaLegal.saldo),
+    'impuesto' : "{0:.2f}".format(impuesto.saldo),
+    'utilidadBruta' : "{0:.2f}".format(utilidadBruta), 
+    'uar': "{0:.2f}".format(uar),
+    'uai' : "{0:.2f}".format(uai),
+    'utilidadEjercicio': "{0:.2f}".format(utilidadEjercicio)
+    }
     pdf = renderPdf('reportes/estadoResultado.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
 def flujoEfectivo(request):
-    data = {}
+    utilidadEjercicio = getUtilidaEjercicio()
+    saldo1 = Cuenta.objects.get(codigoCuenta="1202")
+    depreciacion = saldo1.saldo / 5
+    inventarios = Cuenta.objects.get(codigoCuenta="1105")
+    ivaCredito = Cuenta.objects.get(codigoCuenta="1109")
+    gastosPagados = Cuenta.objects.get(codigoCuenta="1107")
+    acrededores = Cuenta.objects.get(codigoCuenta="2103")
+    retenciones = Cuenta.objects.get(codigoCuenta="2104")
+    ivaDebito = Cuenta.objects.get(codigoCuenta="2108")
+    dividendos = Cuenta.objects.get(codigoCuenta="2110")
+    cashFlow = utilidadEjercicio + depreciacion
+    feo = (acrededores.saldo + retenciones.saldo + ivaDebito.saldo + dividendos.saldo) - (inventarios.saldo + ivaCredito.saldo + gastosPagados.saldo)
+    fea = cashFlow + feo
+    data = {'utilidadEjercicio' : "{0:.2f}".format(utilidadEjercicio),
+    'depreciacion':"{0:.2f}".format(depreciacion),
+    'ivaCredito':"{0:.2f}".format(ivaCredito.saldo),
+    'inventarios':"{0:.2f}".format(inventarios.saldo),
+    'cashFlow':"{0:.2f}".format(cashFlow),
+    'feo':"{0:.2f}".format(feo),
+    'gastosPagados':"{0:.2f}".format(gastosPagados.saldo),
+    'ivaDebito':"{0:.2f}".format(ivaDebito.saldo),
+    'retenciones':"{0:.2f}".format(retenciones.saldo),
+    'dividendos':"{0:.2f}".format(dividendos.saldo),
+    'acrededores':"{0:.2f}".format(acrededores.saldo),
+    'fea' :"{0:.2f}".format(fea)
+    }
     pdf = renderPdf('reportes/flujoEfectivo.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
+
+def getUtilidaEjercicio():
+    utilidadEjercicio = 0
+    ventas = Cuenta.objects.get(codigoCuenta="51")
+    costoVentas = Cuenta.objects.get(codigoCuenta="4101")
+    gastosAdmin = Cuenta.objects.get(codigoCuenta="4102")
+    gastosVentas = Cuenta.objects.get(codigoCuenta="4103")
+    reservaLegal = Cuenta.objects.get(codigoCuenta="3102")
+    impuesto = Cuenta.objects.get(codigoCuenta="2106")
+    utilidadBruta = ventas.saldo - costoVentas.saldo
+    gastosOperacion = gastosAdmin.saldo + gastosVentas.saldo
+    uar = utilidadBruta - gastosOperacion
+    uai = uar - reservaLegal.saldo
+    utilidadEjercicio = uai - impuesto.saldo
+    return utilidadEjercicio

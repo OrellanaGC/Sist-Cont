@@ -5,7 +5,6 @@
     </head>
     <style type="text/css">
         @page {
-            size: letter landscape;
             margin: 1.5cm;
             margin-left: 2cm;
         }
@@ -27,30 +26,60 @@
         <h1>ESTADO DE RESULTADO</h1>
         <table>
             <tr>
-                <th>Fecha</th>
-                <th>Código</th>
-                <th style="width: 10cm;">Descripción</th>
-                <th>Debe</th>
-                <th>Haber</th>
-                <th>Saldo</th>
+                <td style="width: 8cm;">VENTAS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ ventas }}</td>
             </tr>
-            {% if transacciones %}
-            {% for transaccion in transacciones %}
             <tr>
-                <td>01/01/2017</td>
-                <td>1101</td>
-                <td><b>EFECTIVO Y EQUIVALENTES DE EFECTIVO</b></td>
-                {% if transaccion.tipo == 'C' %}
-                    <td><b>${{ transaccion.monto }}</b></td>
-                    <td></td>
-                {% elif transaccion.tipo == 'A' %}
-                    <td></td>
-                    <td><b>${{ transaccion.monto }}</b></td>
-                {% endif %}
-                <td>{{ transaccion.saldoParcial }}</td>
+                <td style="width: 8cm;">(-)COSTO DE VENTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ costosVentas }}</td>
             </tr>
-            {% endfor %}
-            {% endif %}
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD BRUTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ utilidadBruta }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-)GASTOS DE OPERACIÓN</td>
+                <td></td>
+                <td style="width: 3cm;">${{ gastosOpe }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">GASTOS DE ADMINISTRACIÓN</td>
+                <td style="width: 3cm;">${{ gastosAdmin }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">GASTOS DE VENTA</td>
+                <td style="width: 3cm;">${{ gastosVentas }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD ANTES DE RESERVA E IMPUESTOS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ uar }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">RESERVA LEGAL</td>
+                <td></td>
+                <td style="width: 3cm;">${{ reservaLegal }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD ANTES DE IMPUESTOS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ uai }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-)IMPUESTO SOBRE LA RENTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ impuesto }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;"><b>(=)UTILIDAD EJERCICIO<b></td>
+                <td></td>
+                <td style="width: 3cm;"><b>${{ utilidadEjercicio }}</b></td>
+            </tr>
         </table>
     </body>
 </html>
