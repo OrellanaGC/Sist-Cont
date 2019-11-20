@@ -100,3 +100,18 @@ def kardex(request):
     data = {'transacciones' : transacciones}
     pdf = renderPdf('reportes/kardex.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
+
+def balanceGeneral(request):
+    data = {}
+    pdf = renderPdf('reportes/balanceGeneral.html', data)
+    return HttpResponse(pdf, content_type="application/pdf")
+
+def estadoResultado(request):
+    data = {}
+    pdf = renderPdf('reportes/estadoResultado.html', data)
+    return HttpResponse(pdf, content_type="application/pdf")
+
+def flujoEfectivo(request):
+    data = {}
+    pdf = renderPdf('reportes/flujoEfectivo.html', data)
+    return HttpResponse(pdf, content_type="application/pdf")
