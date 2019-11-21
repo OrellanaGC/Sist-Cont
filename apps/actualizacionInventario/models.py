@@ -10,3 +10,4 @@ class ActualizacionInventario(models.Model):
     costoTotal = models.FloatField()
     kardex = models.ForeignKey(Kardex, on_delete=models.CASCADE)
     transaccionInventario = models.ForeignKey(TransaccionInventario, on_delete=models.CASCADE)
+    
