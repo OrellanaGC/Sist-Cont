@@ -8,9 +8,9 @@
 {% endblock %}
 {% block content %}
     <!-- Inicio contenido -->
-    <div class="container">          
+    <div class="container">
       <form action="" method="post">
-      {% csrf_token %}      
+      {% csrf_token %}
       {% if idsCtas != None%}
       <input type="hidden" name="hidId" id="hidId" value="{{ idsCtas }}">
       {% else %}
@@ -87,7 +87,7 @@
                         <tr>
                           <td>{{prods.nombre}}</th>
                           <td>{{prods.descripcion}} </td>
-                          <td>{{prods.existencias}}</td>                        
+                          <td>{{prods.existencias}}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -96,17 +96,17 @@
                 </div>
               </div>
             </div>
-        </div>          
+        </div>
       </div>
       <br/>
       <div class="row justify-content-end">
-        <button type="submit" name="aggTrans" id="aggTrans" class="btn btn-success col-1">Agregar</button>
+        <button type="submit" name="aggTrans" id="aggTrans" class="btn btn-outline-success col-1">Agregar</button>
       </div>
     </form>
-    <h2>{{p}}</h2> 
+    <h2>{{p}}</h2>
     {% if p == 1 %}
       <h1>{{c}}</h1>
-      {% endif %}     
+      {% endif %}
       <br/>
       <div class="row">
         <table class="table table-hover col-12">
@@ -121,13 +121,13 @@
               <th scope="col">Accion</th>
             </tr>
           </thead>
-          <tbody>            
+          <tbody>
             {% for trans in trans%}
             <tr>
               <th scope="row">{{trans.fecha}}</th>
               <td>{{trans.cuenta.nombre}} </td>
               <td>{{trans.detalle}} </td>
-              <td><!--button type="button" class="btn btn-primary">Detalles producto</button--></td>
+              <td><!--button type="button" class="btn btn-outline-primary">Detalles producto</button--></td>
               {% if trans.tipo == 'C'%}
               <td>{{trans.monto}}</td>
               <td></td>
@@ -135,7 +135,7 @@
               <td></td>
               <td>{{trans.monto}}</td>
               {% endif %}
-              <td><button type="button" class="btn btn-danger">Eliminar</button></td>              
+              <td><button type="button" class="btn btn-outline-danger">Eliminar</button></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -143,15 +143,15 @@
       </div>
       <br/>
       <div class="row justify-content-end">
-        <button type="button" class="btn btn-danger col-1">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger col-1">Cancelar</button>
         {% if ok == 1%}
-        <button type="button" onclick="location.href='/partida/';" class="btn btn-success col-1 espacio_izquierda" >Guardar</button>
+        <button type="button" onclick="location.href='/partida/';" class="btn btn-outline-success col-1 espacio_izquierda" >Guardar</button>
         {% else %}
-        <button type="button"  class="btn btn-success col-1 espacio_izquierda" disabled>Guardar</button>
+        <button type="button"  class="btn btn-outline-success col-1 espacio_izquierda" disabled>Guardar</button>
         {% endif %}
       </div>
       <br/>
-         
+
     </div>
     <!-- Fin contenido -->
     <!-- Bootstrap select JS  -->
@@ -162,17 +162,17 @@
 <script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script>
 <script>
   HideOrShow(0);
-  
+
   $('[name="seleCuenta"]').change(function () {
   var end = this.value;
-  var cuentaModInv = {{ cuentasModInv }} ;  
+  var cuentaModInv = {{ cuentasModInv }} ;
   jQuery.each(cuentaModInv, function() {
     if (end == cuentaModInv){
       HideOrShow(1);
     }else{
       HideOrShow(0);
     }
-  });  
+  });
   });
 
   function HideOrShow(acc){
@@ -182,7 +182,7 @@
         $('[name="cargarModal"]').show();
     }else if (acc == 0){
         $('[name="cantProd"]').hide();
-        $('[name="Prod"]').hide();        
+        $('[name="Prod"]').hide();
         $('[name="cargarModal"]').hide();
     }
 }
