@@ -37,7 +37,7 @@ def nuevaCuenta(request):
                 else:
                     inventario = False
                 cuentaPadre = Cuenta.objects.get(idCuenta=request.POST["cuentaPadre"])
-                cuenta = Cuenta(codigoCuenta=cuentaPadre.codigoCuenta + request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
+                cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, cuentaPadre_id=request.POST["cuentaPadre"], estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=cuentaPadre.tipo)
                 cuenta.save()    
             else:
                 cuenta = Cuenta(codigoCuenta=request.POST["codigo"], nombre=request.POST["nombre"], saldo=request.POST["saldo"], modificaInventario=inventario, estado=request.POST["estado"], estadoCuenta=request.POST["estadoCuenta"], tipo=request.POST["tipoCuenta"])

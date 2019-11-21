@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Flujo de efectivo</title>
+    </head>
+    <style type="text/css">
+        @page {
+            margin: 1.5cm;
+            margin-left: 2cm;
+        }
+        table, tr, td{
+            font-size: 10pt;
+            font-family: Arial;
+            border-collapse: collapse;
+        }        
+        table th, td{
+            border: 1px solid black;
+            padding: 6px 0px 6px 5px;
+            width: 2.5cm;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+    <body>
+        <h1>FLUJO DE EFECTIVO</h1>
+        <table>
+            <tr>
+                <td style="width: 8cm;"><b>UTILIDAD NETA<b></td>
+                <td></td>
+                <td style="width: 3cm;"><b>${{ utilidadEjercicio }}</b></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">DEPRECIACION</td>
+                <td></td>
+                <td style="width: 3cm;">${{ depreciacion }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;"><b>CASH+FLOW LIBROS</b></td>
+                <td></td>
+                <td style="width: 3cm;">${{ cashFlow }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;"><b>FLUJO DE EFECTIVO DE OPERACIONES</b></td>
+                <td></td>
+                <td style="width: 3cm;">${{ feo }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-) INVENTARIOS</td>
+                <td style="width: 3cm;">${{ inventarios }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-) IVA CRÉDITO FISCAL</td>
+                <td style="width: 3cm;">${{ ivaCredito }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-) GASTOS PAGADOS POR ANTICIPADO</td>
+                <td style="width: 3cm;">${{ gastosPagados }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(+) ACREDEDORES VARIOS</td>
+                <td style="width: 3cm;">${{ acrededores }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(+) RETENCIONES POR PAGAR</td>
+                <td style="width: 3cm;">${{ retenciones }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(+) IVA DÉBITO FISCAL</td>                
+                <td style="width: 3cm;">${{ ivaDebito }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(+) DIVIDENDOS POR PAGAR</td>
+                <td style="width: 3cm;">${{ dividendos }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">FLUJO DE EFECTIVO DEL AÑO</td>
+                <td></td>
+                <td style="width: 3cm;">${{ fea }}</td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Libro Mayor</title>
+    </head>
+    <style type="text/css">
+        @page {
+            size: A3 landscape;
+            margin: 1.5cm;
+            margin-left: 2cm;
+        }
+        table, tr, td{
+            font-size: 10pt;
+            font-family: Arial;
+            border-collapse: collapse;
+        }        
+        table th, td{
+            border: 1px solid black;
+            padding: 6px 0px 6px 5px;
+            width: 3.5cm;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+    <body>
+        <h1>BALANCE GENERAL</h1>
+        <table>
+            <tr>
+                <td style="width: 8cm;">ACTIVOS</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">PASIVO</td>
+                <td></td>
+                <td></td>
+                <td><b>${{ totalPasivo }}</b></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">ACTIVO CORRIENTE</td>
+                <td></td>
+                <td><b>${{ totalActivoCorriente }}</b></td>
+                <td></td>
+                <td style="width: 8cm;">PASIVO CORRIENTE</td>
+                <td></td>
+                <td><b>${{ totalPasivoCorriente }}</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">EFECTIVO Y EQUIVALENTES DE EFECTIVO</td>
+                <td>${{ efectivoEE }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">ACREEDORES VARIOS</td>
+                <td>${{ acreedores }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">INVENTARIOS</td>
+                <td>${{ inventarios }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">RETENCIONES POR PAGAR</td>
+                <td>${{ retenciones }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">IVA CRÉDITO FISCAL</td>
+                <td>${{ ivaCredito }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">BENEFICIO A EMPLEADOS POR PAGAR</td>
+                <td>${{ beneficios }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">GASTOS PAGADOS POR ANTICIPADO</td>
+                <td>${{ gastosPagados }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">IVA DÉBITO FISCAL</td>
+                <td>${{ ivaDebito }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td style="width: 8cm;">DIVIDENDOS POR PAGAR</td>
+                <td>${{ dividendos }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="8" style="height: 0.4cm;"></td>
+            </tr>
+
+            <tr>
+                <td style="width: 8cm;">ACTIVO NO CORRIENTE</td>
+                <td></td>
+                <td><b>${{ totalActivoNoCorriente }}</b></td>
+                <td></td>
+                <td style="width: 8cm;">PASIVO NO CORRIENTE</td>
+                <td></td>
+                <td><b>${{ totalPasivoNoCorriente }}</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">TERRENOS</td>
+                <td>${{ terrenos }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">PRÉSTAMO A LARGO PLAZO</td>
+                <td>${{ prestamo }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">EDIFICIOS</td>
+                <td>${{ edificios }}</td>
+                <td></td>
+                <td></td>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">PROPIEDAD, PLANTA Y EQUIPO</td>
+                <td>${{ propiedad }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">PATRIMONIO</td>
+                <td></td>
+                <td></td>
+                <td><b>${{ totalPatrimonio }}</b></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">DEPRECIACIÓN ACUMULADA</td>
+                <td>${{ depreciacion }}</td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">CAPITAL SOCIAL</td>
+                <td></td>
+                <td>${{ capital }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="width: 8cm;">RESERVA LEGAL</td>
+                <td></td>
+                <td>${{ reserva }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>TOTAL ACTIVO</b></td>
+                <td></td>
+                <td></td>
+                <td><b>${{ totalActivo }}</b></td>
+                <td style="width: 8cm;"><b>TOTAL PASIVO + PATRIMONIO</b></td>
+                <td></td>
+                <td></td>
+                <td><b>${{ totalPasivoPatrimonio}} </b></td>                
+            </tr>
+        </table>
+    </body>
+</html>
