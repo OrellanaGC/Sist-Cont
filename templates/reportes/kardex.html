@@ -52,8 +52,8 @@
                 <!--INVENYARIO INICIAL-->
                 {% if transaccion.tipo == 'I' %}
                 <!--ENTRADAS-->
-                <td></td>
-                <td></td>
+                <td>{{ transaccion.fecha }}</td>
+                <td>{{ transaccion.get_tipo_display }}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -65,17 +65,17 @@
 
                 <!--EXISTENCIAS-->
                 <td>{{ transaccion.cantidad }}</td>
-                <td>{{ transaccion.costoUnitario }}</td>
-                <td>{{ transaccion.costoTotal }}</td>
+                <td>${{ transaccion.costoUnitario }}</td>
+                <td>${{ transaccion.costoTotal }}</td>
 
                 <!--COMPRAS O DEVOLUCIONES DE VENTAS -->
                 {% elif transaccion.tipo == 'C' or transaccion.tipo == 'DV' %}
                 <!--ENTRADAS-->
-                <td></td>
-                <td></td>
+                <td>{{ transaccion.fecha }}</td>
+                <td>{{ transaccion.get_tipo_display }}</td>
                 <td>{{ transaccion.cantidad }}</td>
-                <td>{{ transaccion.costoUnitario }}</td>
-                <td>{{ transaccion.costoTotal }}</td>
+                <td>${{ transaccion.costoUnitario }}</td>
+                <td>${{ transaccion.costoTotal }}</td>
 
                 <!--SALIDAS-->
 
@@ -84,32 +84,46 @@
                 <td></td>
                 
                 <!--EXISTENCIAS-->
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ transaccion.cantidad }}</td>
+                <td>${{ transaccion.costoUnitario }}</td>
+                <td>${{ transaccion.costoTotal }}</td>
 
                 <!--VENTAS O DEVOLUCIONES DE COMPRAS -->
                 {% elif transaccion.tipo == 'V' or transaccion.tipo == 'DC' %}
                 <!--ENTRADAS-->
-                <td></td>
-                <td></td>
+                <td>{{ transaccion.fecha }}</td>
+                <td>{{ transaccion.get_tipo_display }}</td>
                 <td></td>
                 <td></td>
                 <td></td>
 
                 <!--SALIDAS-->
                 <td>{{ transaccion.cantidad }}</td>
-                <td>{{ transaccion.costoUnitario }}</td>
-                <td>{{ transaccion.costoTotal }}</td>
+                <td>${{ transaccion.costoUnitario }}</td>
+                <td>${{ transaccion.costoTotal }}</td>
 
                 <!--EXISTENCIAS-->
                 <td></td>
                 <td></td>
                 <td></td>
                 {% endif %}
+                {% if actualizaciones %}
+                {% for actualizacion in actualizaciones %}
+                {% if actualizacion.transaccionInventario_id == transaccion.idTransaccionInv %}
+                <tr>
+                    <!--EXISTENCIAS-->
+                    <td>{{ transaccion.fecha }}</td>
+                    <td colspan="7"></td>
+                    <td>{{ actualizacion.existencias }}</td>
+                    <td>{{ actualizacion.costoUnitario }}</td>
+                    <td>{{ actualizacion.costoTotal }}</td>
+                <tr>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
             </tr>
             {% endfor %}
-        {% endif %}
+            {% endif %}
         </table>
     </body>
 </html>

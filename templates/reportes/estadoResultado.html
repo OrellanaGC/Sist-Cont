@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Libro Mayor</title>
+    </head>
+    <style type="text/css">
+        @page {
+            margin: 1.5cm;
+            margin-left: 2cm;
+        }
+        table, tr, td{
+            font-size: 10pt;
+            font-family: Arial;
+            border-collapse: collapse;
+        }        
+        table th, td{
+            border: 1px solid black;
+            padding: 6px 0px 6px 5px;
+            width: 2.5cm;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+    <body>
+        <h1>ESTADO DE RESULTADO</h1>
+        <table>
+            <tr>
+                <td style="width: 8cm;">VENTAS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ ventas }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-)COSTO DE VENTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ costosVentas }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD BRUTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ utilidadBruta }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-)GASTOS DE OPERACIÓN</td>
+                <td></td>
+                <td style="width: 3cm;">${{ gastosOpe }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">GASTOS DE ADMINISTRACIÓN</td>
+                <td style="width: 3cm;">${{ gastosAdmin }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">GASTOS DE VENTA</td>
+                <td style="width: 3cm;">${{ gastosVentas }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD ANTES DE RESERVA E IMPUESTOS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ uar }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">RESERVA LEGAL</td>
+                <td></td>
+                <td style="width: 3cm;">${{ reservaLegal }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(=)UTILIDAD ANTES DE IMPUESTOS</td>
+                <td></td>
+                <td style="width: 3cm;">${{ uai }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;">(-)IMPUESTO SOBRE LA RENTA</td>
+                <td></td>
+                <td style="width: 3cm;">${{ impuesto }}</td>
+            </tr>
+            <tr>
+                <td style="width: 8cm;"><b>(=)UTILIDAD EJERCICIO<b></td>
+                <td></td>
+                <td style="width: 3cm;"><b>${{ utilidadEjercicio }}</b></td>
+            </tr>
+        </table>
+    </body>
+</html>
