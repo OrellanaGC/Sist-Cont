@@ -143,11 +143,15 @@
       </div>
       <br/>
       <div class="row justify-content-end">
-        <button type="button" class="btn btn-outline-danger col-1">Cancelar</button>
+          {% if idsCtas != None%}  <!--revertiendo a button-->      
+          <button type="button" name="cancel" onclick="location.href='cancelar/{{ idsCtas }}'; salval = 1;" class="btn btn-outline-danger col-1">Cancelar</button>
+          {% else %}
+          <button type="button" name="cancel" onclick="location.href='/partida/'; salval = 1;" class="btn btn-outline-danger col-1">Cancelar</button>
+          {% endif %}
         {% if ok == 1%}
-        <button type="button" onclick="location.href='/partida/';" class="btn btn-outline-success col-1 espacio_izquierda" >Guardar</button>
+        <button type="button" onclick="location.href='/partida/'; salval = 1;" class="btn btn-outline-success col-1 espacio_izquierda" >Guardar</button>
         {% else %}
-        <button type="button"  class="btn btn-outline-success col-1 espacio_izquierda" disabled>Guardar</button>
+        <button type="button" onclick="salval = 1;" class="btn btn-outline-success col-1 espacio_izquierda" disabled>Guardar</button>
         {% endif %}
       </div>
       <br/>
@@ -161,6 +165,7 @@
 {% csrf_token %}
 <script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script>
 <script>
+  var salval = 0;
   HideOrShow(0);
 
   $('[name="seleCuenta"]').change(function () {
@@ -186,5 +191,17 @@
         $('[name="cargarModal"]').hide();
     }
 }
+
+$(window).bind('beforeunload', function(){
+  if (salval == 0) {
+  salida();
+  }
+});
+
+function salida(){
+  console.log("adioooos");  
+  //ejecutar funcion de cancelar Ni modo con ajax :'v
+}
+
 </script>
 {% endblock %}
