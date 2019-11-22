@@ -3,7 +3,7 @@
 {% block javascripts %}
 {% endblock %}
 {% block content %}
-    <!-- Inicio contenido -->    
+    <!-- Inicio contenido -->
     <div class="container">
       {% if ver == 1 %}
       {{ f1 }}
@@ -19,21 +19,21 @@
         <form action="" method="post">
           {% csrf_token %}
           <div class="col-4">
-            
+
           </div>
           <input name="MP" id="MP" type="month" class="form-control">
           <div class="col-2">
           <button name="BFE" id="BFE" class="btn btn-outline-primary" type="submit">Ver</button>
           </div>
-        </form>        
+        </form>
       </div>
       <br>
       <div class='row'>
         <div class="col-3">
-          <a class="btn btn-success" href="nueva">Nueva partida</a>          
+          <a class="btn btn-outline-success" href="nueva">Nueva partida</a>
           <br/>
           <br/>
-          <div class="list-group">              
+          <div class="list-group">
               <a href="/partida/" class="list-group-item list-group-item-action">Vista general</a>
             {%for cuentasP in cuentas %}
             {%if cuentasP.cuentaPadre == None %}

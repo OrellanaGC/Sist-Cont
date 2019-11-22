@@ -12,9 +12,9 @@
       <div class="row">
         <div class="col-3">
           <div class="dropdown show">
-            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="periodo">
+            <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="periodo">
               Seleccionar período
-            </a>            
+            </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               {% for mov in object_list %}
               <a class="dropdown-item" href="#">{{mov.fechaInicio|date:"M"}} - {{mov.fechaFin|date:"M"}}</a>
@@ -30,7 +30,7 @@
                   {% for mov in object_list %}
                     {% if mov.producto.categoria.idCategoria == 01 %}
                     <a href="#" class="list-group-item list-group-item-action">{{mov.producto.nombre}}</a>
-                    {% endif %}                
+                    {% endif %}
                   {% endfor %}
                 {% else %}
                   <a href="#" class="list-group-item list-group-item-action">Ya es toda</a>
@@ -42,7 +42,7 @@
                   {% for mov in object_list %}
                     {% if mov.producto.categoria.idCategoria == 02 %}
                     <a href="#" class="list-group-item list-group-item-action">{{mov.producto.nombre}}</a>
-                    {% endif %}                
+                    {% endif %}
                   {% endfor %}
                 {% else %}
                   <a href="#" class="list-group-item list-group-item-action">Ya es toda x2</a>
@@ -51,6 +51,7 @@
           </div>                
         </div>   
         <!--Pegando nueva tabla-->
+
         <table class="table table-hover col-9">
   <thead>
     <tr>
@@ -170,8 +171,8 @@
             <tr>
               <th colspan="9" scope="col">Producto: xxxxx</th>
             </tr>
-            <tr> 
-              <th scope="col">Código: ######</th>             
+            <tr>
+              <th scope="col">Código: ######</th>
               <th rowspan="2" colspan="3" scope="col">Recibido: xxxxxxx</th>
               <th rowspan="2" colspan="3" scope="col">Entregado: xxxxxxxx</th>
               <th rowspan="2" colspan="3" scope="col">Saldo</th>
@@ -222,8 +223,8 @@
       </div>
       <br/>
       <!--div class="row justify-content-end">
-        <button type="button" class="btn btn-primary ">Actualizar</button>
-        <button type="button" class="btn btn-success">Imprimir reporte</button>
+        <button type="button" class="btn btn-outline-primary ">Actualizar</button>
+        <button type="button" class="btn btn-outline-success">Imprimir reporte</button>
       </div-->
     </div>
 {% endblock %}
@@ -232,4 +233,3 @@
 {% csrf_token %}
 <!--script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script-->
 {% endblock %}
-
