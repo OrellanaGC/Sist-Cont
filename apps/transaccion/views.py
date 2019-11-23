@@ -10,11 +10,13 @@ import json
 
 # Create your views here.
 def resumenPartida(request):
+    Fyear = None
+    Fmonth = None
     if request.method == 'POST':
         fechac = request.POST['MP']
         fecha = datetime.strptime(fechac,  '%Y-%m')
-        fecha1 = fecha.year
-        fecha2 = fecha.month
+        Fyear = fecha.year
+        Fmonth = valMesLen(fecha.month)
         Trans = Transaccion.objects.filter(fecha__year=fecha.year, fecha__month=fecha.month).order_by('fecha')
     else:
         today = datetime.today()
@@ -25,17 +27,52 @@ def resumenPartida(request):
     for t in Trans:        
         t.fecha = fechaDisplay[i]
         i += 1 
-    data = {'cuentas' : getCuentas() , 'transacciones' : Trans, 'fechasMes' : fechaDisplay}
+    data = {'cuentas' : getCuentasOrd() , 'transacciones' : Trans, 'fechasMes' : fechaDisplay, 'anio' : Fyear, 'mes' : Fmonth}
     return render(request, 'partida/partidas.html', data)
 
 def cargarXCP(request, cuentaPadre):
+    fecha1 = None
+    fecha2 = None
     if request.method == 'POST': # caso que este fecha especifica
         fechac = request.POST['MP']
         fecha = datetime.strptime(fechac,  '%Y-%m')
         fecha1 = fecha.year
-        fecha2 = fecha.month
-        Trans = Transaccion.objects.filter(fecha__year=fecha.year, fecha__month=fecha.month, cuenta__cuentaPadre__codigoCuenta = cuentaPadre).order_by('fecha')
+        fecha2 = valMesLen(fecha.month)
+        if cuentaPadre == 0:
+            Trans = Transaccion.objects.filter(fecha__year=fecha.year, fecha__month=fecha.month).order_by('fecha')
+        else:
+            Trans = Transaccion.objects.filter(fecha__year=fecha.year, fecha__month=fecha.month, cuenta__cuentaPadre__codigoCuenta = cuentaPadre).order_by('fecha')
     else: #Agregar fecha actual
+        today = datetime.today()
+        if cuentaPadre == 0:
+            Trans = Transaccion.objects.filter(fecha__year= today.year, fecha__month=today.month).order_by('fecha')    
+        else:
+            Trans = Transaccion.objects.filter(fecha__year= today.year, fecha__month=today.month, cuenta__cuentaPadre__codigoCuenta = cuentaPadre).order_by('fecha')    
+    #consiguiendo las fechas
+    fechasMes = Trans.distinct('fecha')
+    fechaDisplay = getFechasEncabezado(Trans, fechasMes)
+    i = 0
+    for t in Trans:        
+        t.fecha = fechaDisplay[i]
+        i += 1 
+    data = {'cuentas' : getCuentasOrd() , 'transacciones' : Trans, 'cuentaPadre' : cuentaPadre, 'fechasMes' : fechaDisplay,  'anio' : fecha1, 'mes' : fecha2}
+    return render(request, 'partida/partidas.html', data)
+
+def cargarXCPFe(request, cuentaPadre,anio,mes): ## agg request POST
+    if request.method == 'POST':
+        fechac = request.POST['MP']
+        fecha = datetime.strptime(fechac,  '%Y-%m')
+        anioP = fecha.year
+        mesP = valMesLen(fecha.month)
+        Trans = Transaccion.objects.filter(fecha__year=fecha.year, fecha__month=fecha.month).order_by('fecha')
+    elif anio != None and mes != None:
+        anioP = anio
+        mesP = valMesLen(mes)
+        if cuentaPadre == 0:
+            Trans = Transaccion.objects.filter(fecha__year=anio, fecha__month=mes).order_by('fecha')
+        else:
+            Trans = Transaccion.objects.filter(fecha__year=anio, fecha__month=mes, cuenta__cuentaPadre__codigoCuenta = cuentaPadre).order_by('fecha')
+    else: #Agregar fecha actual (ni debe entrar aqui xd)
         Trans = Transaccion.objects.filter(cuenta__cuentaPadre__codigoCuenta = cuentaPadre).order_by('fecha')    
     #consiguiendo las fechas
     fechasMes = Trans.distinct('fecha')
@@ -44,7 +81,7 @@ def cargarXCP(request, cuentaPadre):
     for t in Trans:        
         t.fecha = fechaDisplay[i]
         i += 1 
-    data = {'cuentas' : getCuentas() , 'transacciones' : Trans, 'cuentaPadre' : cuentaPadre, 'fechasMes' : fechaDisplay}
+    data = {'cuentas' : getCuentasOrd() , 'transacciones' : Trans, 'cuentaPadre' : cuentaPadre, 'fechasMes' : fechaDisplay, 'anio' : anioP, 'mes' : mesP}
     return render(request, 'partida/partidas.html', data)
 
 def nuevaPartida(request):
@@ -60,6 +97,7 @@ def nuevaPartida(request):
     cuentasModInv = json.dumps(cuentasModInv)
     #agregando
     ok = 0
+    fecha = None
     if request.method == 'POST':    
         idsCtas = request.POST['hidId']
         detalle = request.POST['detalle']
@@ -86,10 +124,10 @@ def nuevaPartida(request):
         transaccion = Transaccion(detalle=detalle, monto=monto, fecha=fecha, cuenta=cuenta, tipo=tipo,saldoParcial = saldoP)
         transaccion.save()        
         #agregando transaccionInventario si lo indica
-        if cuenta.modificaInventario == True:
-            cantidad = request.POST['cantProd']
-            nombre = request.POST['Prod']
-            #kaaaaa
+        #if cuenta.modificaInventario == True:
+            ######
+            # AQUI INVOCAR TRANSACCION INVENTARIO
+            #######
         if idsCtas != '':
             idsCtas += "-" + str(transaccion.idTransaccion)
         else:
@@ -112,7 +150,7 @@ def nuevaPartida(request):
                 suma -= t.monto        
         if suma == 0:
             ok = 1
-    data = {'cuentas' : cuentasLst, 'productos' : productos, 'transacciones' : transacciones, 'cuentasModInv' : cuentasModInv, 'idsCtas' : txtAenv, 'trans' : transacciones, 'ok' : ok}
+    data = {'cuentas' : cuentasLst, 'productos' : productos, 'transacciones' : transacciones, 'cuentasModInv' : cuentasModInv, 'idsCtas' : txtAenv, 'trans' : transacciones, 'ok' : ok, 'fechaT' : fecha}
     return render(request, 'partida/partida.html', data)
 
 def agregarTransaccion(request):
@@ -211,12 +249,17 @@ def validarEstadoCta(idCta):
     saldo = cuenta.saldo
     estado = cuenta.estadoCuenta
     if saldo < 0 and estado == 'A':
-        cuenta.estado = 'D'
+        cuenta.estadoCuenta = 'D'
         cuenta.saldo *= -1
     elif saldo < 0 and estado == 'D':
-        cuenta.estado = 'A'
+        cuenta.estadoCuenta = 'A'
         cuenta.saldo *= -1
     elif saldo == 0:
-        cuenta.estado = 'S'
+        cuenta.estadoCuenta = 'S'
     cuenta.save()
     return None
+
+def valMesLen(mes):
+    if len(str(mes)) == 1:
+        mes = '0' + str(mes)
+    return mes
