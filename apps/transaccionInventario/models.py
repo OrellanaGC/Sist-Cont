@@ -6,8 +6,7 @@ from apps.producto.models import Producto
 class TransaccionInventario(models.Model):
     idTransaccionInv = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now=False)
-    cantidadComprada = models.IntegerField()
-    cantidadSobrante= models.IntegerField()
+    cantidadComprada = models.IntegerField()    
     costoUnitario = models.FloatField()    
     factura = models.CharField(max_length=20)
     TIPO = (

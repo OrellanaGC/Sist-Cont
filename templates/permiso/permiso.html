@@ -66,10 +66,10 @@
         <br/>
         <div class="row justify-content-end">
           {% if editando == True %}
-            <button type="submit" class="btn btn-warning col-1">Editar</button>
-            <a href="/permisos" class="btn btn-success col-1 espacio_izquierda">Cancelar</a>
+            <button type="submit" class="btn btn-outline-warning col-1">Editar</button>
+            <a href="/permisos" class="btn btn-outline-success col-1 espacio_izquierda">Cancelar</a>
           {% else %}
-            <button type="submit" class="btn btn-success col-1">Guardar</button>
+            <button type="submit" class="btn btn-outline-success col-1">Guardar</button>
           {% endif %}
         </div>
         <br/>
@@ -98,9 +98,9 @@
                     {% endfor %}
                     </td>
                     <td>
-                    <a href='/permisos/{{ permiso.idPermiso }}' class="btn btn-warning">
-                      <i class="material-icons text-white">edit</i></a>
-                    <a href='/permisos/eliminar/{{ permiso.idPermiso }}' class="btn btn-danger text-white espacio_izquierda">
+                    <a href='/permisos/{{ permiso.idPermiso }}' class="btn btn-outline-warning">
+                      <i class="material-icons">edit</i></a>
+                    <a href='/permisos/eliminar/{{ permiso.idPermiso }}' class="btn btn-outline-danger espacio_izquierda">
                       <i class="material-icons">delete</i></a>
                     </td>
                   </tr>

@@ -59,8 +59,8 @@
         </div>
         <br/>
         <div class="row justify-content-end">
-          <a href="/cuenta/crear" class="btn btn-success">Nueva cuenta</a>
-          <button type="submit" class="btn btn-primary espacio_izquierda">Buscar</button>
+          <a href="/cuenta/crear" class="btn btn-outline-success">Nueva cuenta</a>
+          <button type="submit" class="btn btn-outline-primary espacio_izquierda">Buscar</button>
         </div>
       </form>
       <br/>
@@ -114,9 +114,9 @@
                     <td>Deshabilitada</td>
                   {% endif %}
                   <td>
-                  <a href='/cuenta/editar/{{ cuenta.idCuenta }}' class="btn btn-warning">
-                    <i class="material-icons text-white">edit</i></a>
-                  <a href='/cuenta/eliminar/{{ cuenta.idCuenta }}' class="btn btn-danger text-white espacio_izquierda">
+                  <a href='/cuenta/editar/{{ cuenta.idCuenta }}' class="btn btn-outline-warning">
+                    <i class="material-icons">edit</i></a>
+                  <a href='/cuenta/eliminar/{{ cuenta.idCuenta }}' class="btn btn-outline-danger">
                     <i class="material-icons">delete</i></a>
                   </td>
                 </tr>

@@ -23,8 +23,8 @@
       </div>
       <br/>
       <div class="row justify-content-end">
-        <a href="/usuarios/crear" class="btn btn-success">Nuevo usuario</a>
-        <button type="button" class="btn btn-primary espacio_izquierda">
+        <a href="/usuarios/crear" class="btn btn-outline-success">Nuevo usuario</a>
+        <button type="button" class="btn btn-outline-primary espacio_izquierda">
           Buscar</button>
       </div>
       <br/>
@@ -47,10 +47,10 @@
                   <td>{{usuario.permiso.nombre}}</td>
                   <td>
                   <a href='/usuarios/editar/{{ usuario.id }}'
-                  class="btn btn-warning">
-                    <i class="material-icons text-white">edit</i></a>
+                  class="btn btn-outline-warning">
+                    <i class="material-icons">edit</i></a>
                   <a href='/usuarios/eliminar/{{ usuario.id }}'
-                  class="btn btn-danger text-white espacio_izquierda">
+                  class="btn btn-outline-danger espacio_izquierda">
                     <i class="material-icons">delete</i></a>
                   </td>
                 </tr>

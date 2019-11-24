@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+
+<title>Registrar Producto</title>
+     <body class="d-flex align-items-start">
+        <h1 style=" text-align: center;">Registro</h1>
+        <br>
+        <br>
+    <div  class="d-inline-flex pl-5">
+
+    <form style="position: absolute;right:43%" method="post">
+      {%csrf_token%}
+
+      {{form.as_table}}
+<br>
+<div class="input-group mb-3" style=" text-align: center;"class="d-inline-flex pl-5 flex-column d-flex align-items-center" >
+  <br>
+   <button style=" text-align: center;" type="submit" class="btn btn-primary">Registrar</button>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a class="btn btn-danger" href="{%url 'verProducto'%}">Salir</a>
+ </div>
+
+</form>
+
+</div>
+
+    </body>
+    
+
