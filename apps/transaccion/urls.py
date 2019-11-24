@@ -8,6 +8,6 @@ urlpatterns = [
     path('<int:cuentaPadre>/<int:anio>/<int:mes>', cargarXCPFe, name="cargarXCPFe"),
     path('nueva', nuevaPartida, name="nuevaPartida"),
     path('agregar', agregarTransaccion, name='agregarTransaccion'),
-    path('eliminar', eliminarTransaccion, name='transaccionElminar'),
+    path('eliminar/<int:idTransaccion>', eliminarTransaccion, name='transaccionElminar'),
     path('cancelar/<str:idsTransacc>',cancelarPartidaDoble, name="cancelarPar")
 ]
