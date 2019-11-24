@@ -11,7 +11,7 @@ from django.db.models import Sum
 from apps.transaccion.models import Transaccion
 from apps.cuenta.models import Cuenta
 from apps.transaccionInventario.models import TransaccionInventario
-from apps.actualizacionInventario.models import ActualizacionInventario
+#from apps.actualizacionInventario.models import ActualizacionInventario
 
 import datetime
 import calendar 
@@ -84,6 +84,7 @@ def libroMayor(request):
     pdf = renderPdf('reportes/libroMayor.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
+"""
 def kardex(request, idKardexRequest):
     idKardex = idKardexRequest
     transacciones = TransaccionInventario.objects.filter(kardex_id=idKardex).order_by('fecha')
@@ -93,7 +94,7 @@ def kardex(request, idKardexRequest):
     #ziplist = zip(transacciones, saldos)
     data = {'transacciones' : transacciones, 'actualizaciones': actualizaciones}
     pdf = renderPdf('reportes/kardex.html', data)
-    return HttpResponse(pdf, content_type="application/pdf")
+    return HttpResponse(pdf, content_type="application/pdf")"""
 
 def balanceGeneral(request):
     data = {}

@@ -1,6 +1,6 @@
 from django.db import models
-from apps.marca.models import Marca
-from apps.categoriaProducto.models import CategoriaProducto
+
+
 
 # Create your models here.
 class Producto(models.Model):
@@ -11,9 +11,13 @@ class Producto(models.Model):
     #marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     #categoria = models.ForeignKey(CategoriaProducto, on_delete=models.CASCADE)
     marca= models.CharField(max_length=20)
-    categoria= models.CharField(max_length=20)
-    ESTADO = (
-        ('A', 'ACTIVO'),
-        ('D', 'DESHABILITADO')
+    CATEGORIA = (
+        ('Bolsos para Hombres', 'Bolsos para hombres'),
+        ('Bolsos para Mujeres', 'Bolsos para mujeres')
     )
-    estado = models.CharField(max_length=1, choices=ESTADO, default='A')
+    categoria= models.CharField(max_length=20, choices=CATEGORIA, default='Bolsos para Mujeres')
+    ESTADO = (
+        ('Activo', 'ACTIVO'),
+        ('Deshabilitado', 'DESHABILITADO')
+    )
+    estado = models.CharField(max_length=15, choices=ESTADO, default='')

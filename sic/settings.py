@@ -41,15 +41,13 @@ INSTALLED_APPS = [
     'apps.permiso',
     'apps.usuario',
     'apps.cuenta',
-    'apps.valorInicial',
-    'apps.marca',
-    'apps.categoriaProducto',
+    'apps.valorInicial',    
     'apps.producto',
     'apps.kardex',
     'apps.transaccionInventario',
     'apps.empresa',
     'apps.transaccion',
-    'apps.actualizacionInventario'
+ 
 ]
 
 MIDDLEWARE = [
