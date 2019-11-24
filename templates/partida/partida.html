@@ -19,7 +19,11 @@
       <div class='row'>
         <div class='col'>
           <label for="colFormLabel" class="col-sm-2 col-form-label">Fecha</label>
+          {% if idsCtas != None and fecha != None%}
+          <input name="fechaE" id="fechaE" type="date" value="{{fechaT}}" readonly>          
+          {% else %}
           <input name="fechaE" id="fechaE" type="date">
+          {%endif%}
         </div>
         <div class='col'>
           <label for="colFormLabel" class="col-sm-2 col-form-label">Cuenta</label>
