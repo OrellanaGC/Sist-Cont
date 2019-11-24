@@ -1,8 +1,14 @@
+{% extends 'base/base.html' %}
 {% load staticfiles %}
-
-
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
 <title>Registrar Producto</title>
-     <body class="d-flex align-items-start">
+     
         <h1 style=" text-align: center;">Registro</h1>
         <br>
         <br>
@@ -24,6 +30,6 @@
 
 </div>
 
-    </body>
+{% endblock %}
     
 

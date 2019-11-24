@@ -1,6 +1,14 @@
+{% extends 'base/base.html' %}
 {% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
 <title>Productos</title>
-    <body class="d-flex align-items-start">
+    
         <h1 class="d-flex justify-content-center">Productos en inventario</h1>
             <a class="btn btn-outline-info" style="position: absolute;top: 20%; right: 5%" href="{%url 'registrarProducto'%}">Agregar</a>
             <br> 
@@ -42,6 +50,6 @@
 
     </tbody>
   </table>
-</body>
-   
 
+   
+{% endblock %}

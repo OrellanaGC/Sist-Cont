@@ -36,7 +36,7 @@ class ProductoForm(forms.ModelForm):
 		'descripcion': forms.TextInput(attrs={'class':'form-control'}),
 		'marca': forms.TextInput(attrs={'class':'form-control'}),
 		'categoria': forms.TextInput(attrs={'class':'form-control'}),
-		'estado': forms.TextInput(attrs={'class':'form-control'}),
+		'estado': forms.Select(attrs={'class':'form-control'}),
 		#'existencias': forms.TextInput(attrs={'class':'form-control'})		
 		}
 
