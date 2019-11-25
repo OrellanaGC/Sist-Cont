@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from apps.kardex.models import Kardex, Periodo, LineaPeriodo
 from apps.transaccionInventario.models import *
 from apps.producto.models import  Producto
-from datetime import datetime
+import datetime
 from django.db.models import Q
 
 
@@ -28,7 +28,7 @@ def listKardex(request, periodoID):
 
 def listPeriodo(request, productoID):
 	kardex= Kardex.objects.get(producto=productoID)
-	periodo = Periodo.objects.filter(kardex=kardex).order_by('-fechaInicio')
+	periodo = Periodo.objects.filter(kardex=kardex).order_by('-idPeriodo')
 	contexto= {'periodo':periodo, 'kardex':kardex}
 	return render(request, 'inventario/listPeriodos.html',contexto)
 
@@ -339,42 +339,41 @@ def devolucionVenta(transaccionInventario):
 
 
 
-def cierreContableKardex(parametro):
-	productos = Producto.objects.all()
+def cierreContableKardex(fechaFinal):
+	productos = Producto.objects.filter(estado='Activo')
 	for producto in productos:
 		kardex = Kardex.objects.get(producto=producto)
 		#filtrando el ultimo periodo de cada Kardex y asignando su saldo y existencia final
 		periodo = Periodo.objects.filter(kardex=kardex).last()
 		#La fecha deberia ser cuando den click en cierre contable, pero por facilidad sera cuando decidamos
-		fecha = parametro.fecha
+		fecha = fechaFinal
 		periodo.fechaFinal = fecha
 		lpUltima = LineaPeriodo.objects.filter(periodo=periodo).last()
 		periodo.existenciaFinal= lpUltima.cantidadExistencia
 		periodo.saldoFinal= lpUltima.valorExistencia
 		periodo.save()
 		#Creando el nuevo periodo para cada Kardex
+		fecha= datetime.datetime.strptime(fecha, "%Y-%m-%d")
 		diaSiguiente= fecha + datetime.timedelta(days=1)
 		periodoNuevo= Periodo(fechaInicio = diaSiguiente ,existenciaFinal=0,saldoFinal =0,kardex= kardex)
 		periodoNuevo.save()
 		#productos sobrantes de periodo anterior pasan a inventario inicial del nuevo Periodo
-		existenciasSobrantes= LineaPeriodo.objects.filter(tipo='C', periodo=periodo, cantidadSobrante__gt=0)
-		for existencia in existenciasSobrantes:
-			invInicial= existencia
-			invInicial.periodo= periodoNuevo
-			invInicial.fecha= diaSiguiente
-			#convirtiendo a inventario inicial productos sobrantes
-			invInicial.tipo='I'
+		existenciasSobrantes= LineaPeriodo.objects.filter(Q(tipoTransaccion='C', periodo=periodo, cantidadSobrante__gt=0)| Q(tipoTransaccion='I', periodo=periodo, cantidadSobrante__gt=0)).order_by('idLineaPeriodo')
+		for existencia in existenciasSobrantes:							
 			#valores de entrada
-			invInicial.cantidadEntrada= invInicial.cantidadSobrante
-			invInicial.valorEntrada = invInicial.cantidadEntrada* invInicial.valorUnitario
+			sobrante= existencia.cantidadSobrante			
+			valorEntrada = sobrante* existencia.valorUnitario
+			transInv=existencia.transaccionInvAsociada
+			comprobacion= sobrante*existencia.valorUnitario
 			#Validaciones si no hay lineas de Periodo anteriores
-			if LineaPeriodo.objects.filter(periodo=compra.periodo).exists()==True:
-				lpAnterior = LineaPeriodo.objects.filter(periodo=periodo).last()
-				invInicial.cantidadExistencia = lpAnterior.cantidadExistencia + invInicial.cantidadEntrada
-				invInicial.valorExistencia = lpAnterior.valorExistencia + invInicial.valorEntrada
+			if LineaPeriodo.objects.filter(periodo=periodoNuevo).exists()==True:
+				lpAnterior = LineaPeriodo.objects.filter(periodo=periodoNuevo).last()
+				cantidadExistencia = lpAnterior.cantidadExistencia + sobrante
+				valorExistencia = lpAnterior.valorExistencia + valorEntrada
 			else :	
-				invInicial.cantidadExistencia= invInicial.cantidadEntrada
-				invInicial.valorExistencia= invInicial.valorEntrada
+				cantidadExistencia= sobrante
+				valorExistencia= valorEntrada
+			invInicial= LineaPeriodo(factura =existencia.factura ,fecha=diaSiguiente,tipoTransaccion ='I',valorUnitario=existencia.valorUnitario,periodo=periodoNuevo,cantidadEntrada =sobrante,valorEntrada =valorEntrada,cantidadSalida =0,valorSalida =0,cantidadExistencia =cantidadExistencia,valorExistencia =valorExistencia,comprobacion = comprobacion,cantidadSobrante=sobrante,compraAsociada=0,transaccionInvAsociada=transInv)
 			invInicial.save()
 			
 

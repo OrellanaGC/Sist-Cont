@@ -10,6 +10,15 @@
 <title>Productos</title>
     
         <h1 class="d-flex justify-content-center">Productos en inventario</h1>
+            <form method="post">
+              {%csrf_token%}
+              <div class="col-1" style="position: absolute;top: 20%; left: : 5%">
+                <label name="fechaK" id="fechaK" for="colFormLabel" class="col-sm-2 col-form-label">Factura</label>
+                <input name="fechaK" id="fechaK" class="form-control" type="text">
+                <button style=" text-align: center;" type="submit" class="btn btn-primary">Cierre Contable</button>
+              </div>
+
+            </form>
             <a class="btn btn-info" style="position: absolute;top: 20%; right: 5%" href="{%url 'registrarProducto'%}">Agregar</a>
             
             <br> 
