@@ -34,7 +34,7 @@ def guardarDatos(request):
                 empresaNueva = Empresa(nombre=request.POST["nombre"], nombreContribuyente=request.POST["contribuyente"], nit=request.POST["nit"], nrc=request.POST["nrc"], giro=request.POST["giro"])
                 empresaNueva.save()
                 print('save')
-            return redirect('resumenEmpresa', data)
+                return redirect('resumenEmpresa')
     data = {'empresa' : empresa, 'editar': True, 'errores' : errores}
     return render(request, 'empresa/empresa.html', data)
 
