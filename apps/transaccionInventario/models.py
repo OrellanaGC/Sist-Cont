@@ -9,7 +9,7 @@ class TransaccionInventario(models.Model):
     valorUnitario = models.FloatField()    
     factura = models.CharField(max_length=20)
     TIPO = (
-        ('I', 'INVENTARIO INICIAL'),
+        
         ('C', 'COMPRA'),
         ('V', 'VENTA'),
         ('DC', 'DEVOLUCION DE COMPRA'),
