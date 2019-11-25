@@ -90,16 +90,16 @@ WSGI_APPLICATION = 'sic.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME': 'siscontable',
-        #'USER': 'sicuser',
-        #'PASSWORD': 'sic123',
-        #'HOST': 'localhost',
+        'NAME': 'siscontable',
+        'USER': 'sicuser',
+        'PASSWORD': 'sic123',
+        'HOST': 'localhost',
         #configuracion heroku
-        'NAME': 'd85o6v2t49ks8k',
-        'USER': 'yvfgdqwyodbjnz',
-        'PASSWORD': 'ada231b2c54b1edc02660f80e9631b0f3ff2f58e908fd19b1b999d7136905c30',
-        'HOST': 'ec2-174-129-27-158.compute-1.amazonaws.com',
-        'PORT': '5432',
+        #'NAME': 'd85o6v2t49ks8k',
+        #'USER': 'yvfgdqwyodbjnz',
+        #'PASSWORD': 'ada231b2c54b1edc02660f80e9631b0f3ff2f58e908fd19b1b999d7136905c30',
+        #'HOST': 'ec2-174-129-27-158.compute-1.amazonaws.com',
+        #'PORT': '5432',
     }
 }
 

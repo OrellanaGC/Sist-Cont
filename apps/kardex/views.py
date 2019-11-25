@@ -269,44 +269,73 @@ def devolucionVenta(transaccionInventario):
 	#Busqueda del kardex
 	kardex = Kardex.objects.get(producto=transaccionInventario.producto)
 	#Busqueda de su ultimo periodo
-	periodo = Periodo.objects.filter(kardex=kardex).last()
-	#Busqueda de ultima lineaPeriodo para el periodo encontrado
-	lpAnterior = LineaPeriodo.objects.filter(periodo=periodo).last()
+	periodo = Periodo.objects.filter(kardex=kardex).last()	
 	#Busqueda de las ventas asociadas con la devolucion
-	ventas= LineaPeriodo.objects.filter(periodo=periodo, tipoTransaccion='V', factura= transaccionInventario.factura)
+	ventas= LineaPeriodo.objects.filter(periodo=periodo, tipoTransaccion='V', factura= transaccionInventario.factura).order_by('idLineaPeriodo')
+	devolucionFaltante=transaccionInventario.cantidadTransaccion
 	for venta in ventas:
-		compraAsociada = LineaPeriodo.objects.get(idLineaPeriodo= venta.compraAsociada)
-		#General
-		lpFecha = transaccionInventario.fecha
-		lpFactura = transaccionInventario.factura
-		lpTipo = transaccionInventario.tipo
-		lpValorUnitario = compraAsociada.valorUnitario
-		lpPeriodo = periodo
-		#Entradas
-		lpCantidadEntrada = 0
-		lpValorEntrada = 0
-		#Salidas
-		lpCantidadSalida = transaccionInventario.cantidadTransaccion*(-1)
-		lpValorSalida = lpValorUnitario * lpCantidadSalida
-		#Existencias
-		lpCantidadExistencia = lpAnterior.cantidadExistencia - lpCantidadSalida
-		lpValorExistencia = lpAnterior.valorExistencia - lpValorSalida
-		#Comprobacion
-		lpCantidadSobrante = 0
-		lpComprobacion = 0
-		#Creacion de la nueva linea
-		lineaperiodo= LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, 
-    	cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
-    	valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
-    	cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    	comprobacion = lpComprobacion, compraAsociada=0, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario)
-		lineaperiodo.save()
-		#Actualizando comprobacion de compra Asociada
-		compraAsociada.cantidadSobrante= compraAsociada.cantidadSobrante - lpCantidadSalida
-		compraAsociada.comprobacion= compraAsociada.cantidadSobrante* compraAsociada.valorUnitario
-		compraAsociada.save()
-		producto.existencias= lineaperiodo.cantidadExistencia
-		producto.save()
+		if devolucionFaltante>0:
+			#Busqueda de ultima lineaPeriodo para el periodo encontrado
+			lpAnterior = LineaPeriodo.objects.filter(periodo=periodo).last()
+			compraAsociada = LineaPeriodo.objects.get(idLineaPeriodo= venta.compraAsociada)
+			#General
+			lpFecha = transaccionInventario.fecha
+			lpFactura = transaccionInventario.factura
+			lpTipo = transaccionInventario.tipo
+			lpValorUnitario = compraAsociada.valorUnitario
+			lpPeriodo = periodo
+			#Entradas
+			lpCantidadEntrada = 0
+			lpValorEntrada = 0
+			if devolucionFaltante<= venta.cantidadSalida:
+				#Salidas
+				lpCantidadSalida = devolucionFaltante*(-1)
+				lpValorSalida = lpValorUnitario * lpCantidadSalida
+				#Existencias
+				lpCantidadExistencia = lpAnterior.cantidadExistencia - lpCantidadSalida
+				lpValorExistencia = lpAnterior.valorExistencia - lpValorSalida
+				#Comprobacion
+				lpCantidadSobrante = 0
+				lpComprobacion = 0
+				#Creacion de la nueva linea
+				lineaperiodo= LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, 
+    			cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
+    			valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
+    			cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
+    			comprobacion = lpComprobacion, compraAsociada=0, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario)
+				lineaperiodo.save()
+				#Actualizando comprobacion de compra Asociada
+				compraAsociada.cantidadSobrante= compraAsociada.cantidadSobrante - lpCantidadSalida
+				compraAsociada.comprobacion= compraAsociada.cantidadSobrante* compraAsociada.valorUnitario
+				compraAsociada.save()
+				producto.existencias= lineaperiodo.cantidadExistencia
+				producto.save()
+				devolucionFaltante=0
+			else :
+				#Salidas
+				lpCantidadSalida = venta.cantidadSalida*(-1)
+				lpValorSalida = lpValorUnitario * lpCantidadSalida
+				#Existencias
+				lpCantidadExistencia = lpAnterior.cantidadExistencia - lpCantidadSalida
+				lpValorExistencia = lpAnterior.valorExistencia - lpValorSalida
+				#Comprobacion
+				lpCantidadSobrante = 0
+				lpComprobacion = 0
+				#Creacion de la nueva linea
+				lineaperiodo= LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, 
+    			cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
+    			valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
+    			cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
+    			comprobacion = lpComprobacion, compraAsociada=0, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario)
+				lineaperiodo.save()
+				#Actualizando comprobacion de compra Asociada
+				compraAsociada.cantidadSobrante= compraAsociada.cantidadSobrante - lpCantidadSalida
+				compraAsociada.comprobacion= compraAsociada.cantidadSobrante* compraAsociada.valorUnitario
+				compraAsociada.save()
+				producto.existencias= lineaperiodo.cantidadExistencia
+				producto.save()
+				devolucionFaltante= devolucionFaltante + lpCantidadSalida
+
 
 
 
