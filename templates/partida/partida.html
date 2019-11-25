@@ -72,7 +72,7 @@
             <input name="valorK" id="valorK" class="form-control" type="text">
         </div>        
         <div class='col'>
-          <label for="colFormLabel" class="col-sm-2 col-form-label">Tipo</label>
+          <label name="tipoK" id="tipoK" for="colFormLabel" class="col-sm-2 col-form-label">Tipo</label>
           <select name="tipoK" id="tipoK" class="custom-select">
             <option value="C">Compra</option>
             <option value="V">Venta</option>
@@ -106,7 +106,7 @@
                       </thead>
                       <tbody>
                         {% for prods in productos%}
-                        <tr onclick="$('#prod').value = '{{prods.nombre}}';">                          
+                        <tr onclick="$('#Prod').value = '{{prods.nombre}}';">                          
                           <td>{{prods.nombre}}</td>
                           <td>{{prods.descripcion}} </td>
                           <td>{{prods.existencias}}</td>
@@ -209,13 +209,19 @@
 
   function HideOrShow(acc){
     if (acc == 1){
-        $('[name="cantProd"]').show();
-        $('[name="prod"]').show();
+        $('[name="cantProdK"]').show();
+        $('[name="Prod"]').show();
         $('[name="cargarModal"]').show();
+        $('[name="valorK"]').show();
+        $('[name="facturaK"]').show();
+        $('[name="tipoK"]').show();
     }else if (acc == 0){
-        $('[name="cantProd"]').hide();
-        $('[name="prod"]').hide();
+        $('[name="cantProdK"]').hide();
+        $('[name="Prod"]').hide();
         $('[name="cargarModal"]').hide();
+        $('[name="valorK"]').hide();
+        $('[name="facturaK"]').hide();
+        $('[name="tipoK"]').hide();
     }
 }
 
@@ -234,7 +240,7 @@ $(document).ready(function() {
         return $(this).val();
       });
       $('[name="prodSelec"]').val(id[0]);
-      $('[name="prod"]').val(valores[0]);
+      $('[name="Prod"]').val(valores[0]);
     });
 });
 

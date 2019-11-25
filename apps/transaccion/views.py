@@ -90,7 +90,7 @@ def cargarXCPFe(request, cuentaPadre,anio,mes): ## agg request POST
 def nuevaPartida(request):
     idsCtas = ''
     txtAenv = None    
-    productos = Producto.objects.filter(estado='Activo')
+    productos = Producto.objects.filter(estado='A')
     cuentasLst = getCuentasOrd()
     cuentasModInv = []
     cuentasModInvObj = Cuenta.objects.filter(modificaInventario=True)
@@ -246,7 +246,7 @@ def getTransacciones():
     return transacciones
 
 def getProductos():
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(estado='A')
     return productos
 
 def getCuentas():
