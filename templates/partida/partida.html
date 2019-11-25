@@ -54,14 +54,30 @@
       <br/>
       <!----CUENTA CON PRODUCTO-->
       <div class='row'>
-        <div class="col-sm-5"> 
-          <input name="prodSelec" id="prodSelec" class="form-control" type="hidden">
-            <label name="prod" id="prod" for="colFormLabel" class="col-sm-2 col-form-label">Producto</label>
-            <input name="prod" id="prod" class="form-control" type="text" readonly>
+        <div class="col-sm-5">
+            <label name="Prod" id="prod" for="colFormLabel" class="col-sm-2 col-form-label">Producto</label>
+            <input name="Prod" id="prod" class="form-control" type="text" readonly>
         </div>
         <div class="col-sm-5">
-            <label name="cantProd" id="cantProd" for="colFormLabel" class="col-sm-2 col-form-label">Cantidad</label>
-            <input name="cantProd" id="cantProd" class="form-control" type="text" >
+            <label name="cantProdK" id="cantProdK" for="colFormLabel" class="col-sm-2 col-form-label">Cantidad</label>
+            <input name="cantProdK" id="cantProdK" class="form-control" type="text" >
+        </div>
+        <div class="col-sm-5">
+            <label name="facturaK" id="facturaK" for="colFormLabel" class="col-sm-2 col-form-label">Factura</label>
+            <input name="facturaK" id="facturaK" class="form-control" type="text">
+        </div>
+        <div class="col-sm-5">
+            <label name="valorK" id="valorK" for="colFormLabel" class="col-sm-2 col-form-label">Valor Unitario</label>
+            <input name="valorK" id="valorK" class="form-control" type="text">
+        </div>        
+        <div class='col'>
+          <label for="colFormLabel" class="col-sm-2 col-form-label">Tipo</label>
+          <select name="tipoK" id="tipoK" class="custom-select">
+            <option value="C">Compra</option>
+            <option value="V">Venta</option>
+            <option value="DC">Devolucion de compra</option>
+            <option value="DV">Devolucion de venta</option>
+          </select>
         </div>
         <div class="col-sm-4">
           <br><br>

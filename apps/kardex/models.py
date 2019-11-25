@@ -1,11 +1,10 @@
 from django.db import models
 from apps.producto.models import Producto
+from apps.transaccionInventario.models import *
 
 # Create your models here.
 class Kardex(models.Model):
-    idKardex = models.AutoField(primary_key=True)    
-    stockMinimo= models.IntegerField()
-    stockMaximo= models.IntegerField()    
+    idKardex = models.AutoField(primary_key=True)  
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     
 
@@ -39,4 +38,6 @@ class LineaPeriodo(models.Model):
     cantidadSobrante= models.IntegerField()
     #Campo exclusivo para Ventas
     compraAsociada= models.IntegerField()
+    #Atributo creado para eliminarlo en views de transacciones
+    transaccionInvAsociada= models.ForeignKey(TransaccionInventario, on_delete=models.CASCADE)
     

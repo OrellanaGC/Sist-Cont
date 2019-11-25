@@ -19,6 +19,8 @@ class ProductoForm(forms.ModelForm):
 		'marca',
 		'categoria',
 		'estado',
+		'stockMinimo',
+		'stockMaximo',
 
 		]
 
@@ -29,6 +31,8 @@ class ProductoForm(forms.ModelForm):
 		'marca': 'Marca',
 		'categoria':'Categoria',
 		'estado':'Estado',
+		'stockMinimo':'Stock Minimo',
+		'stockMaximo':'Stock Maximo',
 		}
 
 		widgets= {
@@ -37,6 +41,8 @@ class ProductoForm(forms.ModelForm):
 		'marca': forms.TextInput(attrs={'class':'form-control'}),
 		'categoria': forms.Select(attrs={'class':'form-control'}),
 		'estado': forms.Select(attrs={'class':'form-control'}),
+		'stockMinimo': forms.TextInput(attrs={'class':'form-control'}),
+		'stockMaximo': forms.TextInput(attrs={'class':'form-control'})
 		#'existencias': forms.TextInput(attrs={'class':'form-control'})		
 		}
 
@@ -60,6 +66,16 @@ class ProductoForm(forms.ModelForm):
 			if estado =="":
 				raise forms.ValidationError("Ingresar el estado del producto")
 			return estado;
+		def cleanStockMinimo(self):
+			stockMinimo= self.cleaned_data.get('stockMinimo')
+			if stockMinimo <0:
+				raise forms.ValidationError("No puede haber stock negativo")
+			return stockMinimo;
+		def cleanStockMaximo(self):
+			stockMaximo= self.cleaned_data.get('stockMaximo')
+			if stockMaximo <self.stockMinimo:
+				raise forms.ValidationError("stock maximo debe ser mayor que stock minimo")
+			return stockMaximo;
 		"""ef cleanExistencias(self):
 			existencias= self.cleaned_data.get('existencias')
 			if existencias >0 or existencias<0:

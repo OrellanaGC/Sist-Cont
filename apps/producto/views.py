@@ -14,7 +14,7 @@ def CreateProducto(request):
 		if form.is_valid():
 			form.save()
 			producto= form.save()
-			kardex = Kardex(stockMinimo=0,stockMaximo=0,producto = producto)
+			kardex = Kardex(producto = producto)
 			kardex.save()
 			fecha = datetime.now()
 			periodo= Periodo(fechaInicio = fecha ,existenciaFinal=0,saldoFinal =0,kardex= kardex)

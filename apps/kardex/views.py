@@ -18,7 +18,7 @@ def inventario(request):
 
 def listKardex(request, periodoID):
 	periodo= Periodo.objects.get(idPeriodo=periodoID)
-	kardex= Kardex.objects.filter(idKardex= periodo.kardex.idKardex)	
+	kardex= Kardex.objects.get(idKardex= periodo.kardex.idKardex)	
 	lineasPeriodo= LineaPeriodo.objects.filter(periodo=periodo)
 	comprobacion=0
 	for Comprobacion in lineasPeriodo:
@@ -34,14 +34,6 @@ def listPeriodo(request, productoID):
 
 
 
-
-
-
-
-#Agregar en transaccion
-	#transInventario= TransaccionInventario(fecha =request.POST['fecha'], cantidadComprada =request.POST['cantidad'], 
-	#costoUnitario =request.POST['costoUnitario'], factura =request.POST['factura'], 
-	#tipo =request.POST['tipo'], producto =request.POST['producto'])
 
 #metodo en caso de una transaccion de tipo compra
 def compra(transaccionInventario):
@@ -76,7 +68,7 @@ def compra(transaccionInventario):
 	lpCantidadSobrante = lpCantidadEntrada
 	lpComprobacion = lpCantidadSobrante * lpValorUnitario
 		#Guardando la nueva linea del periodo
-	lineaperiodo = LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida, cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,comprobacion = lpComprobacion, compraAsociada=0,periodo= lpPeriodo)
+	lineaperiodo = LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida, cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,comprobacion = lpComprobacion, compraAsociada=0,periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 	lineaperiodo.save()
 	Producto.existencias= lineaperiodo.cantidadExistencia
 
@@ -122,7 +114,7 @@ def venta(transaccionInventario):
     		cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
     		valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
     		cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo)
+    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 		lineaperiodo.save()
 		#Cambiando la comprobacion de la compra que redujo cantidad sobrante
 		lcPrimera.cantidadSobrante= lcPrimera.cantidadSobrante- lpCantidadSalida
@@ -142,7 +134,7 @@ def venta(transaccionInventario):
     		cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
     		valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
     		cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo)
+    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 		lineaperiodo.save()
 		#Guardando comprobacion de la compra afectada
 		lcPrimera.cantidadSobrante= 0
@@ -190,7 +182,7 @@ def ventaRepeticion(ventafaltantante, Kardex, Periodo, Fecha, Factura, Tipo, pro
     		cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
     		valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
     		cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo)
+    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 		lineaperiodo.save()
 		#Cambiando la comprobacion de la compra que redujo cantidad sobrante
 		lcPrimera.cantidadSobrante= lcPrimera.cantidadSobrante- lpCantidadSalida
@@ -210,7 +202,7 @@ def ventaRepeticion(ventafaltantante, Kardex, Periodo, Fecha, Factura, Tipo, pro
 	    	cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
     		valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
     		cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo)
+    		comprobacion = lpComprobacion, compraAsociada=lpCompraAsociada, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 		lineaperiodo.save()
 		#Cambiar comprobacion de la compra afectada
 		lcPrimera.cantidadSobrante= lcPrimera.cantidadSobrante- lpCantidadSalida
@@ -252,7 +244,7 @@ def devolucionCompra(transaccionInventario):
 	lpCantidadSobrante = 0
 	lpComprobacion = 0
 		#Guardando la nueva linea del periodo
-	lineaperiodo = LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida, cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,comprobacion = lpComprobacion, compraAsociada=0,periodo= lpPeriodo)
+	lineaperiodo = LineaPeriodo(factura = lpFactura, fecha=lpFecha, tipoTransaccion = lpTipo, cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida, cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,comprobacion = lpComprobacion, compraAsociada=0,periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 	lineaperiodo.save()
 	#Modificacion de la compra afectada
 	lcDevolucion.cantidadSobrante= lcDevolucion.cantidadSobrante + lpCantidadEntrada
@@ -300,7 +292,7 @@ def devolucionVenta(transaccionInventario):
     	cantidadSobrante= lpCantidadSobrante, valorUnitario= lpValorUnitario, cantidadEntrada =lpCantidadEntrada, 
     	valorEntrada = lpValorEntrada, cantidadSalida = lpCantidadSalida, valorSalida = lpValorSalida,
     	cantidadExistencia = lpCantidadExistencia, valorExistencia = lpValorExistencia,
-    	comprobacion = lpComprobacion, compraAsociada=0, periodo= lpPeriodo)
+    	comprobacion = lpComprobacion, compraAsociada=0, periodo= lpPeriodo, transaccionInvAsociada=transaccionInventario.idTransaccionInventario)
 		lineaperiodo.save()
 		#Actualizando comprobacion de compra Asociada
 		compraAsociada.cantidadSobrante= compraAsociada.cantidadSobrante - lpCantidadSalida

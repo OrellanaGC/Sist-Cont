@@ -8,6 +8,8 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=200)
     existencias = models.IntegerField(default=0)
+    stockMinimo= models.IntegerField()
+    stockMaximo= models.IntegerField() 
     #marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     #categoria = models.ForeignKey(CategoriaProducto, on_delete=models.CASCADE)
     marca= models.CharField(max_length=20)

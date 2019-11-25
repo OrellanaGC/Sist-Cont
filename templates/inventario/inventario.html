@@ -16,8 +16,8 @@
     {%if kardex %}
     <tr class="row" style="background-color: #B1A2D6;">
       <th class="col-4 casilla" colspan="4">Produto: {{kardex.producto.nombre}}</th>
-      <th class="col-4 casilla" colspan="4">Stock mínimo: {{kardex.stockMinimo}}</th>
-      <th class="col-4 casilla" colspan="4">Stock máximo: {{kardex.stockMaximo}}</th>
+      <th class="col-4 casilla" colspan="4">Stock mínimo: {{kardex.producto.stockMinimo}}</th>
+      <th class="col-4 casilla" colspan="4">Stock máximo: {{kardex.producto.stockMaximo}}</th>
     </tr>
     {% endif %}
     <tr class="row" style="background-color: #E9C69A;">

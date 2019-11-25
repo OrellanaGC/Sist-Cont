@@ -1,5 +1,4 @@
 from django.db import models
-from apps.kardex.models import Kardex
 from apps.producto.models import Producto
 
 # Create your models here.

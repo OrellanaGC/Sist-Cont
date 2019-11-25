@@ -6,6 +6,9 @@ from django.http import HttpResponse, JsonResponse
 from apps.cuenta.models import Cuenta
 from apps.producto.models import Producto
 from apps.transaccion.models import Transaccion
+from apps.kardex.views import *
+from apps.kardex.models import LineaPeriodo
+from apps.transaccionInventario.models import *
 import json
 
 # Create your views here.
@@ -129,10 +132,22 @@ def nuevaPartida(request):
             else:
                 idsCtas += str(transaccion.idTransaccion)
             #agregando transaccionInventario si lo indica
-            #if cuenta.modificaInventario == True:
-                ######
-                # AQUI INVOCAR TRANSACCION INVENTARIO P/ AGREGAR
-                #######
+            if cuenta.modificaInventario == True:
+                cantidadk = request.POST['cantProdK']
+                productok = request.POST['Prod']
+                facturaK = request.POST['facturaK']
+                tipoK= request.POST['tipoK']
+                valorK= request.POST['valorK']
+                transaccionInv = transaccionInventario(fecha = fecha,cantidadTransaccion =cantidadk,valorUnitario =valorK,factura =facturaK,tipo =tipoK,producto =productok)
+                transaccionInv.save() 
+                if transaccionInv.tipo == 'C':
+                    compra(transaccionInv)
+                if transaccionInv.tipo == 'V':
+                    venta(transaccionInv)
+                if transaccionInv.tipo == 'DC':
+                    devolucionCompra(transaccionInv)
+                if transaccionInv.tipo == 'DV':
+                    devolucionVenta(transaccionInv)
         if 'eliminarTrans' in request.POST:
             idTransaccion = request.POST['elimTran']
             transaccion = Transaccion.objects.get(idTransaccion=idTransaccion)
@@ -153,10 +168,10 @@ def nuevaPartida(request):
             validarEstadoCta(cuenta.idCuenta)
             transaccion.delete()
             #eliminando transaccionInventario si lo indica
-            #if cuenta.modificaInventario == True:
-                ######
-                # AQUI INVOCAR TRANSACCION INVENTARIO P/ ELIMINAR
-                #######
+            if cuenta.modificaInventario == True:
+                lineasperiodo = LineaPeriodo.objects.filter(transaccionInvAsociada=transaccionInv.idTransaccionInv)
+                for lp in lineasperiodo:
+                    lp.delete()
         #proceso general para agregar y eliminar        
         #cargando transacciones del ambito
         transacciones = []

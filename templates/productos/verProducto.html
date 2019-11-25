@@ -24,8 +24,9 @@
       <td scope="col">Marca</td>
       <td scope="col">Categoria</td>
       <td scope="col">Estado</td>
+      <td scope="col">Stock Minimo</td>
+      <td scope="col">Stock Maximo</td>
       <td scope="col">Existencias</td>
-
     </tr>
   </thead>  
     <tbody>
@@ -39,6 +40,8 @@
       <td>{{Producto.marca}}</td>
       <td>{{Producto.categoria}}</td>
       <td>{{Producto.estado}}</td>
+      <td>{{Producto.stockMinimo}}</td>
+      <td>{{Producto.stockMaximo}}</td>
       <td>{{Producto.existencias}}</td>
       <td>
        <a class="btn btn-outline-primary" href="{%url 'updateProducto' Producto.idProducto%}">Editar</a>
