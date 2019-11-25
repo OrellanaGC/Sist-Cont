@@ -21,9 +21,9 @@
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav">
 				{% for modulo in request.session.modulos %}
-					{% if modulo == 'Inventario' %}
+					{% if modulo == 'Producto' %}
 					<li class="nav-item">
-						<a class="nav-link" href="/inventario/">Inventario</a>
+						<a class="nav-link" href="/productos/">Inventario</a>
 					</li>
 					{% endif %}
 				{% endfor %}

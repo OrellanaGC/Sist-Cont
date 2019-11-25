@@ -10,7 +10,7 @@
 <title>Productos</title>
     
         <h1 class="d-flex justify-content-center">Productos en inventario</h1>
-            <a class="btn btn-outline-info" style="position: absolute;top: 20%; right: 5%" href="{%url 'registrarProducto'%}">Agregar</a>
+            <a class="btn btn-info" style="position: absolute;top: 20%; right: 5%" href="{%url 'registrarProducto'%}">Agregar</a>
             
             <br> 
       
@@ -19,7 +19,7 @@
       <div style="right:53%;text-align: center" class="d-inline-flex pl-5">
       <table style="right:53%;text-align: center;"class="table table-bordered">
   <thead style="text-align: center;">
-    <tr style="text-align: center">
+    <tr style="text-align: center; background-color: #B1A2D6;">
       <td scope="col">Nombre</td>
       <td scope="col">Descripción</td>
       <td scope="col">Marca</td>
@@ -35,7 +35,7 @@
 
       {% for Producto in productos%}
       
-      <tr>
+      <tr style="background-color: #E9C69A;">
       <td>{{Producto.nombre}}</td>
       <td>{{Producto.descripcion}}</td>
       <td>{{Producto.marca}}</td>
@@ -45,8 +45,8 @@
       <td>{{Producto.stockMaximo}}</td>
       <td>{{Producto.existencias}}</td>
       <td>
-       <a class="btn btn-outline-primary" href="{%url 'updateProducto' Producto.idProducto%}">Editar</a>
-        <a class="btn btn-outline-secondary" href="{%url 'Periodos' Producto.idProducto%}">Kardex</a>  
+       <a class="btn btn-primary" href="{%url 'updateProducto' Producto.idProducto%}">Editar</a>
+        <a class="btn btn-secondary" href="{%url 'Periodos' Producto.idProducto%}">Kardex</a>  
       </td>
       </tr>
       
