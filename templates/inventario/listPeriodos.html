@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+<table  class="table table-hover">
+	<thead>
+		<tr class="row">
+			<th class="col" colspan="4">Producto <!-- objeto.producto.nombre--></th>
+		</tr>
+		<tr class="row">
+			<th class="col">Inicio</th>
+			<th class="col">Final</th>
+			<th class="col">Existencia</th>
+			<th class="col">Saldo Final</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if object_list%}	
+		{% for periodo in object_list %}
+		<tr class="row">
+			<td class="col">{{periodo.fechaInicio}}</td>
+			<td class="col">{{periodo.fechaFinal}}</td>
+			<td class="col">{{periodo.existenciaFinal}}</td>
+			<td class="col">{{periodo.saldoFinal}}</td>
+		</tr>
+		{% endfor%}
+	{% endif %}
+	</tbody>
+</table>
+{% endblock %}

@@ -22,9 +22,12 @@ def CreateProducto(request):
 		return redirect('verProducto')
 	return render(request, 'productos/registrarProducto.html', {'form':form})
 
-class ListProducto(ListView):
-	model= Producto
-	template_name= 'productos/verProducto.html'
+def ListProducto(request):
+	producto= Producto.objects.all()
+	
+	contexto={'productos':producto}
+	return render(request, 'productos/verProducto.html', contexto)
+	
 
 def UpdateProducto(request, productoID):
 	producto = Producto.objects.get(idProducto = productoID)

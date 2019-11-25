@@ -27,11 +27,12 @@
       <td scope="col">Existencias</td>
 
     </tr>
-  </thead>
+  </thead>  
     <tbody>
-    {%if object_list%}
+    {%if productos%}
 
-      {% for Producto in object_list%}
+      {% for Producto in productos%}
+      
       <tr>
       <td>{{Producto.nombre}}</td>
       <td>{{Producto.descripcion}}</td>
@@ -40,10 +41,11 @@
       <td>{{Producto.estado}}</td>
       <td>{{Producto.existencias}}</td>
       <td>
-       <a class="btn btn-outline-primary" href="{%url 'updateProducto' Producto.idProducto%}">Editar</a>      
+       <a class="btn btn-outline-primary" href="{%url 'updateProducto' Producto.idProducto%}">Editar</a>
+        <a class="btn btn-outline-primary" href="{%url 'inventario' Producto.idProducto%}">Kardex</a>  
       </td>
       </tr>
-
+      
       {% endfor %}
     
     {% endif%}

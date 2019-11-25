@@ -19,20 +19,27 @@ class  Periodo(models.Model):
 
 class LineaPeriodo(models.Model):
     idLineaPeriodo = models.AutoField(primary_key=True)
+    #General
     factura = models.CharField(max_length=20)
     fecha= models.DateField(auto_now=False)
-    tipoTransaccion = models.CharField(max_length=3)
-    cantidadSobrante= models.IntegerField()
-    costoUnitario= models.FloatField()
+    tipoTransaccion = models.CharField(max_length=3)    
+    valorUnitario= models.FloatField()
+    periodo= models.ForeignKey(Periodo, on_delete=models.CASCADE)
+    #Entradas
     cantidadEntrada = models.IntegerField()
     valorEntrada = models.FloatField()
+    #Salidad
     cantidadSalida = models.IntegerField()
     valorSalida = models.FloatField()
+    #Existencias
     cantidadExistencia = models.IntegerField()
     valorExistencia = models.FloatField()
+    #Comprobacion
     comprobacion = models.FloatField()
-    periodo= models.ForeignKey(Periodo, on_delete=models.CASCADE)
-
+    cantidadSobrante= models.IntegerField()
+    #Campo exclusivo para Ventas
+    compraAsociada= models.IntegerField()
+    
 
     
           

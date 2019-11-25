@@ -6,8 +6,8 @@ from apps.producto.models import Producto
 class TransaccionInventario(models.Model):
     idTransaccionInv = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now=False)
-    cantidadComprada = models.IntegerField()    
-    costoUnitario = models.FloatField()    
+    cantidadTransaccion = models.IntegerField()    
+    valorUnitario = models.FloatField()    
     factura = models.CharField(max_length=20)
     TIPO = (
         ('I', 'INVENTARIO INICIAL'),
@@ -18,4 +18,3 @@ class TransaccionInventario(models.Model):
     )
     tipo = models.CharField(max_length=2, choices=TIPO, default='I')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    kardex = models.ForeignKey(Kardex, on_delete=models.CASCADE)

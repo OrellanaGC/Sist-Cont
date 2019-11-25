@@ -8,54 +8,19 @@
 {% endblock %}
 {% block content %}
 <!-- Inicio contenido -->
-    <div class="container">
-      <div class="row">
-        <div class="col-3">
-          <div class="dropdown show">
-            <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="periodo">
-              Seleccionar período
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              {% for mov in object_list %}
-              <a class="dropdown-item" href="#">{{mov.fechaInicio|date:"M"}} - {{mov.fechaFin|date:"M"}}</a>
-              {% empty %}
-              <a class="dropdown-item" href="#">PERIODO PRUEBA</a>
-              {% endfor %}
-            </div>
-          </div>  <br>
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action font-weight-bold" data-toggle="collapse" data-target="#demo1">Bolsos de Hombre</a>
-              <div id="demo1" class="collapse">
-                {% if object_list %}
-                  {% for mov in object_list %}
-                    {% if mov.producto.categoria.idCategoria == 01 %}
-                    <a href="#" class="list-group-item list-group-item-action">{{mov.producto.nombre}}</a>
-                    {% endif %}
-                  {% endfor %}
-                {% else %}
-                  <a href="#" class="list-group-item list-group-item-action">Ya es toda</a>
-                {% endif %}
-              </div>
-            <a href="#" class="list-group-item list-group-item-action font-weight-bold" data-toggle="collapse" data-target="#demo2">Carteras de Mujer</a>
-              <div id="demo2" class="collapse">
-                {% if object_list %}
-                  {% for mov in object_list %}
-                    {% if mov.producto.categoria.idCategoria == 02 %}
-                    <a href="#" class="list-group-item list-group-item-action">{{mov.producto.nombre}}</a>
-                    {% endif %}
-                  {% endfor %}
-                {% else %}
-                  <a href="#" class="list-group-item list-group-item-action">Ya es toda x2</a>
-                {% endif %}
-              </div>
-          </div>                
-        </div>   
+     
         <!--Pegando nueva tabla-->
-
-        <table class="table table-hover col-12">
-
+<div class="tabla" style="margin-left:60px; margin-right: 60px">
+<table class="table table-bordered" style="border: 1px solid #ddd !important;">
   <thead>
-    <tr class="row">
+    {%if kardex %}
+  	<tr class="row" style="background-color: #B1A2D6;">
+  		<th class="col-4 casilla" colspan="4">Produto: {{kardex.producto.nombre}}</th>
+  		<th class="col-4 casilla" colspan="4">Stock mínimo: {{kardex.stockMinimo}}</th>
+  		<th class="col-4 casilla" colspan="4">Stock máximo: {{kardex.stockMaximo}}</th>
+  	</tr>
+    {% endif %}
+    <tr class="row" style="background-color: #E9C69A;">
       <th class="col-1"></th>
       <th class="col-1"></th>
       <th class="col-1"></th>
@@ -63,16 +28,16 @@
       <th class="col-1"></th>
       <th class="col-2 casilla" colspan="2">Entradas</th>
       <th class="col-2 casilla" colspan="2">Salidas</th>
-      <th class="col-2 casilla"> Saldo</th>
+      <th class="col-2 casilla" colspan="2"> Saldo</th>
+
       <th></th>
     </tr> 
-    <tr class="row">
+    <tr class="row" style="background-color: #E9C69A;">
       <th class="col-1">Fecha</th>
       <th class="col-1">Tipo</th>
       <th class="col-1">Factura</th>
       <!--campo para comprobacion-->
-      <th class="col-1">Inventario disp.</th>
-
+      <th class="col-1">Sobrante</th>
       <th class="col-1">Precio Unitario</th>
       <th class="col-1">Cantidad</th>
       <th class="col-1">Valores</th>
@@ -81,83 +46,30 @@
       <th class="col-1">Cantidad</th>
       <th class="col-1">Valores</th>
       <!--campo para comprobacion-->
-      <th class="col-1">Op.Comprobación</th>
+      <th class="col-1">Comprobacion</th>
     </tr>
   </thead>
  <!--probando para una sola fila, se debe usar un foreach para mandar a traer todos los datos-->
   <tbody>
-    <tr class="row">
-      <td class="col-1"><!--manda a llamar a fecha--></td>
-      <td class="col-1"><!--manda a llamar a tipo--></td>
-      <td class="col-1"><!--manda a llamar factura--></td>
-      <td class="col-1"><!--campo para comprobacion inv. disp.--></td>
-      <td class="col-1"><!--manda a llamar a precio--></td>
-      <td class="col-1"><!--Entrada: manda a llamar a cantidad--></td>
-      <td class="col-1"><!--Entrada: manda a llamar a valores--></td>
-      <td class="col-1"><!--Salida: manda a llamar a cantidad--></td>
-      <td class="col-1"><!--Salida: manda a llamar a valores--></td>
-      <td class="col-1"><!--calcula cant total--></td>
-      <td class="col-1"><!--calcula val total--></td>
-      <td class="col-1"><!--campo para comprobacion--></td>
+  	{% for lp in lineaPeriodo %}
+    <tr class="row" style="background-color: #A2D6C2;">
+      <td class="col-1">{{lp.fecha}}</td>
+      <td class="col-1">{{lp.tipoTransaccion}}</td>
+      <td class="col-1">{{lp.factura}}</td>
+      <td class="col-1">{{lp.cantidadSobrante}}</td>
+      <td class="col-1">{{lp.valorUnitario}}</td>
+      <td class="col-1">{{lp.cantidadEntrada}}</td>
+      <td class="col-1">{{lp.valorEntrada}}</td>
+      <td class="col-1">{{lp.cantidadSalida}}</td>
+      <td class="col-1">{{lp.valorSalida}}</td>
+      <td class="col-1">{{lp.cantidadExistencia}}</td>
+      <td class="col-1">{{lp.valorExistencia}}</td>
+      <td class="col-1">{{lp.comprobacion}}</td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
-
-        <!--table class="table table-hover col-9">
-          <thead>
-            <tr>
-              <th colspan="9" scope="col">Producto: xxxxx</th>
-            </tr>
-            <tr>
-              <th scope="col">Código: ######</th>
-              <th rowspan="2" colspan="3" scope="col">Recibido: xxxxxxx</th>
-              <th rowspan="2" colspan="3" scope="col">Entregado: xxxxxxxx</th>
-              <th rowspan="2" colspan="3" scope="col">Saldo</th>
-            </tr>
-            <tr> -->
-            	<!--th scope="col">Código: ######</th-->
-            <!--/tr>
-            <tr>
-            	<th scope="col">Fecha</th>
-            	<th scope="col">Cantidad</th>
-            	<th scope="col">Costo</th>
-            	<th scope="col">Saldo</th>
-            	<th scope="col">Cantidad</th>
-            	<th scope="col">Costo</th>
-            	<th scope="col">Saldo</th>
-            	<th scope="col">Cantidad</th>
-            	<th scope="col">Costo</th>
-            	<th scope="col">Saldo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-            	<td scope="row">02/01/19</td>
-            	<td>##</td>
-            	<td>$$</td>
-            	<td>$$$</td>
-            	<td>##</td>
-            	<td>$$</td>
-            	<td>$$$</td>
-            	<td>##</td>
-            	<td>$$</td>
-            	<td>$$$</td>
-            </tr>
-            <tr>
-              <th scope="row">31/01/19</th>
-              <td></td>
-              <td></td>
-              <td>$$$ total</td>
-              <td></td>
-              <td></td>
-              <td>$$$ total</td>
-              <td></td>
-              <td></td>
-              <td>$$$ total</td>
-            </tr>
-          </tbody>
-        </table-->
-      </div>
+</div>
       <br/>
       <!--div class="row justify-content-end">
         <button type="button" class="btn btn-outline-primary ">Actualizar</button>
@@ -168,5 +80,4 @@
 {% block scripts %}
 <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
 {% csrf_token %}
-<!--script type="text/javascript" src="{% static 'js/transaccion/transaccion.js' %}"></script-->
 {% endblock %}
