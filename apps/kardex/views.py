@@ -16,9 +16,9 @@ def inventario(request):
 #	model= Kardex
 #	template_name='inventario/inventario.html'
 
-def listKardex(request, productoID):
-	kardex= Kardex.objects.get(producto=productoID)
-	periodo = Periodo.objects.filter(kardex=kardex).last()
+def listKardex(request, periodoID):
+	periodo= Periodo.objects.get(idPeriodo=periodoID)
+	kardex= Kardex.objects.filter(idKardex= periodo.kardex.idKardex)	
 	lineasPeriodo= LineaPeriodo.objects.filter(periodo=periodo)
 	comprobacion=0
 	for Comprobacion in lineasPeriodo:
@@ -28,9 +28,9 @@ def listKardex(request, productoID):
 
 def listPeriodo(request, productoID):
 	kardex= Kardex.objects.get(producto=productoID)
-	periodo = Periodo.objects.filter(kardex=kardex)
-	contexto= {'periodo':periodo}
-	return render(request, 'inventario/nombrequequeras.html',contexto)
+	periodo = Periodo.objects.filter(kardex=kardex).order_by('-fechaInicio')
+	contexto= {'periodo':periodo, 'kardex':kardex}
+	return render(request, 'inventario/listPeriodos.html',contexto)
 
 
 

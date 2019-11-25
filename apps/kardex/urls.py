@@ -7,7 +7,7 @@ from apps.kardex.views import  listKardex, listPeriodo
 urlpatterns = [
     #path('', inventario, name="inventario"),
     #path('', ListaKardex.as_view() , name='inventario'),
-    path('<int:productoID>', listKardex,name='inventario'),
+    path('periodos/<int:periodoID>', listKardex,name='inventario'),
     path('<int:productoID>', listPeriodo,name='Periodos')
 
 ]

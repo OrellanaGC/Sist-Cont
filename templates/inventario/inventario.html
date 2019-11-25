@@ -67,8 +67,15 @@
       <td class="col-1">{{lp.comprobacion}}</td>
     </tr>
     {% endfor %}
+    <tr class="row" style="background-color: #C0DF8F;">   
+    {% if comprobacion %}   
+      <td class="col-11" colspan="11">Comprobacion: </td>
+      <td class="col-1">{{comprobacion}}</td>
+    </tr>
+    {% endif %}
   </tbody>
 </table>
+
 </div>
       <br/>
       <!--div class="row justify-content-end">
