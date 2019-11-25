@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+<table  class="table table-hover " style="margin-left: 60px; margin-right: auto;" >
+	<thead>
+		{% if kardex %}
+		<tr class="row">
+			<th class="col-4" colspan="4">Producto : {{kardex.producto.nombre}}</th>
+		</tr>
+		{% endif %}
+		<tr class="row">
+			<th class="col-2">Inicio</th>
+			<th class="col-1">Final</th>
+			<th class="col-1">Existencia</th>
+			<th class="col-1">Saldo Final</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if periodo %}	
+		{% for Periodo in periodo %}
+		<tr class="row">
+			<td class="col-2">{{Periodo.fechaInicio}}</td>
+			<td class="col-1">{{Periodo.fechaFinal}}</td>
+			<td class="col-1">{{Periodo.existenciaFinal}}</td>
+			<td class="col-1">{{Periodo.saldoFinal}}</td>
+			<td>
+			<a class="btn btn-outline-primary" href="{%url 'inventario' Periodo.idPeriodo%}">Resumen</a>
+			</td>
+		</tr>
+		{% endfor%}
+	{% endif %}
+	</tbody>
+</table>
+{% endblock %}

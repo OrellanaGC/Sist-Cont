@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block links %}
+<!-- Bootstrap select CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+{% endblock %}
+{% block content %}
+<title>Registrar Producto</title>
+     
+        <h1 style=" text-align: center;">Registro</h1>
+        <br>
+        <br>
+    <div  class="d-inline-flex pl-5">
+
+    <form style="position: absolute;right:43%" method="post">
+      {%csrf_token%}
+
+      {{form.as_table}}
+<br>
+<div class="input-group mb-3" style=" text-align: center;"class="d-inline-flex pl-5 flex-column d-flex align-items-center" >
+  <br>
+   <button style=" text-align: center;" type="submit" class="btn btn-primary">Registrar</button>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a class="btn btn-danger" href="{%url 'verProducto'%}">Salir</a>
+ </div>
+
+</form>
+
+</div>
+
+{% endblock %}
+    
+
