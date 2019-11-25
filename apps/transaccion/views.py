@@ -95,10 +95,10 @@ def nuevaPartida(request):
         cuentasModInv.append(c.idCuenta)
     transacciones = None   
     cuentasModInv = json.dumps(cuentasModInv)
-    #agregando
+    #agregando    
     ok = 0
     fecha = None
-    if request.method == 'POST':    
+    if request.method == 'POST':            
         idsCtas = request.POST['hidId']
         detalle = request.POST['detalle']
         monto = request.POST['monto']
@@ -106,48 +106,75 @@ def nuevaPartida(request):
         fecha = fechaStr.strftime('%Y-%m-%d')
         tipo = request.POST['tipo']
         cuenta = Cuenta.objects.get(idCuenta=request.POST['seleCuenta'])                        
-        #validando si sale de saldada
-        if cuenta.estadoCuenta == 'S' and float(monto) > 0:
-            if tipo == 'C':
-                cuenta.estadoCuenta = 'D'
-            elif tipo == 'A':
-                cuenta.estadoCuenta = 'A'
-        #modificando la cuenta
-        if tipo == 'C':            
-            saldoP = cuenta.saldo + float(monto)
-            cuenta.saldo = cuenta.saldo + float(monto)            
-        else:
-            cuenta.saldo = cuenta.saldo - float(monto)
-            saldoP = cuenta.saldo - float(monto)
-        cuenta.save()
-        validarEstadoCta(cuenta.idCuenta)
-        transaccion = Transaccion(detalle=detalle, monto=monto, fecha=fecha, cuenta=cuenta, tipo=tipo,saldoParcial = saldoP)
-        transaccion.save()        
-        #agregando transaccionInventario si lo indica
-        #if cuenta.modificaInventario == True:
-            ######
-            # AQUI INVOCAR TRANSACCION INVENTARIO
-            #######
-        if idsCtas != '':
-            idsCtas += "-" + str(transaccion.idTransaccion)
-        else:
-            idsCtas += str(transaccion.idTransaccion)
+        if 'aggTrans' in request.POST:
+            #validando si sale de saldada
+            if cuenta.estadoCuenta == 'S' and float(monto) > 0:
+                if tipo == 'C':
+                    cuenta.estadoCuenta = 'D'
+                elif tipo == 'A':
+                    cuenta.estadoCuenta = 'A'
+            #modificando la cuenta
+            if tipo == 'C':            
+                saldoP = cuenta.saldo + float(monto)
+                cuenta.saldo = cuenta.saldo + float(monto)            
+            else:
+                cuenta.saldo = cuenta.saldo - float(monto)
+                saldoP = cuenta.saldo - float(monto)
+            cuenta.save()
+            validarEstadoCta(cuenta.idCuenta)
+            transaccion = Transaccion(detalle=detalle, monto=monto, fecha=fecha, cuenta=cuenta, tipo=tipo,saldoParcial = saldoP)            
+            transaccion.save()        
+            if idsCtas != '':
+                idsCtas += "-" + str(transaccion.idTransaccion)
+            else:
+                idsCtas += str(transaccion.idTransaccion)
+            #agregando transaccionInventario si lo indica
+            #if cuenta.modificaInventario == True:
+                ######
+                # AQUI INVOCAR TRANSACCION INVENTARIO P/ AGREGAR
+                #######
+        if 'eliminarTrans' in request.POST:
+            idTransaccion = request.POST['elimTran']
+            transaccion = Transaccion.objects.get(idTransaccion=idTransaccion)
+            cuenta = transaccion.cuenta
+            tipo = transaccion.tipo
+            monto = transaccion.monto
+            #modificando la cuenta
+            if tipo == 'C':                        
+                cuenta.saldo = cuenta.saldo - float(monto)
+            else:
+                cuenta.saldo = cuenta.saldo + float(monto)
+            if cuenta.estadoCuenta == 'S':
+                if tipo == 'C':
+                    cuenta.estadoCuenta = 'A'
+                elif tipo == 'A':
+                    cuenta.estadoCuenta = 'D'
+            cuenta.save()
+            validarEstadoCta(cuenta.idCuenta)
+            transaccion.delete()
+            #eliminando transaccionInventario si lo indica
+            #if cuenta.modificaInventario == True:
+                ######
+                # AQUI INVOCAR TRANSACCION INVENTARIO P/ ELIMINAR
+                #######
+        #proceso general para agregar y eliminar        
         #cargando transacciones del ambito
         transacciones = []
         idsCtas = idsCtas.split('-')
         suma = 0
         txtAenv = ''
-        for c in idsCtas:
-            if txtAenv == '':
-                txtAenv += str(c)
-            else:
-                txtAenv += '-' + str(c)
-            t = Transaccion.objects.get(idTransaccion=c)
-            transacciones.append(t)
-            if t.tipo == 'C':
-                suma += t.monto
-            else:
-                suma -= t.monto        
+        for c in idsCtas:            
+            if Transaccion.objects.filter(idTransaccion=c): #si existe
+                if txtAenv == '':
+                    txtAenv += str(c)
+                else:
+                    txtAenv += '-' + str(c)
+                t = Transaccion.objects.get(idTransaccion=c)
+                transacciones.append(t)
+                if t.tipo == 'C':
+                    suma += t.monto
+                else:
+                    suma -= t.monto        
         if suma == 0:
             ok = 1
     data = {'cuentas' : cuentasLst, 'productos' : productos, 'transacciones' : transacciones, 'cuentasModInv' : cuentasModInv, 'idsCtas' : txtAenv, 'trans' : transacciones, 'ok' : ok, 'fechaT' : fecha}
@@ -188,15 +215,16 @@ def cancelarPartidaDoble(request,idsTransacc):
         cuenta.save()
         validarEstadoCta(cuenta.idCuenta)
         t.delete()
+        #eliminando transaccionInventario de las transacciones cargadas
+            #if cuenta.modificaInventario == True:
+                ######
+                # AQUI INVOCAR TRANSACCION INVENTARIO P/ Cancelar todas del ambito
+                #######
     return redirect('resumenPartida')
 
-def eliminarTransaccion(request, idTransaccion):
-    if request.method == 'POST':
-        transaccion = Transaccion.objects.get(idTransaccion=idTransaccion)
-        transaccion.delete()
-        transacciones = getTransacciones()
-        data = {'mensaje' : mensaje, 'transacciones' : getTransacciones(), 'productos' : getProductos()}
-    return render(request, 'partida/partida.html', data)
+def eliminarTransaccion(request,idTransaccion):
+            
+    return redirect('nuevaPartida')
 
 def getTransacciones():
     transacciones = Transaccion.objects.all().order_by('fecha')
@@ -211,13 +239,13 @@ def getCuentas():
     return cuentas
 
 def getCuentasOrd(): #Cuentas ordenadas de acuerdo a su padre
-    cuentas = [*Cuenta.objects.filter(estado='A',codigoCuenta__startswith='1'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='2'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='3'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='4'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='5'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='6'),
-    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='7')]
+    cuentas = [*Cuenta.objects.filter(estado='A',codigoCuenta__startswith='1').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='2').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='3').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='4').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='5').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='6').order_by('codigoCuenta'),
+    *Cuenta.objects.filter(estado='A',codigoCuenta__startswith='7').order_by('codigoCuenta')]
     return cuentas
 
 def getFechasEncabezado(Trans, fechasMes):
