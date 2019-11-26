@@ -1,7 +1,7 @@
 from django import forms
 from apps.producto.models import Producto
 from apps.transaccionInventario.models import *
-
+from django.contrib.admin.widgets import AdminDateWidget
 
 errores = {
     'required': 'Este campo es obligatorio',
@@ -83,6 +83,10 @@ class ProductoForm(forms.ModelForm):
 				raise forms.ValidationError("El producto debe inicializarse en 0 existencias")
 			return existencias;"""
 
+
+class DateInput(forms.DateInput):
+	input_type='date'
+
 class transInvForm(forms.ModelForm):
 
 	class Meta:
@@ -110,7 +114,7 @@ class transInvForm(forms.ModelForm):
 		}
 
 		widgets= {
-		'fecha': forms.TextInput(attrs={'class':'form-control'}),
+		'fecha': DateInput(attrs={'class':'form-control'}),
 		'cantidadTransaccion': forms.TextInput(attrs={'class':'form-control'}),
 		'valorUnitario': forms.TextInput(attrs={'class':'form-control'}),
 		'factura': forms.TextInput(attrs={'class':'form-control'}),

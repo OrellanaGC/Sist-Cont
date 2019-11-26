@@ -9,6 +9,7 @@ from apps.transaccion.models import Transaccion
 from apps.kardex.views import *
 from apps.kardex.models import LineaPeriodo
 from apps.transaccionInventario.models import *
+from datetime import datetime
 import json
 
 # Create your views here.

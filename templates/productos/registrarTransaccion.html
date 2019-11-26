@@ -9,12 +9,12 @@
 {% block content %}
 <title>Registrar Transaccion</title>
      
-        <h1 style=" text-align: center;">Registro</h1>
+        <h1 style=" text-align: center;">Transaccion en inventario</h1>
         <br>
         <br>
     <div  class="d-inline-flex pl-5">
 
-    <form style="position: absolute;right:43%" method="post">
+    <form style="position: absolute;right:43%;" method="post">
       {%csrf_token%}
 
       {{form.as_table}}

@@ -8,18 +8,39 @@
 {% endblock %}
 {% block content %}
 <title>Productos</title>
-    
-        <h1 class="d-flex justify-content-center">Productos en inventario</h1>
-            <form method="post">
+<style type="text/css">
+  .asideIzq
+{
+        float: left;
+        
+    }
+    .asideDer
+{
+        float: center;
+        
+    }
+    .Fecha{
+width:200px;
+
+}
+</style>
+    <aside class="asideIzq">
+      <form method="post">
               {%csrf_token%}
-              <div class="col-1" style="position: absolute;top: 20%; left: : 5%">
-                <label name="fechaK" id="fechaK" for="colFormLabel" class="col-sm-2 col-form-label">Factura</label>
-                <input name="fechaK" id="fechaK" class="form-control" type="text">
+              <div class="row" >
+                <label name="fechaK" id="fechaK" for="colFormLabel" class="col-sm-2 col-form-label">Fecha</label>
+                <input name="fechaK" id="fechaK" class="form-control Fecha" type="date">
                 <button style=" text-align: center;" type="submit" class="btn btn-primary">Cierre Contable</button>
               </div>
 
             </form>
-            <a class="btn btn-info" style="position: absolute;top: 20%; right: 5%" href="{%url 'registrarProducto'%}">Agregar</a>
+    </aside>
+    <aside class="asideDer">
+      <h1 class="d-flex justify-content-center">Productos en inventario</h1>
+    </aside>
+        
+            
+           
             
             <br> 
       
@@ -37,6 +58,7 @@
       <td scope="col">Stock Minimo</td>
       <td scope="col">Stock Maximo</td>
       <td scope="col">Existencias</td>
+      <td scope="col"> <a class="btn btn-info" href="{%url 'registrarProducto'%}">Agregar</a></td>
     </tr>
   </thead>  
     <tbody>

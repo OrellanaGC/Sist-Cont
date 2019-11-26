@@ -23,3 +23,10 @@ class Producto(models.Model):
         ('Deshabilitado', 'DESHABILITADO')
     )
     estado = models.CharField(max_length=15, choices=ESTADO, default='')
+
+    def __str__(self):
+        return self.nombre
+        
+
+
+        
