@@ -40,7 +40,7 @@ def CreateTransaccion(request):
 			devolucionCompra(transaccionInv)
 		if transaccionInv.tipo == 'DV':
 			devolucionVenta(transaccionInv)		
-		return redirect('verProducto')
+		return redirect('registrarTransaccion')
 	return render(request, 'productos/registrarTransaccion.html', {'form':form})
 
 

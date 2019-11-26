@@ -16,9 +16,9 @@
 		{% endif %}
 		<tr class="row">
 			<th class="col-2">Inicio</th>
-			<th class="col-1">Final</th>
-			<th class="col-1">Existencia</th>
-			<th class="col-1">Saldo Final</th>
+			<th class="col-2">Final</th>
+			<th class="col-2">Existencia</th>
+			<th class="col-2">Saldo Final</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,9 +26,9 @@
 		{% for Periodo in periodo %}
 		<tr class="row">
 			<td class="col-2">{{Periodo.fechaInicio}}</td>
-			<td class="col-1">{{Periodo.fechaFinal}}</td>
-			<td class="col-1">{{Periodo.existenciaFinal}}</td>
-			<td class="col-1">{{Periodo.saldoFinal}}</td>
+			<td class="col-2">{{Periodo.fechaFinal}}</td>
+			<td class="col-2">{{Periodo.existenciaFinal}}</td>
+			<td class="col-2">{{Periodo.saldoFinal}}</td>
 			<td>
 			<a class="btn btn-outline-primary" href="{%url 'inventario' Periodo.idPeriodo%}">Resumen</a>
 			</td>

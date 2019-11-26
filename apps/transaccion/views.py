@@ -134,12 +134,13 @@ def nuevaPartida(request):
                 idsCtas += str(transaccion.idTransaccion)
             #agregando transaccionInventario si lo indica
             if cuenta.modificaInventario == True:
-                cantidadk = request.POST['cantProdK']
-                productok = request.POST['Prod']
+                cantidadk = int(request.POST['cantProdK'])
+                producto = request.POST['prodSelec']
+                productok= Producto.objects.get(idProducto= producto)
                 facturaK = request.POST['facturaK']
                 tipoK= request.POST['tipoK']
                 valorK= request.POST['valorK']
-                transaccionInv = transaccionInventario(fecha = fecha,cantidadTransaccion =cantidadk,valorUnitario =valorK,factura =facturaK,tipo =tipoK,producto =productok)
+                transaccionInv = TransaccionInventario(fecha = fecha,cantidadTransaccion =cantidadk,valorUnitario =valorK,factura =facturaK,tipo =tipoK,producto =productok)
                 transaccionInv.save() 
                 if transaccionInv.tipo == 'C':
                     compra(transaccionInv)

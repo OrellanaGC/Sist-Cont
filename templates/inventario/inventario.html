@@ -26,9 +26,9 @@
       <th class="col-1"></th>
       <th class="col-1"></th>
       <th class="col-1"></th>
-      <th class="col-2 casilla" colspan="2">Entradas</th>
-      <th class="col-2 casilla" colspan="2">Salidas</th>
-      <th class="col-2 casilla" colspan="2"> Saldo</th>
+      <th class="col-2 casilla" style="text-align: center;" colspan="2">Entradas</th>
+      <th class="col-2 casilla" style="text-align: center;"colspan="2">Salidas</th>
+      <th class="col-2 casilla" style="text-align: center;"colspan="2"> Saldo</th>
 
       <th></th>
     </tr> 
@@ -46,7 +46,7 @@
       <th class="col-1">Cantidad</th>
       <th class="col-1">Valores</th>
       <!--campo para comprobacion-->
-      <th class="col-1" style="text-align: center;">Compro-<br>bacion</th>
+      <th class="col-1" style="text-align: center;">Control</th>
     </tr>
   </thead>
  <!--probando para una sola fila, se debe usar un foreach para mandar a traer todos los datos-->
@@ -57,20 +57,20 @@
       <td class="col-1">{{lp.tipoTransaccion}}</td>
       <td class="col-1">{{lp.factura}}</td>
       <td class="col-1">{{lp.cantidadSobrante}}</td>
-      <td class="col-1">$: {{lp.valorUnitario}}</td>
+      <td class="col-1">${{lp.valorUnitario}}</td>
       <td class="col-1"style="background-color: #8EF958;">{{lp.cantidadEntrada}}</td>
-      <td class="col-1"style="background-color: #8EF958;">$: {{lp.valorEntrada}}</td>
+      <td class="col-1"style="background-color: #8EF958;">${{lp.valorEntrada}}</td>
       <td class="col-1"style="background-color: #FB8F78;">{{lp.cantidadSalida}}</td>
-      <td class="col-1"style="background-color: #FB8F78;">$: {{lp.valorSalida}}</td>
+      <td class="col-1"style="background-color: #FB8F78;">${{lp.valorSalida}}</td>
       <td class="col-1"style="background-color: #F9F458;">{{lp.cantidadExistencia}}</td>
-      <td class="col-1"style="background-color: #F9F458;">$: {{lp.valorExistencia}}</td>
-      <td class="col-1">$: {{lp.comprobacion}}</td>
+      <td class="col-1"style="background-color: #F9F458;">${{lp.valorExistencia}}</td>
+      <td class="col-1">${{lp.comprobacion}}</td>
     </tr>
     {% endfor %}
     <tr class="row" style="background-color: #F9F458;">   
     {% if comprobacion %}   
       <td class="col-11" colspan="11">Comprobacion: </td>
-      <td class="col-1">$: {{comprobacion}}</td>
+      <td class="col-1">${{comprobacion}}</td>
     </tr>
     {% endif %}
   </tbody>
