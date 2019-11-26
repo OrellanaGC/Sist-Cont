@@ -118,12 +118,20 @@ def nuevaPartida(request):
                 elif tipo == 'A':
                     cuenta.estadoCuenta = 'A'
             #modificando la cuenta
-            if tipo == 'C':            
-                saldoP = cuenta.saldo + float(monto)
-                cuenta.saldo = cuenta.saldo + float(monto)            
-            else:
-                cuenta.saldo = cuenta.saldo - float(monto)
-                saldoP = cuenta.saldo - float(monto)
+            if cuenta.estadoCuenta == 'D':
+                if tipo == 'C':            
+                    saldoP = cuenta.saldo + float(monto)
+                    cuenta.saldo = cuenta.saldo + float(monto)            
+                else:
+                    saldoP = cuenta.saldo - float(monto)
+                    cuenta.saldo = cuenta.saldo - float(monto)
+            else: #si la cuenta es acreedora
+                if tipo == 'C':            
+                    saldoP = cuenta.saldo - float(monto)
+                    cuenta.saldo = cuenta.saldo - float(monto)            
+                else:
+                    saldoP = cuenta.saldo + float(monto)
+                    cuenta.saldo = cuenta.saldo + float(monto)
             cuenta.save()
             validarEstadoCta(cuenta.idCuenta)
             transaccion = Transaccion(detalle=detalle, monto=monto, fecha=fecha, cuenta=cuenta, tipo=tipo,saldoParcial = saldoP)            
