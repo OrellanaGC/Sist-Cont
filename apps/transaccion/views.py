@@ -147,7 +147,7 @@ def nuevaPartida(request):
                 productok= Producto.objects.get(idProducto= producto)
                 facturaK = request.POST['facturaK']
                 tipoK= request.POST['tipoK']
-                valorK= request.POST['valorK']
+                valorK= float(request.POST['valorK'])
                 transaccionInv = TransaccionInventario(fecha = fecha,cantidadTransaccion =cantidadk,valorUnitario =valorK,factura =facturaK,tipo =tipoK,producto =productok)
                 transaccionInv.save() 
                 if transaccionInv.tipo == 'C':

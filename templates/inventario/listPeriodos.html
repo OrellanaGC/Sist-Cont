@@ -28,7 +28,7 @@
 			<td class="col-2">{{Periodo.fechaInicio}}</td>
 			<td class="col-2">{{Periodo.fechaFinal}}</td>
 			<td class="col-2">{{Periodo.existenciaFinal}}</td>
-			<td class="col-2">{{Periodo.saldoFinal}}</td>
+			<td class="col-2">{{Periodo.saldoFinal|floatformat:2}}</td>
 			<td>
 			<a class="btn btn-outline-primary" href="{%url 'inventario' Periodo.idPeriodo%}">Resumen</a>
 			</td>
