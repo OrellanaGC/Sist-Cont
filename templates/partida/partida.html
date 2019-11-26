@@ -195,16 +195,16 @@
   var salval = 0;
   HideOrShow(0);
 
-  $('[name="seleCuenta"]').change(function () {
+  $('[name="seleCuenta"]').change(function () {    
   var end = this.value;
+  var mostrar = 0;
   var cuentaModInv = {{ cuentasModInv }} ;
-  jQuery.each(cuentaModInv, function() {
-    if (end == cuentaModInv){
-      HideOrShow(1);
-    }else{
-      HideOrShow(0);
+  jQuery.each(cuentaModInv, function(Cindex, Cvalue) {
+    if (end == Cvalue){
+      mostrar = 1;      
     }
   });
+  HideOrShow(mostrar);
   });
 
   function HideOrShow(acc){
