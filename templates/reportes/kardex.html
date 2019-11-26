@@ -7,7 +7,7 @@
         @page {
             size: letter landscape;
             margin: 1.5cm;
-            margin-left: 2cm;
+            margin-left: 1.5cm;
         }
         table, tr, td{
             font-size: 10pt;
@@ -17,17 +17,29 @@
         table th, td{
             border: 1px solid black;
             padding: 6px 0px 6px 5px;
-            width: 2cm;
+            width: 2.3cm;
+            text-align: center;
+        }
+        h1{
             text-align: center;
         }
     </style>
     <body>
+        <h1>DOMAINE, S.A DE C.V</h1>
+        <h1>SISTEMA DE CONTABILIDAD</h2>
         <table>
+            {%if kardex %}
+            <tr>
+                <th class="col-4 casilla" colspan="4">Producto: {{kardex.producto.nombre}}</th>
+                <th class="col-4 casilla" colspan="4">Stock mínimo: {{kardex.producto.stockMinimo}}</th>
+                <th class="col-4 casilla" colspan="4">Stock máximo: {{kardex.producto.stockMaximo}}</th>
+            </tr>
+            {% endif %}
             <tr>
                 <th rowspan="2">Fecha</th>
                 <th rowspan="2">Descripción</th>
                 <th colspan="3">Entradas</th>
-                <th colspan="3">Salidas</th>
+                <th colspan="2">Salidas</th>
                 <th colspan="3">Existencias</th>
             </tr>
             <tr>
@@ -38,7 +50,7 @@
 
                 <!--SALIDAS-->
                 <th>Unidad</th>
-                <th>Precio</th>
+                <!--th>Precio</th-->
                 <th>Valor</th>
 
                 <!--EXISTENCIAS-->
@@ -46,84 +58,22 @@
                 <th>Precio</th>
                 <th>Valor</th>
             </tr>
-            {% if transacciones %}
-            {% for transaccion in transacciones %}
-            <tr>
-                <!--INVENYARIO INICIAL-->
-                {% if transaccion.tipo == 'I' %}
-                <!--ENTRADAS-->
-                <td>{{ transaccion.fecha }}</td>
-                <td>{{ transaccion.get_tipo_display }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-                <!--SALIDAS-->
-                <td></td>
-                <td></td>
-                <td></td>
-
-                <!--EXISTENCIAS-->
-                <td>{{ transaccion.cantidad }}</td>
-                <td>${{ transaccion.costoUnitario }}</td>
-                <td>${{ transaccion.costoTotal }}</td>
-
-                <!--COMPRAS O DEVOLUCIONES DE VENTAS -->
-                {% elif transaccion.tipo == 'C' or transaccion.tipo == 'DV' %}
-                <!--ENTRADAS-->
-                <td>{{ transaccion.fecha }}</td>
-                <td>{{ transaccion.get_tipo_display }}</td>
-                <td>{{ transaccion.cantidad }}</td>
-                <td>${{ transaccion.costoUnitario }}</td>
-                <td>${{ transaccion.costoTotal }}</td>
-
-                <!--SALIDAS-->
-
-                <td></td>
-                <td></td>
-                <td></td>
-                
-                <!--EXISTENCIAS-->
-                <td>{{ transaccion.cantidad }}</td>
-                <td>${{ transaccion.costoUnitario }}</td>
-                <td>${{ transaccion.costoTotal }}</td>
-
-                <!--VENTAS O DEVOLUCIONES DE COMPRAS -->
-                {% elif transaccion.tipo == 'V' or transaccion.tipo == 'DC' %}
-                <!--ENTRADAS-->
-                <td>{{ transaccion.fecha }}</td>
-                <td>{{ transaccion.get_tipo_display }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-                <!--SALIDAS-->
-                <td>{{ transaccion.cantidad }}</td>
-                <td>${{ transaccion.costoUnitario }}</td>
-                <td>${{ transaccion.costoTotal }}</td>
-
-                <!--EXISTENCIAS-->
-                <td></td>
-                <td></td>
-                <td></td>
-                {% endif %}
-                {% if actualizaciones %}
-                {% for actualizacion in actualizaciones %}
-                {% if actualizacion.transaccionInventario_id == transaccion.idTransaccionInv %}
-                <tr>
-                    <!--EXISTENCIAS-->
-                    <td>{{ transaccion.fecha }}</td>
-                    <td colspan="7"></td>
-                    <td>{{ actualizacion.existencias }}</td>
-                    <td>{{ actualizacion.costoUnitario }}</td>
-                    <td>{{ actualizacion.costoTotal }}</td>
-                <tr>
-                {% endif %}
+            <tbody>
+                {% for lp in lineaPeriodo %}
+                <tr > 
+                    <td >{{lp.fecha}}</td>
+                    <td >{{lp.tipoTransaccion}}</td>
+                    <td >$: {{lp.valorUnitario}}</td>
+                    <td >{{lp.cantidadEntrada}}</td>
+                    <td >$: {{lp.valorEntrada}}</td>
+                    <td >{{lp.cantidadSalida}}</td>
+                    <td >$: {{lp.valorSalida}}</td>
+                    <td >{{lp.cantidadExistencia}}</td>
+                    <td >$: {{lp.valorExistencia}}</td>
+                    <td >$: {{lp.comprobacion}}</td>
+                </tr>
                 {% endfor %}
-                {% endif %}
-            </tr>
-            {% endfor %}
-            {% endif %}
+            </tbody>
         </table>
     </body>
 </html>

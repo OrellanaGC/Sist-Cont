@@ -19,8 +19,15 @@
             padding: 6px 0px 6px 5px;
             width: 2.5cm;
         }
+        h1, h2{
+            text-align: center;
+        }
     </style>
     <body>
+        <h1>DOMAINE, S.A DE C.V</h1>
+        <h2>SISTEMA DE CONTABILIDAD</h2>
+        <h2>LIBRO MAYOR</h2>
+        <br>
         <table>
             <tr>
                 <th>Fecha</th>
@@ -33,9 +40,9 @@
             {% if transacciones %}
             {% for transaccion in transacciones %}
             <tr>
-                <td>01/01/2017</td>
-                <td>1101</td>
-                <td><b>EFECTIVO Y EQUIVALENTES DE EFECTIVO</b></td>
+                <td>{{ transaccion.fecha }}</td>
+                <td>{{ transaccion.cuenta.codigoCuenta }}</td>
+                <td><b>{{ transaccion.cuenta.nombre }}</b></td>
                 {% if transaccion.tipo == 'C' %}
                     <td><b>${{ transaccion.monto }}</b></td>
                     <td></td>

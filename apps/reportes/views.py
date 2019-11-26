@@ -12,6 +12,7 @@ from apps.transaccion.models import Transaccion
 from apps.cuenta.models import Cuenta
 from apps.transaccionInventario.models import TransaccionInventario
 from apps.actualizacionInventario.models import ActualizacionInventario
+from apps.kardex.models import Kardex, Periodo, LineaPeriodo
 
 import datetime
 import calendar 
@@ -45,8 +46,10 @@ def libroDiario(request):
     mes = datetime.date.today().month
     anio = datetime.date.today().year
     dias = calendar.monthrange(anio,mes)
-    fechaInicio = str(anio) + "-" + ('{:02d}'.format(mes)) + "-01"
-    fechaFin = str(anio) + "-" + ('{:02d}'.format(mes)) + "-" + str(dias[1])
+    #fechaInicio = str(anio) + "-" + ('{:02d}'.format(mes)) + "-01"
+    #fechaFin = str(anio) + "-" + ('{:02d}'.format(mes)) + "-" + str(dias[1])
+    fechaInicio = str(anio) + "-01-01"
+    fechaFin = str(anio) + "-01-01"
     #if fechaInicio is not "":
     #    fecha = datetime.strptime(fechaInicio, '%d/%m/%Y')
     #    fechaStr = fecha.strftime('%Y-%m-%d')
@@ -55,8 +58,8 @@ def libroDiario(request):
     saldoDebe = 0
     saldoHaber = 0
     fechasTransacciones = set()
-    transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).values('cuenta__codigoCuenta', 'cuenta__cuentaPadre_id', 'cuenta__nombre', 'cuenta__tipo', 'cuenta_id', 'tipo', 'detalle', 'fecha').order_by('cuenta__codigoCuenta', 'fecha').annotate(monto = Sum('monto'))
-    fechas = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).values('fecha').distinct().order_by('fecha')
+    transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).values('cuenta__codigoCuenta', 'cuenta__cuentaPadre_id', 'cuenta__nombre', 'cuenta__tipo', 'cuenta_id', 'tipo', 'detalle', 'fecha').order_by('cuenta__codigoCuenta', '-fecha').annotate(monto = Sum('monto'))
+    fechas = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).values('fecha').distinct().order_by('-fecha')
     for fecha in fechas:
         fechasTransacciones.add(fecha['fecha'].strftime("%d/%m/%Y"))
     for transaccion in transacciones:
@@ -79,19 +82,28 @@ def libroMayor(request):
     fechaInicio = str(anio) + "-01-01"
     fechaFin = str(anio) + "-12-31"
     transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'fecha')
+    for t in transacciones:
+        t.fecha = t.fecha.strftime("%d/%m/%Y")
     cuentas = Transaccion.objects.values('cuenta_id').distinct()
     data = {'transacciones' : transacciones}
     pdf = renderPdf('reportes/libroMayor.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
 def kardex(request, idKardexRequest):
-    idKardex = idKardexRequest
-    transacciones = TransaccionInventario.objects.filter(kardex_id=idKardex).order_by('fecha')
-    actualizaciones = ActualizacionInventario.objects.filter(kardex_id=idKardex)
-    for transaccion in transacciones:
-        transaccion.fecha = transaccion.fecha.strftime("%d/%m/%Y")
-    #ziplist = zip(transacciones, saldos)
-    data = {'transacciones' : transacciones, 'actualizaciones': actualizaciones}
+    #idKardex = idKardexRequest
+    periodo= Periodo.objects.get(idPeriodo=idKardexRequest)
+    kardex= Kardex.objects.get(idKardex= periodo.kardex.idKardex)	
+    lineasPeriodo= LineaPeriodo.objects.filter(periodo=periodo).order_by('idLineaPeriodo')
+    comprobacion=0
+    for Comprobacion in lineasPeriodo:
+        comprobacion= comprobacion+ Comprobacion.comprobacion
+    """transacciones = TransaccionInventario.objects.filter(kardex_id=idKardex).order_by('fecha')
+    actualizaciones = ActualizacionInventario.objects.filter(kardex_id=idKardex)"""
+    for lp in lineasPeriodo:
+        lp.fecha = lp.fecha.strftime("%d/%m/%Y")
+    #ziplist = zip(transacciones, saldos)"""
+    #data = {'transacciones' : transacciones, 'actualizaciones': actualizaciones}
+    data = {'lineaPeriodo' : lineasPeriodo, 'kardex': kardex, 'comprobacion' : comprobacion}
     pdf = renderPdf('reportes/kardex.html', data)
     return HttpResponse(pdf, content_type="application/pdf")
 
