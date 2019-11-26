@@ -44,7 +44,7 @@ def validarDatos(nit, nrc, nombre, contribuyente, giro):
         errores.add('Giro de la empresa inválido')
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
         errores.add('Nombre de empresa inválido')
-    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
+    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", contribuyente)):
         errores.add('Nombre de contribuyente inválido')
     if(not re.match("^[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]$", nit)):
         errores.add("NIT inválido")
