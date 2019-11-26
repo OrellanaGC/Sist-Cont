@@ -48,9 +48,13 @@ def CreateTransaccion(request):
 
 
 def ListProducto(request):
-	producto= Producto.objects.all().order_by('-idProducto')
-	
-	contexto={'productos':producto}
+	if request.method =='GET':
+		producto= Producto.objects.all().order_by('-idProducto')	
+		contexto={'productos':producto}
+	else:
+		fecha = request.POST['fechaK']
+		cierreContableKardex(fecha)
+		return redirect('verProducto')
 	return render(request, 'productos/verProducto.html', contexto)
 	
 
