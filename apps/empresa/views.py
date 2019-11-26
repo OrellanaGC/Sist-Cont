@@ -17,16 +17,18 @@ def guardarDatos(request):
     if request.method == 'POST':
         print("entrando post")
         if Empresa.objects.count() > 0:
-            empresa = Empresa.objects.first()
-            empresa.nombre = request.POST["nombre"]
-            empresa.nombreContribuyente = request.POST["contribuyente"]
-            empresa.nit = request.POST["nit"]
-            empresa.nrc = request.POST["nrc"]
-            empresa.giro = request.POST["giro"]
-            empresa.save()
-            print("entrando if")
-            print('save')
-            return redirect('resumenEmpresa')
+            errores = validarDatos(request.POST["nit"], request.POST["nrc"], request.POST["nombre"], request.POST["contribuyente"], request.POST["giro"])
+            if len(errores) == 0:
+                empresa = Empresa.objects.first()
+                empresa.nombre = request.POST["nombre"]
+                empresa.nombreContribuyente = request.POST["contribuyente"]
+                empresa.nit = request.POST["nit"]
+                empresa.nrc = request.POST["nrc"]
+                empresa.giro = request.POST["giro"]
+                empresa.save()
+                print("entrando if")
+                print('save')
+                return redirect('resumenEmpresa')
         else:
             print("entrando else")
             errores = validarDatos(request.POST["nit"], request.POST["nrc"], request.POST["nombre"], request.POST["contribuyente"], request.POST["giro"])
@@ -44,7 +46,7 @@ def validarDatos(nit, nrc, nombre, contribuyente, giro):
         errores.add('Giro de la empresa inválido')
     if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
         errores.add('Nombre de empresa inválido')
-    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", nombre)):
+    if(not re.match("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$", contribuyente)):
         errores.add('Nombre de contribuyente inválido')
     if(not re.match("^[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]$", nit)):
         errores.add("NIT inválido")
