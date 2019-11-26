@@ -19,11 +19,7 @@
       <div class='row'>
         <div class='col'>
           <label for="colFormLabel" class="col-sm-2 col-form-label">Fecha</label>
-          {% if idsCtas != None and fechaT != None%}
-          <input name="fechaE" id="fechaE" type="date" value="{{fechaT}}" readonly>          
-          {% else %}
           <input name="fechaE" id="fechaE" type="date">
-          {%endif%}
         </div>
         <div class='col'>
           <label for="colFormLabel" class="col-sm-2 col-form-label">Cuenta</label>
@@ -175,11 +171,7 @@
           {% else %}
           <button type="button" name="cancel" onclick="location.href='/partida/'; salval = 1;" class="btn btn-outline-danger col-1">Cancelar</button>
           {% endif %}
-        {% if ok == 1%}
         <button type="button" onclick="location.href='/partida/'; salval = 1;" class="btn btn-outline-success col-1 espacio_izquierda" >Guardar</button>
-        {% else %}
-        <button type="button" onclick="salval = 1;" class="btn btn-outline-success col-1 espacio_izquierda" disabled>Guardar</button>
-        {% endif %}
       </div>
       <br/>
 
