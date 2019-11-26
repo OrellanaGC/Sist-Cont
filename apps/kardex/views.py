@@ -60,7 +60,7 @@ def compra(transaccionInventario):
 	if LineaPeriodo.objects.filter(periodo=periodo).exists()==True:
 		lpAnterior = LineaPeriodo.objects.filter(periodo=periodo).last()
 		lpCantidadExistencia = lpAnterior.cantidadExistencia + lpCantidadEntrada
-		lpValorExistencia = lpAnterior.valorExistencia + lpValorEntrada
+		lpValorExistencia = lpAnterior.valorExistencia + float(lpValorEntrada)
 	else :	
 		lpCantidadExistencia= lpCantidadEntrada
 		lpValorExistencia= lpValorEntrada	

@@ -81,7 +81,7 @@ def libroMayor(request):
     anio = datetime.date.today().year
     fechaInicio = str(anio) + "-01-01"
     fechaFin = str(anio) + "-12-31"
-    transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'fecha')
+    transacciones = Transaccion.objects.filter(fecha__range=(fechaInicio, fechaFin)).order_by('cuenta__codigoCuenta', 'idTransaccion', '-fecha',)
     for t in transacciones:
         t.fecha = t.fecha.strftime("%d/%m/%Y")
     cuentas = Transaccion.objects.values('cuenta_id').distinct()
